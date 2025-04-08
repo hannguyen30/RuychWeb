@@ -69,7 +69,7 @@ namespace RuychWeb.Repository
         public DataContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-BJES0NE;Initial Catalog=RuychData;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;Connection Timeout=30");
+            optionsBuilder.UseSqlServer("Data Source=WINDOWS-10;Initial Catalog=RuychData;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;Connection Timeout=30");
 
             return new DataContext(optionsBuilder.Options);
         }

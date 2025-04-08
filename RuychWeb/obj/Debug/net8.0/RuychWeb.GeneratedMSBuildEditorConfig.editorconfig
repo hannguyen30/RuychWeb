@@ -17,125 +17,123 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = RuychWeb
 build_property.RootNamespace = RuychWeb
-build_property.ProjectDir = D:\Visual Studio\RuychWeb\RuychWeb\
+build_property.ProjectDir = C:\Users\Administrator\source\repos\RuychWeb\RuychWeb\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Visual Studio\RuychWeb\RuychWeb
+build_property.MSBuildProjectDirectory = C:\Users\Administrator\source\repos\RuychWeb\RuychWeb
 build_property._RazorSourceGeneratorDebug = 
-build_property.EffectiveAnalysisLevelStyle = 8.0
-build_property.EnableCodeStyleSeverity = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Infor/Create.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Infor/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW5mb3JcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Infor/Edit.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Infor/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW5mb3JcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Infor/Index.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Infor/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW5mb3JcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Product/Create.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Product/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Product/Edit.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Product/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Product/Index.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Shared/Error.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/_ViewImports.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/_ViewStart.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Account/AccountNotVerified.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Account/AccountNotVerified.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2NvdW50Tm90VmVyaWZpZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Account/ChangePassword.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Account/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Account/ForgotPassword.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Account/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Account/Login.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Account/Registration.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Account/Registration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RyYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Account/ResetPassword.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Account/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Cart/Index.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Home/Index.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Product/Detail.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Product/Detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxEZXRhaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Shared/Components/Categories/Default.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Shared/Components/Categories/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc1xEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Shared/Error.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Shared/_SideBar.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Shared/_SideBar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlQmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/UserInfor/MyProfile.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/UserInfor/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckluZm9yXE15UHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/_ViewImports.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/_ViewStart.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Areas/Admin/Views/Shared/_Layout.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Areas/Admin/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-9biwvaqf53
 
-[D:/Visual Studio/RuychWeb/RuychWeb/Views/Shared/_Layout.cshtml]
+[C:/Users/Administrator/source/repos/RuychWeb/RuychWeb/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-mz227irr20

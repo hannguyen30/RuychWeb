@@ -1,86 +1,140 @@
-﻿@using RuychWeb.Models.ViewModels;
+﻿@using RuychWeb.Models.ViewModels
 @model List<CartViewModel>
+<style>
+    .quantity-btn.active {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+</style>
+<div style="padding: 40px;">
+    <h2 style="margin-bottom: 20px;">GIỎ HÀNG</h2>
 
-<div class="container py-5">
-    <div class="row">
+    <div class="cart-wrapper" style="display: flex; gap: 30px; align-items: flex-start;">
         <!-- Giỏ hàng bên trái -->
-        <div class="col-lg-8">
-            <h4 class="fw-bold border-bottom pb-2 mb-4">GIỎ HÀNG</h4>
-
-            @foreach (var item in Model)
+        <div class="cart-left" style="flex: 2;" id="cart-container">
+            @if (Model != null && Model.Count > 0)
             {
-                    <div class="d-flex mb-4 border-bottom pb-3">
-                        <img src="/images/Products/@item.Image" width="120" height="120" class="me-3" />
-
-                        <div class="flex-grow-1">
-                            <h5 class="fw-bold">@item.ProductName - @item.Color</h5>
-                            <p>Giá: <span class="text-danger fw-bold">@item.Price.ToString("N0") VND</span></p>
-
-                            <div class="d-flex gap-3">
+                foreach (var item in Model)
+                {
+                    <div style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px; max-width: 700px;">
+                        <div>
+                            <img src="/images/Products/@item.Image" width="100" height="100" style="object-fit: cover;" />
+                        </div>
+                        <div style="flex: 1; padding-left: 15px;">
+                            <div style="font-weight: bold;">@item.ProductName - @item.Color</div>
+                            <div style="color: red; font-weight: bold; margin: 5px 0;">@item.Price.ToString("N0") VND</div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
                                 <div>
-                                    <label>Size</label>
-                                    <select class="form-select" style="width: 80px;">
-                                        <option selected>@item.Size</option>
-                                    </select>
+                                    <label>Size:</label>
+                                    <select disabled><option>@item.Size</option></select>
                                 </div>
-
                                 <div>
-                                    <label>Số lượng</label>
-                                    <select class="form-select" style="width: 80px;">
-                                        <option selected>@item.Quantity</option>
-                                    </select>
+                                    <label>Số lượng:</label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        @for (int i = 1; i <= item.Quantity; i++)
+                                        {
+                                            var isActive = i == item.Quantity; // hoặc item.Quantity đang được chọn
+                                            <button type="button" class="btn btn-outline-primary quantity-btn px-2 py-1 @(isActive ? "active" : "")" disabled>@i</button>
+                                        }
+                                    </div>
                                 </div>
-
-                                <div class="align-self-end">
-                                    <a class="btn btn-outline-secondary"><i class="bi bi-heart"></i></a>
-                                    <a class="btn btn-dark"><i class="bi bi-trash"></i></a>
+                                <div style="margin-left: auto;">
+                                    <button style="padding: 5px 10px; background-color: black; color: white; border: none;">Xóa</button>
                                 </div>
                             </div>
-
-                            <p class="mt-2 text-danger">Còn hàng</p>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <p>Không có sản phẩm nào trong giỏ hàng.</p>
             }
 
-            <div class="d-flex justify-content-between mt-4">
-                <a class="btn btn-dark" href="/Product">QUAY LẠI MUA HÀNG</a>
-                <a class="btn btn-outline-dark" href="/Cart/Clear">XÓA HẾT</a>
+            <div style="display: flex; justify-content: space-between; margin-top: 30px; max-width: 700px;">
+                <a href="/Product" style="padding: 10px 20px; background-color: black; color: white; text-decoration: none;">QUAY LẠI MUA HÀNG</a>
+                <a href="/Cart/Clear" style="padding: 10px 20px; border: 1px solid black; text-decoration: none;">XÓA HẾT</a>
             </div>
         </div>
 
         <!-- Đơn hàng bên phải -->
-        <div class="col-lg-4">
-            <div class="border p-3 rounded bg-light">
-                <h5 class="fw-bold border-bottom pb-2">ĐƠN HÀNG</h5>
-
-                <div class="mb-3">
-                    <label>NHẬP MÃ KHUYẾN MÃI</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Mã giảm giá" />
-                        <button class="btn btn-warning text-white fw-bold">ÁP DỤNG</button>
-                    </div>
+        <div class="cart-right" style="flex: 1; border: 1px solid #ccc; padding: 20px; max-width: 400px;">
+            <h4>ĐƠN HÀNG</h4>
+            <div style="margin-bottom: 10px;">
+                <label>NHẬP MÃ KHUYẾN MÃI</label>
+                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                    <input type="text" placeholder="Mã giảm giá" style="flex: 1;" />
+                    <button style="background-color: orange; color: white; border: none; padding: 5px 10px;">ÁP DỤNG</button>
                 </div>
-
-                @{
-                    var subTotal = Model.Sum(x => x.Price * x.Quantity);
-                    var discount = 0; // Bạn có thể xử lý áp mã giảm giá riêng
-                }
-
-                <div class="d-flex justify-content-between mt-3">
-                    <span>Đơn hàng</span>
-                    <span>@subTotal.ToString("N0") VND</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>Giảm</span>
-                    <span>@discount.ToString("N0") VND</span>
-                </div>
-                <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-2 mt-2">
-                    <span>TẠM TÍNH</span>
-                    <span class="text-danger">@((subTotal - discount).ToString("N0")) VND</span>
-                </div>
-
-                <a href="/Checkout" class="btn btn-danger w-100 mt-3 fw-bold text-white">TIẾP TỤC THANH TOÁN</a>
             </div>
+
+            @{
+                var subTotal = Model?.Sum(x => x.Total) ?? 0;
+                var discount = 0;
+                var total = subTotal - discount;
+            }
+
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <span>Đơn hàng</span>
+                <span>@subTotal.ToString("N0") VND</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>Giảm</span>
+                <span>@discount.ToString("N0") VND</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin-top: 10px; border-top: 1px solid #ccc; padding-top: 10px;">
+                <span>TẠM TÍNH</span>
+                <span style="color: red;">@total.ToString("N0") VND</span>
+            </div>
+
+            <a href="/Checkout" style="display: block; margin-top: 20px; background-color: red; color: white; text-align: center; padding: 10px; text-decoration: none;">TIẾP TỤC THANH TOÁN</a>
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            const cartContainer = document.getElementById("cart-container");
+            const serverHasCart = @Model?.Count > 0;
+
+            if (!serverHasCart) {
+                const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                if (localCart.length > 0) {
+                    cartContainer.innerHTML = "";
+
+                    localCart.forEach(item => {
+                        const div = document.createElement("div");
+                        div.style = "display: flex; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px;";
+                        div.innerHTML = `
+                                    <div>
+                                        <img src="/images/Products/${item.image}" width="100" height="100" style="object-fit: cover;" />
+                                    </div>
+                                    <div style="flex: 1; padding-left: 15px;">
+                                        <div style="font-weight: bold;">${item.productName} - ${item.color}</div>
+                                        <div style="color: red; font-weight: bold; margin: 5px 0;">${item.price.toLocaleString()} VND</div>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div>
+                                                <label>Size:</label>
+                                                <select disabled><option>${item.size}</option></select>
+                                            </div>
+                                            <div>
+                                                <label>Số lượng:</label>
+                                                <select disabled><option>${item.quantity}</option></select>
+                                            </div>
+                                            <div style="margin-left: auto;">
+                                                <button style="padding: 5px 10px; background-color: black; color: white; border: none;">Xóa</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                        cartContainer.appendChild(div);
+                    });
+                }
+            }
+        });
+    </script>
+}

@@ -525,3 +525,24 @@ ul.sub-menu{
 }
 
 }
+
+
+
+	@media (max-width: 768px) {
+		.cart-wrapper
+
+{
+	flex-direction: column;
+}
+
+.cart-left, .cart-right {
+	max-width: 100% !important;
+	width: 100%;
+}
+
+.cart-right {
+	margin-top: 30px;
+}
+
+}
+

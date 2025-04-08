@@ -37,9 +37,11 @@ builder.Services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromHours(1); // ví d? 1 ti?ng
+    options.IdleTimeout = TimeSpan.FromHours(1);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
-
+builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
@@ -53,9 +55,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseRouting();
 app.UseSession();
 
-app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<DatabaseInitializerMiddleware>();
