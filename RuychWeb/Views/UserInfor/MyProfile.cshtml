@@ -1,0 +1,42 @@
+﻿<style>
+    #slider {
+        display: none;
+    }
+
+    .container.min-vh-100.d-flex.justify-content-center.align-items-center {
+        width: 50%;
+    }
+</style>
+
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="card w-50 shadow">
+        <div class="card-header text-center">
+            <h4>Thông tin khách hàng</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/UserInfor/MyProfile">
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Họ tên</label>
+                    <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name">
+                </div>
+                <div class="mb-3">
+                    <label for="Phone" class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.Phone">
+                </div>
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Address" class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address">
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success px-4">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

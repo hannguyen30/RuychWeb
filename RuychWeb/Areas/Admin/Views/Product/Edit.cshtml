@@ -1,0 +1,105 @@
+﻿@model RuychWeb.Areas.Admin.Models.ProductEditModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h3 class="text-primary">Edit Product</h3>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <form asp-action="Edit" asp-route-id="@Model.ProductId" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Thumbnail))
+            {
+                <div class="form-group">
+                    <label class="control-label">Current Thumbnail</label>
+                    <div>
+                        <img src="@Url.Content("~/images/Products/" + Model.Thumbnail)" alt="Current Thumbnail" style="max-height: 100px; max-width: 100px;" />
+                        <p>Current image: @Model.Thumbnail</p>
+                    </div>
+                </div>
+                <!-- Nếu có ảnh rồi, hiển thị tên ảnh và không cần upload lại, chỉ upload nếu muốn thay đổi -->
+                <input asp-for="ThumbnailFile" class="form-control" type="file" />
+            }
+            else
+            {
+                <!-- Nếu không có ảnh, cho phép người dùng tải lên mới -->
+                <div class="form-group">
+                    <label asp-for="ThumbnailFile" class="control-label">Upload New Thumbnail</label>
+                    <input asp-for="ThumbnailFile" class="form-control" type="file" />
+                    <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="Color" class="control-label"></label>
+                    <input asp-for="Color" class="form-control" />
+                    <span asp-validation-for="Color" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="Size" class="control-label"></label>
+                    <input asp-for="Size" class="form-control" />
+                    
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                   
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SaleId" class="form-label">Sale</label>
+                <select asp-for="SaleId" class="form-select" asp-items="ViewBag.Sales">
+                    <option value="">None</option>
+                </select>
+                <span asp-validation-for="SaleId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Description');
+
+        $(".typing-price").on("keyup", function () {
+            var currency_input = $(this).val();
+            $("#price-convert").html(
+                new Intl.NumberFormat('vn-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(currency_input)
+            );
+        });
+    </script>
+}

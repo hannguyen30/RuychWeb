@@ -1,0 +1,86 @@
+﻿@using RuychWeb.Models.ViewModels;
+@model List<CartViewModel>
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Giỏ hàng bên trái -->
+        <div class="col-lg-8">
+            <h4 class="fw-bold border-bottom pb-2 mb-4">GIỎ HÀNG</h4>
+
+            @foreach (var item in Model)
+            {
+                    <div class="d-flex mb-4 border-bottom pb-3">
+                        <img src="/images/Products/@item.Image" width="120" height="120" class="me-3" />
+
+                        <div class="flex-grow-1">
+                            <h5 class="fw-bold">@item.ProductName - @item.Color</h5>
+                            <p>Giá: <span class="text-danger fw-bold">@item.Price.ToString("N0") VND</span></p>
+
+                            <div class="d-flex gap-3">
+                                <div>
+                                    <label>Size</label>
+                                    <select class="form-select" style="width: 80px;">
+                                        <option selected>@item.Size</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label>Số lượng</label>
+                                    <select class="form-select" style="width: 80px;">
+                                        <option selected>@item.Quantity</option>
+                                    </select>
+                                </div>
+
+                                <div class="align-self-end">
+                                    <a class="btn btn-outline-secondary"><i class="bi bi-heart"></i></a>
+                                    <a class="btn btn-dark"><i class="bi bi-trash"></i></a>
+                                </div>
+                            </div>
+
+                            <p class="mt-2 text-danger">Còn hàng</p>
+                        </div>
+                    </div>
+            }
+
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-dark" href="/Product">QUAY LẠI MUA HÀNG</a>
+                <a class="btn btn-outline-dark" href="/Cart/Clear">XÓA HẾT</a>
+            </div>
+        </div>
+
+        <!-- Đơn hàng bên phải -->
+        <div class="col-lg-4">
+            <div class="border p-3 rounded bg-light">
+                <h5 class="fw-bold border-bottom pb-2">ĐƠN HÀNG</h5>
+
+                <div class="mb-3">
+                    <label>NHẬP MÃ KHUYẾN MÃI</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Mã giảm giá" />
+                        <button class="btn btn-warning text-white fw-bold">ÁP DỤNG</button>
+                    </div>
+                </div>
+
+                @{
+                    var subTotal = Model.Sum(x => x.Price * x.Quantity);
+                    var discount = 0; // Bạn có thể xử lý áp mã giảm giá riêng
+                }
+
+                <div class="d-flex justify-content-between mt-3">
+                    <span>Đơn hàng</span>
+                    <span>@subTotal.ToString("N0") VND</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Giảm</span>
+                    <span>@discount.ToString("N0") VND</span>
+                </div>
+                <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-2 mt-2">
+                    <span>TẠM TÍNH</span>
+                    <span class="text-danger">@((subTotal - discount).ToString("N0")) VND</span>
+                </div>
+
+                <a href="/Checkout" class="btn btn-danger w-100 mt-3 fw-bold text-white">TIẾP TỤC THANH TOÁN</a>
+            </div>
+        </div>
+    </div>
+</div>

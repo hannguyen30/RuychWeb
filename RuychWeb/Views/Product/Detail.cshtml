@@ -1,0 +1,348 @@
+﻿@using RuychWeb.Areas.Admin.Models
+@using Newtonsoft.Json
+@model ProductViewModel
+
+@{
+    var colorSizesDict = Model.Colors.ToDictionary(
+        c => c.ColorName,
+        c => c.Sizes.Select(s => s.Size).ToList()
+    );
+
+}
+<style>
+    .custom-dropdown {
+        position: relative;
+    }
+
+    .dropdown-display {
+        border: 1px solid #ccc;
+        padding: 8px;
+        cursor: pointer;
+        background-color: white;
+    }
+
+    .grid-box {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid #ccc;
+        margin-top: 5px;
+        position: absolute;
+        background-color: white;
+        z-index: 100;
+    }
+
+    .size-cell {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .size-cell:hover:not(.disabled) {
+            background-color: #f0f0f0;
+        }
+
+        .size-cell.disabled {
+            color: #999;
+            background-color: #f8f8f8;
+            pointer-events: none;
+        }
+
+    .quantity-dropdown-grid {
+        position: relative;
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .quantity-display {
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #fff;
+        cursor: not-allowed;
+        text-align: center;
+    }
+
+    .quantity-grid {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background-color: #ccc;
+        border: 1px solid #ccc;
+        z-index: 1000;
+    }
+
+    .quantity-cell {
+        background-color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+        .quantity-cell:hover {
+            background-color: #f2f2f2;
+        }
+
+        .quantity-cell.disabled {
+            color: #999;
+            background-color: #f8f8f8;
+            pointer-events: none;
+        }
+
+</style>
+
+<div class="container py-4">
+    <nav>
+        <a href="/">Product List</a> |
+        <a href="/Product/Category/@Model.CategoryName">@Model.CategoryName</a> |
+        <strong>@Model.Name</strong>
+    </nav>
+
+    <form method="post" asp-controller="Cart" asp-action="AddToCart">
+        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+        <input type="hidden" name="ProductName" value="@Model.Name" />
+        <input type="hidden" name="Image" value="@Model.Thumbnail" />
+        <input type="hidden" name="Price" value="@Model.Price" />
+
+        <div class="row mt-4">
+            <!-- Hình ảnh -->
+            <div class="col-md-6">
+                <img src="/images/Products/@Model.Thumbnail" alt="@Model.Name" class="img-fluid" style="max-height: 400px;" />
+            </div>
+
+            <!-- Thông tin -->
+            <div class="col-md-6">
+                <h3 class="fw-bold text-uppercase">@Model.Name</h3>
+                <h4 class="text-danger fw-bold">@Model.Price.ToString("N0") VND</h4>
+
+                <!-- Màu sắc -->
+                <div class="my-3">
+                    <p><strong>COLOR</strong></p>
+                    @foreach (var color in Model.Colors.Select((value, index) => new { value, index }))
+                    {
+                        var cssColor = GetColorCode(color.value.ColorName);
+                        string radioId = $"color_{color.index}";
+                        <input type="radio" name="Color" id="@radioId" value="@color.value.ColorName" style="display:none" class="d-none color-radio" required />
+                        <label for="@radioId" class="color-label" style="cursor: pointer; display: inline-block; margin-right: 8px;">
+                            <span class="color-circle" style="display:inline-block; width:25px; height:25px; background-color:@cssColor; border:2px solid black; border-radius:50%; transition: all 0.3s;"></span>
+                        </label>
+                    }
+                </div>
+
+                <!-- Size & số lượng -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold">SIZE</label>
+                        <div class="custom-dropdown">
+                            <div id="sizeDisplay" class="dropdown-display">Please select size</div>
+                            <div id="sizeGrid" class="grid-box" style="display: none;">
+                                @foreach (var color in Model.Colors)
+                                {
+                                    foreach (var size in color.Sizes)
+                                    {
+                                        <div class="size-cell" data-size="@size.Size" data-qty="@size.Quantity">
+                                            @size.Size
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <input type="hidden" name="Size" id="selectedSize" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold d-block mb-2">QUANTITY</label>
+                        <div class="quantity-dropdown-grid">
+                            <div class="quantity-display" id="quantityDisplay">0</div>
+                            <div class="quantity-grid" id="quantityGrid" style="display: none;">
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <div class="quantity-cell" data-value="@i">@i</div>
+                                }
+                            </div>
+                            <input type="hidden" name="Quantity" id="selectedQuantity" value="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nút thêm và thanh toán -->
+                <div class="d-flex gap-2 mb-3">
+                    <button type="submit" class="btn btn-dark flex-grow-1">THÊM VÀO GIỎ HÀNG</button>
+                    <button type="button" class="btn btn-outline-dark"><i class="bi bi-heart"></i></button>
+                </div>
+                <button type="submit" class="btn btn-warning w-100 fw-bold text-white mb-4">THANH TOÁN</button>
+
+                <!-- Mô tả -->
+                <div>
+                    <h5 class="fw-bold">THÔNG TIN SẢN PHẨM</h5>
+                    <p>@Html.Raw(@Model.Description.Replace("-", "<br /> -"))</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+                const colorRadios = document.querySelectorAll(".color-radio");
+        const sizeGrid = document.getElementById('sizeGrid');
+        const sizeDisplay = document.getElementById('sizeDisplay');
+        const selectedSize = document.getElementById('selectedSize');
+        const quantityDisplay = document.getElementById('quantityDisplay');
+        const quantityGrid = document.getElementById('quantityGrid');
+        const selectedQuantity = document.getElementById('selectedQuantity');
+
+        // Dữ liệu từ Razor
+        const fullColorData = @Html.Raw(JsonConvert.SerializeObject(Model.Colors));
+
+        // Biến lưu trạng thái size đã được chọn
+        let isSizeSelected = false;
+
+        // Hàm vẽ lại size grid khi chọn màu
+        function renderSizes(sizes) {
+            sizeGrid.innerHTML = "";
+            sizes.forEach(size => {
+                const div = document.createElement("div");
+                div.classList.add("size-cell");
+                div.dataset.size = size.Size;
+                div.dataset.qty = size.Quantity;
+                div.innerText = size.Size;
+                if (size.Quantity <= 0) {
+                    div.classList.add("disabled");
+                }
+                sizeGrid.appendChild(div);
+            });
+
+            // Gắn lại sự kiện click cho size cells
+            document.querySelectorAll('.size-cell').forEach(cell => {
+                const qty = parseInt(cell.dataset.qty);
+                if (qty <= 0) return;
+                cell.addEventListener('click', function () {
+                    const sizeVal = this.dataset.size;
+                    selectedSize.value = sizeVal;
+                    sizeDisplay.textContent = sizeVal;
+                    sizeGrid.style.display = 'none';
+                    isSizeSelected = true;  // Đánh dấu size đã chọn
+                    updateMaxQuantity(qty);
+                    quantityGrid.style.display = 'grid';  // Hiển thị bảng số lượng khi chọn size
+                });
+            });
+        }
+
+        // Hàm cập nhật số lượng dựa theo tồn kho size
+        function updateMaxQuantity(maxQty) {
+            document.querySelectorAll('.quantity-cell').forEach(cell => {
+                const val = parseInt(cell.dataset.value);
+                if (val > maxQty) {
+                    cell.classList.add('disabled');
+                } else {
+                    cell.classList.remove('disabled');
+                }
+            });
+
+            const curVal = parseInt(selectedQuantity.value);
+            if (curVal > maxQty) {
+                selectedQuantity.value = 1;
+                quantityDisplay.textContent = "1";
+            }
+        }
+
+        // Gắn sự kiện chọn số lượng
+        document.querySelectorAll('.quantity-cell').forEach(cell => {
+            cell.addEventListener('click', function () {
+                if (isSizeSelected) {
+                    if (!this.classList.contains('disabled')) {
+                        const value = this.dataset.value;
+                        selectedQuantity.value = value;
+                        quantityDisplay.textContent = value;
+                        quantityGrid.style.display = 'none';
+                    }
+                } else {
+                    // Nếu chưa chọn size, không cho phép chọn số lượng
+                    this.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        // Sự kiện chọn màu
+        document.querySelectorAll(".color-label").forEach((label, index) => {
+            label.addEventListener("click", function () {
+                // Reset kích thước
+                document.querySelectorAll('.color-circle').forEach(c => {
+                    c.style.width = '25px';
+                    c.style.height = '25px';
+                });
+
+                // Kích thước cho màu đang chọn
+                const circle = label.querySelector('.color-circle');
+                circle.style.width = '35px';
+                circle.style.height = '35px';
+
+                const radio = label.previousElementSibling;
+                const selectedColorName = radio.value;
+                radio.checked = true;
+
+                const selectedColor = fullColorData.find(c => c.ColorName === selectedColorName);
+                if (selectedColor) {
+                    // Lúc này chỉ render size và không tự động chọn size và số lượng
+                    renderSizes(selectedColor.Sizes);
+                    // Reset số lượng và size
+                    selectedSize.value = "";
+                    sizeDisplay.textContent = "Please select size";
+                    selectedQuantity.value = "";
+                    quantityGrid.style.display = 'none';
+                    isSizeSelected = false;  // Đánh dấu chưa chọn size
+                }
+            });
+        });
+
+        // Auto chọn màu đầu tiên nhưng không tự động chọn size và số lượng
+        document.addEventListener("DOMContentLoaded", () => {
+            const firstColorLabel = document.querySelector(".color-label");
+            if (firstColorLabel) {
+                firstColorLabel.click();  // Chỉ chọn màu đầu tiên mà không chọn size và số lượng
+            }
+        });
+
+        // Toggle dropdowns for size and quantity
+        sizeDisplay.addEventListener('click', () => {
+            sizeGrid.style.display = sizeGrid.style.display === 'none' ? 'grid' : 'none';
+        });
+        quantityDisplay.addEventListener('click', () => {
+            if (isSizeSelected) {
+                quantityGrid.style.display = quantityGrid.style.display === 'none' ? 'grid' : 'none';
+            } else {
+                // Khi chưa chọn size, không cho phép mở bảng số lượng và thay đổi con trỏ
+                quantityGrid.style.display = 'none';
+            }
+        });
+
+    </script>
+
+    @functions {
+    string GetColorCode(string colorName)
+    {
+        return colorName switch
+        {
+            "Black" => "#000000",
+            "White" => "#FFFFFF",
+            "Blue" => "#0000FF",
+            "Red" => "#FF0000",
+            "Yellow" => "#FFFF00",
+            "Lime" => "#00FF00",
+            "Silver" => "#C0C0C0",
+            "Gray" => "#808080",
+            "Maroon" => "#800000",
+            "Olive" => "#808000",
+            "Green" => "#008000",
+            "Purple" => "#800080",
+            "Teal" => "#008080",
+            "Navy" => "#000080",
+            _ => "#CCCCCC"
+        };
+    }
+}
+}
