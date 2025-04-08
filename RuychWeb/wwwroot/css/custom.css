@@ -1,0 +1,80 @@
+﻿body {
+    /* Hiện menu khi hover */
+    .navbar-nav > li.dropdown:hover > ul.sub-menu
+
+{
+    display: block;
+    animation: fadeInUp 400ms;
+}
+
+/* Sub-menu style */
+ul.sub-menu {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 220px;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+}
+
+    /* Các mục trong sub-menu */
+    ul.sub-menu li {
+        padding: 10px 20px 0;
+    }
+
+        ul.sub-menu li:last-child {
+            padding-bottom: 20px;
+        }
+
+        ul.sub-menu li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+
+            ul.sub-menu li a:hover {
+                color: #FDB45E;
+            }
+
+        ul.sub-menu li .active {
+            color: #FDB45E;
+            padding-left: 0;
+        }
+
+.fa-angle-down {
+    padding-left: 5px;
+}
+
+.shop-menu ul li a.linkacc {
+    background-color: #666666;
+}
+
+.single-products:hover .product-overlay {
+    height: 20%;
+}
+
+.product-image-wrapper img {
+    height: 300px; /* Thiết lập chiều cao cố định cho tất cả các ảnh */
+    object-fit: cover; /* Cắt ảnh để vừa với kích thước mà không bị méo */
+    width: 100%; /* Đảm bảo ảnh chiếm hết chiều rộng của thẻ cha */
+}
+
+.product-overlay .add-to-cart {
+    background: #fff;
+    border: 0 none;
+    border-radius: 0;
+    color: #FE980F;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+div#pagination {
+    text-align: center;
+}
+
+}
