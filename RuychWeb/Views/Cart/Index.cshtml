@@ -1,5 +1,9 @@
-﻿@using RuychWeb.Models.ViewModels
-@model List<CartViewModel>
+﻿@model IEnumerable<RuychWeb.Models.DTO.CartDetail>
+
+@{
+    ViewData["Title"] = "Giỏ Hàng";
+}
+
 <style>
     .quantity-btn.active {
         background-color: #0d6efd;
@@ -13,21 +17,21 @@
     <div class="cart-wrapper" style="display: flex; gap: 30px; align-items: flex-start;">
         <!-- Giỏ hàng bên trái -->
         <div class="cart-left" style="flex: 2;" id="cart-container">
-            @if (Model != null && Model.Count > 0)
+            @if (Model != null && Model.Any())
             {
                 foreach (var item in Model)
                 {
                     <div style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px; max-width: 700px;">
                         <div>
-                            <img src="/images/Products/@item.Image" width="100" height="100" style="object-fit: cover;" />
+                            <img src="/images/Products/@item.ProductDetail.Color.Product.Thumbnail" width="100" height="100" style="object-fit: cover;" />
                         </div>
                         <div style="flex: 1; padding-left: 15px;">
-                            <div style="font-weight: bold;">@item.ProductName - @item.Color</div>
-                            <div style="color: red; font-weight: bold; margin: 5px 0;">@item.Price.ToString("N0") VND</div>
+                            <div style="font-weight: bold;">@item.ProductDetail.Color.Product.Name - @item.ProductDetail.Color.Name</div>
+                            <div style="color: red; font-weight: bold; margin: 5px 0;">@item.ProductDetail.Color.Product.Price.ToString("N0") VND</div>
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <div>
                                     <label>Size:</label>
-                                    <select disabled><option>@item.Size</option></select>
+                                    <select disabled><option>@item.ProductDetail.Size</option></select>
                                 </div>
                                 <div>
                                     <label>Số lượng:</label>
@@ -70,7 +74,7 @@
             </div>
 
             @{
-                var subTotal = Model?.Sum(x => x.Total) ?? 0;
+                var subTotal = 0;
                 var discount = 0;
                 var total = subTotal - discount;
             }
@@ -92,49 +96,3 @@
         </div>
     </div>
 </div>
-
-
-@section Scripts {
-    <script>
-        window.addEventListener("DOMContentLoaded", function () {
-            const cartContainer = document.getElementById("cart-container");
-            const serverHasCart = @Model?.Count > 0;
-
-            if (!serverHasCart) {
-                const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-                if (localCart.length > 0) {
-                    cartContainer.innerHTML = "";
-
-                    localCart.forEach(item => {
-                        const div = document.createElement("div");
-                        div.style = "display: flex; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px;";
-                        div.innerHTML = `
-                                    <div>
-                                        <img src="/images/Products/${item.image}" width="100" height="100" style="object-fit: cover;" />
-                                    </div>
-                                    <div style="flex: 1; padding-left: 15px;">
-                                        <div style="font-weight: bold;">${item.productName} - ${item.color}</div>
-                                        <div style="color: red; font-weight: bold; margin: 5px 0;">${item.price.toLocaleString()} VND</div>
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <div>
-                                                <label>Size:</label>
-                                                <select disabled><option>${item.size}</option></select>
-                                            </div>
-                                            <div>
-                                                <label>Số lượng:</label>
-                                                <select disabled><option>${item.quantity}</option></select>
-                                            </div>
-                                            <div style="margin-left: auto;">
-                                                <button style="padding: 5px 10px; background-color: black; color: white; border: none;">Xóa</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                        cartContainer.appendChild(div);
-                    });
-                }
-            }
-        });
-    </script>
-}
