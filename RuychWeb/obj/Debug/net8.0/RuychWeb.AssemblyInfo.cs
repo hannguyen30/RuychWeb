@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RuychWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ea7a8860495b99d26f3ed3da89bb952913d6831")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8ff61e3e16d8aadaadb2c453fa3b4a4b48de7201")]
 [assembly: System.Reflection.AssemblyProductAttribute("RuychWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RuychWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

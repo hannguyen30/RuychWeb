@@ -3,28 +3,68 @@
   "WorkspaceRootPath": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\views\\product\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\views\\product\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\repository\\services\\sessionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\repository\\services\\sessionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\viewmodels\\cartviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\viewmodels\\cartviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\viewmodels\\cartitemviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\viewmodels\\cartitemviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\views\\product\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\views\\product\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\dto\\productdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\dto\\productdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\dto\\color.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\dto\\color.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\dto\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\dto\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\dto\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\dto\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\dto\\cartdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\dto\\cartdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\dto\\cart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\dto\\cart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\models\\domain\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\models\\domain\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\repository\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\repository\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\areas\\admin\\models\\colorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\areas\\admin\\models\\colorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|c:\\users\\administrator\\source\\repos\\ruychweb\\ruychweb\\areas\\admin\\models\\productviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3C68264-6DC1-4032-9579-7525B231922D}|RuychWeb\\RuychWeb.csproj|solutionrelative:ruychweb\\areas\\admin\\models\\productviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,17 +74,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "CartController.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "RuychWeb\\Controllers\\CartController.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Controllers\\CartController.cs",
               "RelativeToolTip": "RuychWeb\\Controllers\\CartController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAFAAAA",
+              "ViewState": "AQIAAC4AAAAAAAAAAADgvz4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-08T02:06:23.435Z",
               "IsPinned": true,
@@ -52,41 +92,70 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SessionExtensions.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Repository\\Services\\SessionExtensions.cs",
-              "RelativeDocumentMoniker": "RuychWeb\\Repository\\Services\\SessionExtensions.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Repository\\Services\\SessionExtensions.cs",
-              "RelativeToolTip": "RuychWeb\\Repository\\Services\\SessionExtensions.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAABPAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-08T06:22:10.489Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Detail.cshtml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Product\\Detail.cshtml",
-              "RelativeDocumentMoniker": "RuychWeb\\Views\\Product\\Detail.cshtml",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Product\\Detail.cshtml",
-              "RelativeToolTip": "RuychWeb\\Views\\Product\\Detail.cshtml",
-              "ViewState": "AQIAAEkBAAAAAAAAAAAmwGwBAAAgAAAA",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "RuychWeb\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "RuychWeb\\Views\\Cart\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-08T06:19:05.611Z",
+              "WhenOpened": "2025-04-08T02:13:13.621Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Program.cs",
-              "RelativeDocumentMoniker": "RuychWeb\\Program.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Program.cs",
-              "RelativeToolTip": "RuychWeb\\Program.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAAADkAAAAAAAAA",
+              "DocumentIndex": 11,
+              "Title": "Cart.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Cart.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\DTO\\Cart.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Cart.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\DTO\\Cart.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-08T06:17:24.424Z",
+              "WhenOpened": "2025-04-09T16:01:16.729Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CartDetail.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\CartDetail.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\DTO\\CartDetail.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\CartDetail.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\DTO\\CartDetail.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T16:01:20.345Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CartItemViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\ViewModels\\CartItemViewModel.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\ViewModels\\CartItemViewModel.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\ViewModels\\CartItemViewModel.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\ViewModels\\CartItemViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-10T01:28:14.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Category.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\DTO\\Category.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Category.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\DTO\\Category.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-10T00:22:18.401Z",
               "EditorCaption": ""
             },
             {
@@ -107,28 +176,129 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Cart\\Index.cshtml",
-              "RelativeDocumentMoniker": "RuychWeb\\Views\\Cart\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Cart\\Index.cshtml",
-              "RelativeToolTip": "RuychWeb\\Views\\Cart\\Index.cshtml",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAmwIIAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-08T02:13:13.621Z",
+              "DocumentIndex": 8,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Product.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\DTO\\Product.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Product.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\DTO\\Product.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T16:57:25.77Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
+              "Title": "Color.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Color.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\DTO\\Color.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\Color.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\DTO\\Color.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T16:57:19.587Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProductDetail.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\ProductDetail.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\DTO\\ProductDetail.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\DTO\\ProductDetail.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\DTO\\ProductDetail.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T16:56:24.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\Domain\\Customer.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Models\\Domain\\Customer.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\Domain\\Customer.cs",
+              "RelativeToolTip": "RuychWeb\\Models\\Domain\\Customer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T16:56:15.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "CartViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\ViewModels\\CartViewModel.cs",
               "RelativeDocumentMoniker": "RuychWeb\\Models\\ViewModels\\CartViewModel.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Models\\ViewModels\\CartViewModel.cs",
               "RelativeToolTip": "RuychWeb\\Models\\ViewModels\\CartViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAsAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwA8AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:52:03.189Z",
+              "WhenOpened": "2025-04-09T16:19:11.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ProductViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Areas\\Admin\\Models\\ProductViewModel.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Areas\\Admin\\Models\\ProductViewModel.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Areas\\Admin\\Models\\ProductViewModel.cs",
+              "RelativeToolTip": "RuychWeb\\Areas\\Admin\\Models\\ProductViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T15:07:22.532Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "RuychWeb\\Controllers\\ProductController.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAiwE8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T14:12:31.268Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ColorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Areas\\Admin\\Models\\ColorViewModel.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Areas\\Admin\\Models\\ColorViewModel.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Areas\\Admin\\Models\\ColorViewModel.cs",
+              "RelativeToolTip": "RuychWeb\\Areas\\Admin\\Models\\ColorViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T08:55:51.604Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DataContext.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Repository\\DataContext.cs",
+              "RelativeDocumentMoniker": "RuychWeb\\Repository\\DataContext.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Repository\\DataContext.cs",
+              "RelativeToolTip": "RuychWeb\\Repository\\DataContext.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAnwBEAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-09T14:57:30.454Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Product\\Detail.cshtml",
+              "RelativeDocumentMoniker": "RuychWeb\\Views\\Product\\Detail.cshtml",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\RuychWeb\\RuychWeb\\Views\\Product\\Detail.cshtml",
+              "RelativeToolTip": "RuychWeb\\Views\\Product\\Detail.cshtml",
+              "ViewState": "AQIAAHQBAAAAAAAAAAAiwJgBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-08T06:19:05.611Z",
               "EditorCaption": ""
             }
           ]
