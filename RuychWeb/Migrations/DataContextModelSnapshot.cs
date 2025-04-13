@@ -253,7 +253,6 @@ namespace RuychWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CancelReason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarrierName")
@@ -266,7 +265,7 @@ namespace RuychWeb.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
@@ -496,6 +495,34 @@ namespace RuychWeb.Migrations
                     b.HasIndex("SaleId");
 
                     b.ToTable("SaleDetails");
+                });
+
+            modelBuilder.Entity("RuychWeb.Models.DTO.Shipping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shippings");
                 });
 
             modelBuilder.Entity("RuychWeb.Models.DTO.Supplier", b =>
@@ -774,9 +801,7 @@ namespace RuychWeb.Migrations
                 {
                     b.HasOne("RuychWeb.Models.Domain.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("RuychWeb.Models.Domain.Employee", "Employee")
                         .WithMany("Orders")

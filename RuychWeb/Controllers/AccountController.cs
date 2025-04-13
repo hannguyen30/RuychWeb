@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RuychWeb.Models.DTO;
 using RuychWeb.Repository.Abstract;
-using System.Threading.Tasks;
 
 namespace RuychWeb.Controllers
 {

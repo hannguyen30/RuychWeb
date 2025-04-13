@@ -1,6 +1,5 @@
 ﻿namespace RuychWeb.Areas.Admin.Models
 {
-    using RuychWeb.Areas.Admin.Models;
     public class ColorViewModel
     {
         public int ColorId { get; set; }  // ID của màu sắc

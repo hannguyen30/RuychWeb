@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RuychWeb.Middleware;
 using RuychWeb.Models.Domain;
 using RuychWeb.Repository;
 using RuychWeb.Repository.Abstract;
 using RuychWeb.Repository.Implementation;
+using RuychWeb.Repository.Services.Vnpay;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Use
 
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+
 
 builder.Services.AddSession(options =>
 {
@@ -42,6 +45,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddDistributedMemoryCache();
+
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

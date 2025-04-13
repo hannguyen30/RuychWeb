@@ -1,7 +1,5 @@
-﻿using RuychWeb.Models.Domain;
+﻿using Microsoft.EntityFrameworkCore;
 using RuychWeb.Repository.Abstract;
-using RuychWeb.Repository;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace RuychWeb.Repository.Implementation
@@ -21,7 +19,7 @@ namespace RuychWeb.Repository.Implementation
                 ctx.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -55,7 +53,7 @@ namespace RuychWeb.Repository.Implementation
         }
         public T? FindById(int id)
         {
-           return ctx.Set<T>().Find(id);
+            return ctx.Set<T>().Find(id);
         }
 
         public IQueryable<T> GetAll()
@@ -69,7 +67,7 @@ namespace RuychWeb.Repository.Implementation
 
         }
 
-       
+
     }
 
 }

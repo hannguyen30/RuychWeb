@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using RuychWeb.Repository.Abstract;
+﻿using RuychWeb.Repository.Abstract;
 
 namespace RuychWeb.Middleware
 {

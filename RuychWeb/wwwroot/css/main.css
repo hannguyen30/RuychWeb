@@ -582,9 +582,8 @@ ul.sub-menu {
 }
 
 .item {
-  padding-left: 100px;
+	padding:0 50px;
 }
-
 
 .pricing {
   position: absolute;
@@ -2524,3 +2523,41 @@ img.logo_ruych {
 }
 
 
+#myCarousel.carousel-inner {
+	display: flex;
+	justify-content: center; /* Căn giữa theo chiều ngang */
+	align-items: center; /* Căn giữa theo chiều dọc nếu muốn */
+	height: 100%; /* Hoặc đặt chiều cao cụ thể nếu cần */
+}
+
+#myCarousel.carousel-inner {
+	width: 100%;
+	max-width: 100%;
+	text-align: center;
+}
+
+#myCarousel.carousel-img-wrapper {
+	width: 100%;
+	height: 200px; /* chỉnh chiều cao tùy bạn */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+#myCarousel.carousel-img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: cover; /* giữ tỉ lệ và lấp đầy vùng */
+}
+
+
+/* Tùy chọn: căn giữa chiều dọc nếu ảnh thấp hơn carousel */
+.item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#slider-carousel .item {
+	padding: 50px;
+}

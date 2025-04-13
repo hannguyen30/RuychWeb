@@ -1,0 +1,260 @@
+﻿@using Newtonsoft.Json
+@using RuychWeb.Models.Vnpay
+@using RuychWeb.Models.ViewModels
+@model OrderViewModel
+
+@{
+    var json = TempData["PaymentResponse"] as string;
+    var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
+    decimal subtotal = 0;
+    decimal discountTotal = 0;
+    decimal shippingFee = 0; // Tùy vào logic tính phí ship
+
+    foreach (var item in Model.OrderDetails)
+    {
+        decimal discountedPrice;
+
+        if (item.Discount < 100)
+        {
+            // Giảm theo phần trăm
+            discountedPrice = item.Price * (1 - item.Discount / 100m);
+        }
+        else if (item.Discount >= 1000)
+        {
+            // Giảm trực tiếp theo số tiền
+            discountedPrice = item.Price - item.Discount;
+        }
+        else
+        {
+            // Không giảm
+            discountedPrice = item.Price;
+        }
+
+        // Đảm bảo giá không bị âm
+        discountedPrice = Math.Max(0, discountedPrice);
+
+        subtotal += discountedPrice * item.Quantity;
+        discountTotal += (item.Price - discountedPrice) * item.Quantity;
+    }
+
+    decimal total = subtotal + shippingFee;
+}
+
+@if (paymentResponse != null)
+{
+    <div class="payment-success-overlay">
+        <div class="payment-success-modal">
+            <div class="payment-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>Thanh toán thành công!</h2>
+            <p><strong>OrderId:</strong> @paymentResponse.OrderId</p>
+            <p><strong>Thông tin:</strong> @paymentResponse.OrderDescription</p>
+            <p><strong>Phương thức:</strong> @paymentResponse.PaymentMethod</p>
+            <p><strong>Mã giao dịch:</strong> @paymentResponse.TransactionId</p>
+            <p><strong>Mã thanh toán:</strong> @paymentResponse.PaymentId</p>
+            <a asp-controller="Account" asp-action="History" class="btn-go-history">Xem đơn hàng</a>
+        </div>
+    </div>
+}
+
+<div class="order-checkout-page">
+    <div class="container">
+        <form id="guestCheckoutForm" method="post" asp-controller="UserOrder" asp-action="CreateOrder">
+            <div class="row">
+                <!-- LEFT: Shipping Info -->
+                <div class="col-md-8">
+                    <h4>THÔNG TIN GIAO HÀNG</h4>
+                    <div class="form-group">
+                        <label for="Name">Họ Tên</label>
+                        <input type="text" class="form-control" id="Name" name="Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Số điện thoại</label>
+                        <input type="text" class="form-control" id="Phone" name="Phone" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="Address" name="Address" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="City">Tỉnh/Thành Phố</label>
+                        <select class="form-control" id="tinh" name="Tinh" required>
+                            <option value="0">Chọn Tỉnh/Thành Phố</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="District">Quận/Huyện</label>
+                        <select class="form-control" id="quan" name="Quan" required>
+                            <option value="0">Chọn Quận/Huyện</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Ward">Phường/Xã</label>
+                        <select class="form-control" id="phuong" name="Phuong" required>
+                            <option value="0">Chọn Phường/Xã</option>
+                        </select>
+                    </div>
+
+                    <h4>PHƯƠNG THỨC THANH TOÁN</h4>
+                    <select class="form-control" name="PaymentMethod" required>
+                        <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                        <option value="Online">Thanh toán trực tuyến</option>
+                    </select>
+                </div>
+
+                <!-- RIGHT: Order Summary -->
+                <div class="col-md-4">
+                    <h4>ĐƠN HÀNG</h4>
+                    <ul class="list-group mb-3">
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].ProductDetailId" value="@item.ProductDetailId" />
+                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].Quantity" value="@item.Quantity" />
+                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].Price" value="@item.Price" />
+                            decimal discountedPrice;
+
+                            if (item.Discount < 100)
+                            {
+                                discountedPrice = item.Price * (1 - item.Discount / 100.0m);
+                            }
+                            else if (item.Discount >= 1000)
+                            {
+                                discountedPrice = item.Price - item.Discount;
+                            }
+                            else
+                            {
+                                discountedPrice = item.Price; // không giảm giá
+                            }
+
+                            <li class="list-group-item">
+                                <div>
+                                    <strong>@item.ProductName - @item.ColorName</strong><br />
+                                    <small>Size: @item.Size - SL: @item.Quantity</small>
+                                </div>
+                                <div style="color: #a94442; font-weight: bold; margin: 5px 0;">
+                                    <span>@(discountedPrice.ToString("N0")) VND</span>
+                                    @if (item.Discount > 0)
+                                    {
+                                        <span style="text-decoration: line-through; color: gray; margin-left: 10px;">
+                                            @item.Price.ToString("N0") VND
+                                        </span>
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="mt-3">
+                        <p>
+                            <span>Đơn hàng:</span>
+                            <span id="subtotal" data-value="@subtotal">@subtotal.ToString("N0") VND</span>
+                        </p>
+                        <p>
+                            <span>Giảm:</span>
+                            <span id="discount">@discountTotal.ToString("N0") VND</span>
+                        </p>
+                        <p>
+                            <span>Phí vận chuyển:</span>
+                            <span id="shippingFee">@shippingFee.ToString("N0") VND</span>
+                        </p>
+                        <h5>
+                            <span>Tổng cộng:</span>
+                            <span id="total">@total.ToString("N0") VND</span>
+                            <input type="hidden" name="Total" value="@total" />
+                        </h5>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-warning mt-3">HOÀN TẤT ĐẶT HÀNG</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Load tỉnh thành
+            $.ajax({
+                url: 'https://esgoo.net/api-tinhthanh/1/0.htm',
+                method: 'GET',
+                success: function (data_tinh) {
+                    if (data_tinh.error === 0) {
+                        $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                            $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                        });
+
+                        // Khi chọn tỉnh
+                        $("#tinh").change(function () {
+                            var idtinh = $(this).val();
+                            $.ajax({
+                                url: 'https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm',
+                                method: 'GET',
+                                success: function (data_quan) {
+                                    if (data_quan.error === 0) {
+                                        $("#quan").html('<option value="0">Chọn Quận/Huyện</option>');
+                                        $("#phuong").html('<option value="0">Chọn Phường/Xã</option>');
+                                        $.each(data_quan.data, function (key_quan, val_quan) {
+                                            $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                        });
+
+                                        // Khi chọn quận
+                                        $("#quan").change(function () {
+                                            var idquan = $(this).val();
+                                            $.ajax({
+                                                url: 'https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm',
+                                                method: 'GET',
+                                                success: function (data_phuong) {
+                                                    if (data_phuong.error === 0) {
+                                                        $("#phuong").html('<option value="0">Chọn Phường/Xã</option>');
+                                                        $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                                            $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+
+            // Khi chọn phường thì lấy phí vận chuyển
+            $("#phuong").change(function () {
+                var city = $("#tinh option:selected").text();
+                var district = $("#quan option:selected").text();
+                var ward = $("#phuong option:selected").text();
+
+                if (city !== "Chọn Tỉnh/Thành Phố" && district !== "Chọn Quận/Huyện" && ward !== "Chọn Phường/Xã") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Shipping/GetShippingFee",
+                        data: { city: city, district: district, ward: ward },
+                        success: function (response) {
+                            if (response.success) {
+                                var shippingFee = response.shippingFee;
+                                $("#shippingFee").text(shippingFee.toLocaleString() + " VND");
+                                $("#shippingFeeInput").val(shippingFee);
+
+                                var subtotal = parseFloat($("#subtotal").data("value"));
+                                var total = subtotal + shippingFee;
+                                $("#total").text(total.toLocaleString() + " VND");
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            console.error("Không thể tính phí vận chuyển");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    }

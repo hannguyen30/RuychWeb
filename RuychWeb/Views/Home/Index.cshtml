@@ -3,187 +3,250 @@
 <div class="col-sm-3">
     @Html.Partial("_SideBar")
 </div>
+<style>
+    .price-container {
+        display: flex;
+        justify-content: center; /* Center align horizontally */
+        align-items: center; /* Align vertically */
+        gap: 10px; /* Add spacing between the prices */
+    }
 
+    .sale-price {
+        font-size: 1.5em; /* Adjust size as needed */
+        margin: 0;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: black;
+        font-size: 1.2em; /* Adjust size as needed */
+        margin: 0;
+    }
+
+    p {
+        margin: 10px 0 0 0;
+    }
+
+    .out-of-stock {
+        position: relative; /* Để các phần tử trong nằm đúng vị trí */
+        pointer-events: none; /* Ngừng các sự kiện hover */
+        opacity: 0.5; /* Làm mờ sản phẩm hết hàng */
+    }
+</style>
 <div class="col-sm-9 padding-right">
-	<h2 class="title text-center">Features Items</h2>
-	<div class="features_items">
-		<!--features_items-->
+    <h2 class="title text-center">SẢN PHẨM ĐẶC TRƯNG</h2>
+    <div class="features_items">
+        <!--features_items-->
 
-	
 
-	</div><!--features_items-->
-	<div id="pagination">
-		<ul class="pagination">
-		</ul>
-	</div>
-	<div class="recommended_items">
-		<!--recommended_items-->
-		<h2 class="title text-center">recommended items</h2>
 
-		<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="item active">
-					<div class="col-sm-4">
-						<div class="product-image-wrapper">
-							<div class="single-products">
-								<div class="productinfo text-center">
-									<img src="images/home/recommend1.jpg" alt="" />
-									<h2>500.000 VNĐ</h2>
-									<p>Easy Polo Black Edition</p>
-									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-								</div>
+    </div><!--features_items-->
+    <div id="pagination">
+        <ul class="pagination">
+        </ul>
+    </div>
+    <div class="recommended_items">
+        <!--recommended_items-->
+        <h2 class="title text-center">BẠN CÓ CẦN THÊM ?</h2>
 
-							</div>
-						</div>
-					</div>
-					
-				</div>
-				<div class="item">
-					<div class="col-sm-4">
-						<div class="product-image-wrapper">
-							<div class="single-products">
-								<div class="productinfo text-center">
-									<img src="images/home/recommend1.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-								</div>
+        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="images/home/recommend1.jpg" alt="" />
+                                    <h2>500.000 VNĐ</h2>
+                                    <p>Easy Polo Black Edition</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
 
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="product-image-wrapper">
-							<div class="single-products">
-								<div class="productinfo text-center">
-									<img src="images/home/recommend2.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-								</div>
+                            </div>
+                        </div>
+                    </div>
 
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="product-image-wrapper">
-							<div class="single-products">
-								<div class="productinfo text-center">
-									<img src="images/home/recommend3.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-								</div>
+                </div>
+                <div class="item">
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="images/home/recommend1.jpg" alt="" />
+                                    <h2>$56</h2>
+                                    <p>Easy Polo Black Edition</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-				<i class="fa fa-angle-left"></i>
-			</a>
-			<a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-				<i class="fa fa-angle-right"></i>
-			</a>
-		</div>
-	</div><!--/recommended_items-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="images/home/recommend2.jpg" alt="" />
+                                    <h2>$56</h2>
+                                    <p>Easy Polo Black Edition</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="images/home/recommend3.jpg" alt="" />
+                                    <h2>$56</h2>
+                                    <p>Easy Polo Black Edition</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </div>
+    </div><!--/recommended_items-->
 
 </div>
 @section Scripts {
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			loadProducts(1);
-		});
+    <style>
+        .out-of-stock-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.8);
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            z-index: 10;
+        }
 
-		var pageLoaded = false;
+        .out-of-stock img {
+            opacity: 0.4;
+        }
+    </style>
 
-		function loadProducts(page) {
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "/Home/GetList?page=" + page, true);
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					var result = JSON.parse(xhr.responseText);
-					if (!pageLoaded) {
-						var featuresItems = document.querySelector('.features_items');
-						featuresItems.innerHTML = ''; // Xóa nội dung cũ
-						console.log(result.data);
-						result.data.forEach(function (item) {
-							// var productHtml = '<div class="col-sm-4">' +
-							// 	'<div class="product-image-wrapper">' +
-							// 	'<div class="single-products">' +
-							// 	'<div class="productinfo text-center">' +
-							// 	'<a href="/Product/Details/' + item.id + '">' +
-							// 	'<img src="/media/products/' + item.image + '" alt="' + item.name + '" width="100%" />' +
-							// 	'<h2>' + item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' }) + '</h2>' +
-							// 	'<p>' + item.name + '</p>' +
-							// 	'<p>Danh mục: ' + item.category.name + '</p>' +
-							// 	'<p>Thương hiệu: ' + item.brand.name + '</p>' +
-							// 	'</a>' +
-							// 	'<a class="btn btn-default add-to-cart" href="/Cart/Add/' + item.id + '"><i class="fa fa-shopping-cart"></i>Add to cart</a>' +
-							// 	'</div>' +
-							// 	'</div>' +
-							// 	'</div>' +
-							// 	'</div>';
-										var productHTML = `<div class="col-sm-4">`+
-									`<div class="product-image-wrapper">`+
-										`<div class="single-products">`+
-											`<div class="productinfo text-center">`+
-												'<img src="/images/Products/' + item.thumbnail + '" alt="' + item.name + '" width="100%" />' +
-													'<h2>' + item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' }) + '</h2>' +
-                                                `<p>${item.name}</p>`+
-											`</div>`+
-											`<div class="product-overlay">`+
-												`<div class="overlay-content">`+
-													`<a href="/Product/Detail/` + item.productId + `" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Buy Now!</a>`+
-												`</div>`+
-											`</div>`+
-                                        `</div>`+
-                                        `<div class="choose">`+
-                                            `<ul class="nav nav-pills nav-justified">`+
-                                                `<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>`+
-                                            `</ul>`+
-                                        `</div>`+
-									`</div>`+
-								`</div>`;
+    <script>
+        $(document).ready(function () {
+            loadProducts(1);
+        });
+              function loadProducts(page) {
+            $.ajax({
+                url: "/Home/GetList",
+                type: "GET",
+                data: { page: page },
+                success: function (result) {
+                    const featuresItems = $('.features_items');
+                    featuresItems.empty();
 
-							featuresItems.insertAdjacentHTML('beforeend', productHTML);
-						});
-					}
+                    result.data.forEach(function (item) {
+                        // Determine out-of-stock status
+                        let isOutOfStock = true; // Default to out of stock
+                        let totalQuantity = 0;
 
-					var paginationDiv = document.getElementById('pagination');
-					Pagination(result.currentPage, result.totalPages);
-				}
-			};
-			xhr.send();
-		}
+                        if (item.colors && item.colors.length > 0) {
+                            item.colors.forEach(color => {
+                                if (color.sizes && color.sizes.length > 0) {
+                                    color.sizes.forEach(size => {
+                                        totalQuantity += size.quantity || 0;
+                                    });
+                                }
+                            });
+                        }
 
-		function Pagination(currentPage, totalPages) {
-			var paginationHtml = '<ul class="pagination">';
-			if (totalPages > 1) {
-				paginationHtml += '<li class="page-item ' + (currentPage === 1 ? 'disabled' : '') + '">';
-				paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
-				paginationHtml += 'onclick="' + (currentPage !== 1 ? 'loadProducts(' + (currentPage - 1) + ')' : '') + '">Previous</a></li>';
+                        // If total quantity is greater than 0, the product is in stock
+                        if (totalQuantity > 0) {
+                            isOutOfStock = false;
+                        }
 
-				for (var i = 1; i <= totalPages; i++) {
-					paginationHtml += '<li class="page-item ' + (currentPage === i ? 'active' : '') + '">';
-					paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
-					paginationHtml += 'onclick="loadProducts(' + i + ')">' + i + '</a></li>';
-				}
+                        // Calculate sale price if applicable
+                        const discount = item.saleDetails && item.saleDetails.length > 0 ? item.saleDetails[0].discount : 0;
+                        let salePrice = 0;
+                        if (discount > 0) {
+                            if (discount < 100) {
+                                salePrice = item.price - (item.price * discount / 100);
+                            } else if (discount > 1000) {
+                                salePrice = item.price - discount;
+                            }
+                        }
 
-				paginationHtml += '<li class="page-item ' + (currentPage === totalPages ? 'disabled' : '') + '">';
-				paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
-				paginationHtml += 'onclick="' + (currentPage !== totalPages ? 'loadProducts(' + (currentPage + 1) + ')' : '') + '">Next</a></li>';
-			}
-			paginationHtml += '</ul>';
+                        // Generate product HTML
+                        const productHTML = `
+                            <div class="col-sm-4">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center position-relative ${isOutOfStock ? 'out-of-stock' : ''}">
+                                            <img src="/images/Products/${item.thumbnail}" alt="${item.name}" width="100%" />
+                                            ${isOutOfStock ? `<div class="out-of-stock-label">Hết hàng</div>` : ''}
+                                            <p>${item.name}</p>
+                                            ${salePrice > 0
+                                                ? `<h2 class="sale-price">${salePrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>
+                                                   <h4 class="original-price" style="text-decoration: line-through; color: black;">${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h4>`
+                                                : `<h2>${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>`}
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                ${!isOutOfStock
+                                                    ? `<a href="/Product/Detail/${item.productId}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Mua ngay!</a>`
+                                                    : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào yêu thích</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>`;
 
-			var paginationDiv = document.getElementById('pagination');
-			paginationDiv.innerHTML = paginationHtml;
-		}
+                        featuresItems.append(productHTML);
+                    });
 
-		function NextPage(page, pageSize) {
-			loadProducts(page);
-		}
+                    renderPagination(result.currentPage, result.totalPages);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading products:', error);
+                }
+            });
+        }
 
-	</script>
+
+
+        function Pagination(currentPage, totalPages) {
+            var paginationHtml = '<ul class="pagination">';
+            if (totalPages > 1) {
+                paginationHtml += '<li class="page-item ' + (currentPage === 1 ? 'disabled' : '') + '">';
+                paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
+                paginationHtml += 'onclick="' + (currentPage !== 1 ? `loadProducts(${currentPage - 1})` : '') + '">Trước</a></li>';
+
+                for (var i = 1; i <= totalPages; i++) {
+                    paginationHtml += '<li class="page-item ' + (currentPage === i ? 'active' : '') + '">';
+                    paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
+                    paginationHtml += `onclick="loadProducts(${i})">${i}</a></li>`;
+                }
+
+                paginationHtml += '<li class="page-item ' + (currentPage === totalPages ? 'disabled' : '') + '">';
+                paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
+                paginationHtml += 'onclick="' + (currentPage !== totalPages ? `loadProducts(${currentPage + 1})` : '') + '">Sau</a></li>';
+            }
+            paginationHtml += '</ul>';
+
+            $('#pagination').html(paginationHtml);
+        }
+    </script>
 }

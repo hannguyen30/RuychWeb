@@ -1,9 +1,60 @@
 ﻿@{
     ViewData["Title"] = "Account Not Verified";
 }
+<style>
+    #slider {
+        display: none;
+    }
 
-<h2>Account Not Verified</h2>
-<p>Your account has not been verified. Please check your email to verify your account.</p>
-<p>
-    <a href="https://mail.google.com" target="_blank">Go to Gmail</a>
-</p>
+    .verify-container {
+        min-height: 40vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+    }
+
+    .verify-box {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+    }
+
+        .verify-box h2 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .verify-box p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .verify-box a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #5bc0de;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+            .verify-box a:hover {
+                background-color: #31b0d5;
+            }
+</style>
+
+<div class="verify-container">
+    <div class="verify-box">
+        <h2>Account Not Verified</h2>
+        <p>Your account has not been verified.</p>
+        <p>Please check your email to verify your account.</p>
+        <a href="https://mail.google.com" target="_blank">Go to Gmail</a>
+    </div>
+</div>

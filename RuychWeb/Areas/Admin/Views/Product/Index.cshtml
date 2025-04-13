@@ -3,7 +3,14 @@
 @{
     ViewData["Title"] = "Product List";
 }
-
+<style>
+    /* Cố định kích thước cho cột Sale */
+    /* Cột Sale */
+    .table td:nth-child(8) {
+        width: 150px; /* Kích thước cố định cho cột Sale */
+        max-width: 150px; /* Cố định chiều rộng cột */
+    }
+</style>
 <h3 class="text-primary">Product List</h3>
 
 <div class="card shadow mb-4">
@@ -85,7 +92,9 @@
                                         {
                                             @foreach (var sale in product.Sales)
                                             {
-                                                <span class="badge bg-warning">@sale.SaleName: @sale.Discount% Off</span>
+                                                <span class="badge bg-warning d-block text-wrap">
+                                                    <p class="mb-0">@sale.SaleName: @sale.Discount% Off</p>
+                                                </span>
                                                 <br />
                                             }
                                         }
@@ -113,12 +122,12 @@
                                 <td><span class="text-muted">No color</span></td>
                                 <td><span class="text-muted">--</span></td>
                                 <td><span class="text-muted">--</span></td>
-                                <td>
+                                <td class="sticky-column">
                                     @if (product.Sales != null && product.Sales.Any())
                                     {
                                         @foreach (var sale in product.Sales)
                                         {
-                                            <span class="badge bg-warning">@sale.SaleName: @sale.Discount% Off</span>
+                                            <span class="badge bg-warning"><p>@sale.SaleName: @sale.Discount Off</p></span>
                                             <br />
                                         }
                                     }
@@ -163,8 +172,7 @@
                     {
                         <text>style="background-color: #007bff; color: white;"</text>
                     }>
-                        @i
-                    </a>
+                        @i</a>
                 }
 
                 <!-- Next Button -->

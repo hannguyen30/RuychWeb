@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RuychWeb.Models.Domain;
 using RuychWeb.Repository.Abstract;
-using System.Threading.Tasks;
 
 namespace RuychWeb.Repository.Implementation
 {
