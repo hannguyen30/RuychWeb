@@ -1,5 +1,4 @@
 ﻿using RuychWeb.Areas.Admin.Repository.Validation;
-using RuychWeb.Models.DTO;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RuychWeb.Areas.Admin.Models
@@ -20,4 +19,3 @@ namespace RuychWeb.Areas.Admin.Models
         public IFormFile? ThumbnailFile { get; set; } // Thay đổi kiểu dữ liệu thành IFormFile
     }
 }
-    

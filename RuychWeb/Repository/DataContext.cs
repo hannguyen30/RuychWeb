@@ -1,10 +1,8 @@
-﻿using RuychWeb.Models;
-using RuychWeb.Models.Domain;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using RuychWeb.Models.Domain;
 using RuychWeb.Models.DTO;
-using Microsoft.AspNetCore.Identity;
 
 namespace RuychWeb.Repository
 {
@@ -32,6 +30,7 @@ namespace RuychWeb.Repository
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleDetail> SaleDetails { get; set; }
+        public DbSet<Shipping> Shippings { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -69,7 +68,7 @@ namespace RuychWeb.Repository
         public DataContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseSqlServer("Data Source=WINDOWS-10;Initial Catalog=RuychData;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;Connection Timeout=30");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-BJES0NE;Initial Catalog=RuychData;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;Connection Timeout=30");
 
             return new DataContext(optionsBuilder.Options);
         }

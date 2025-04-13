@@ -1,7 +1,5 @@
-﻿using RuychWeb.Models.DTO;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using RuychWeb.Models.Domain;
+﻿using RuychWeb.Models.Domain;
+using RuychWeb.Models.DTO;
 
 namespace RuychWeb.Repository.Abstract
 {

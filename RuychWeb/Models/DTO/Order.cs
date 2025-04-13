@@ -1,5 +1,6 @@
 ﻿using RuychWeb.Models.Domain;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RuychWeb.Models.DTO
 {
@@ -16,10 +17,11 @@ namespace RuychWeb.Models.DTO
         public DateTime? PaymentDate { get; set; }
         public string PaymentStatus { get; set; }
         public string OrderStatus { get; set; }
-        public string CancelReason { get; set; }
+        public string? CancelReason { get; set; }
         public string CarrierName { get; set; }
         public decimal TotalFee { get; set; }
-        public int CustomerId { get; set; }
+        [AllowNull]
+        public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }

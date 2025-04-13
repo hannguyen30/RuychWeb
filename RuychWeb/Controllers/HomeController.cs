@@ -1,7 +1,5 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RuychWeb.Models;
 using RuychWeb.Repository;
 
 namespace RuychWeb.Controllers;
@@ -24,19 +22,46 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult GetList(int page = 1, int pageSize = 6)
     {
-        // T?ng s? s?n ph?m
+        // Tổng số sản phẩm
         var totalProducts = _dataContext.Products.Count();
 
-        // T�nh to�n s? trang d?a tr�n t?ng s? s?n ph?m v� k�ch th�?c trang
+        // Tính toán số trang dựa trên tổng số sản phẩm và kích thước trang
         var totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
-        // L?y danh s�ch s?n ph?m cho trang hi?n t?i
+        // Lấy danh sách sản phẩm cho trang hiện tại
         var products = _dataContext.Products
-                    .OrderBy(p => p.ProductId)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+            .Include(p => p.SaleDetails)
+                .ThenInclude(sd => sd.Sale)
+            .Include(p => p.Colors)
+                .ThenInclude(c => c.ProductDetails) // Bao gồm chi tiết sản phẩm (màu, kích thước, số lượng)
+            .OrderBy(p => p.ProductId)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(p => new
+            {
+                p.ProductId,
+                p.Name,
+                p.Price,
+                p.Thumbnail,
+                p.Description,
+                SaleDetails = p.SaleDetails.Select(sd => new
+                {
+                    sd.Sale.Discount // Bao gồm thông tin giảm giá
+                }),
+                Colors = p.Colors.Select(c => new
+                {
+                    c.Name,
+                    Sizes = c.ProductDetails.Select(pd => new
+                    {
+                        pd.Size,
+                        pd.Quantity
+                    })
+                })
+            })
+            .ToList();
+
 
         return Json(new { data = products, TotalPages = totalPages, CurrentPage = page });
     }
+
 }

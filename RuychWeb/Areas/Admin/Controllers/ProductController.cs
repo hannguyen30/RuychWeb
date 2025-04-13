@@ -1,14 +1,9 @@
-﻿using RuychWeb.Models;
-using RuychWeb.Repository;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
+using Microsoft.EntityFrameworkCore;
 using RuychWeb.Areas.Admin.Models;
 using RuychWeb.Models.DTO;
+using RuychWeb.Repository;
 
 namespace RuychWeb.Areas.Admin.Controllers
 {
@@ -224,7 +219,7 @@ namespace RuychWeb.Areas.Admin.Controllers
         //            await _dataContext.SaveChangesAsync();
         //            await Task.Delay(500);// Lưu màu vào cơ sở dữ liệu
         //        }
-                
+
         //        // Đảm bảo color đã được tạo trước khi tiếp tục thêm chi tiết sản phẩm
         //        if (color != null)  // Kiểm tra nếu màu đã được tạo
         //        {
@@ -388,7 +383,7 @@ namespace RuychWeb.Areas.Admin.Controllers
 
             return imageName;
         }
-         
+
         private async Task<Color> UpdateOrCreateColorAsync(Product product, string colorName)
         {
             // Kiểm tra và tạo mới màu sắc nếu chưa có

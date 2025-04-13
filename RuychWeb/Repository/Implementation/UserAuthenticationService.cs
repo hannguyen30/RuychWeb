@@ -1,13 +1,7 @@
-﻿using RuychWeb.Models;
+﻿using Microsoft.AspNetCore.Identity;
 using RuychWeb.Models.Domain;
 using RuychWeb.Models.DTO;
 using RuychWeb.Repository.Abstract;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
-using Azure.Core;
-using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
 namespace RuychWeb.Repository.Implementation
 {
@@ -43,7 +37,7 @@ namespace RuychWeb.Repository.Implementation
             Account user = new Account()
             {
                 Email = model.Email,
-                UserName = model.Email,
+                UserName = model.Email.Split('@')[0],
                 EmailConfirmed = false,
             };
             var result = await userManager.CreateAsync(user, model.Password);

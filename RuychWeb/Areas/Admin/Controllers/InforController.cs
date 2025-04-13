@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using RuychWeb.Models.Domain;
-using System.Linq;
-using System.Threading.Tasks;
-using RuychWeb.Areas.Admin.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RuychWeb.Areas.Admin.Models;
+using RuychWeb.Models.Domain;
 using RuychWeb.Repository;
 
 namespace RuychWeb.Areas.Admin.Controllers
@@ -14,7 +12,7 @@ namespace RuychWeb.Areas.Admin.Controllers
     {
         private readonly UserManager<Account> _userManager;
         private DataContext _dataContext;
-        public InforController(UserManager<Account> userManager,DataContext dataContext)
+        public InforController(UserManager<Account> userManager, DataContext dataContext)
         {
             _userManager = userManager;
             this._dataContext = dataContext;
@@ -196,7 +194,7 @@ namespace RuychWeb.Areas.Admin.Controllers
                 if (customer != null)
                 {
                     customer.Name = model.Name;
-                    customer.Email = model.Email; 
+                    customer.Email = model.Email;
                     customer.Phone = model.Phone;
                 }
             }
