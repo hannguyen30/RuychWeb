@@ -64,4 +64,47 @@ public class HomeController : Controller
         return Json(new { data = products, TotalPages = totalPages, CurrentPage = page });
     }
 
+    [HttpGet]
+    public IActionResult Search(string searchText)
+    {
+        var searchResults = _dataContext.Products
+            .Include(p => p.SaleDetails)
+                .ThenInclude(sd => sd.Sale)
+            .Include(p => p.Colors)
+                .ThenInclude(c => c.ProductDetails)
+            .Where(p =>
+                p.Name.Contains(searchText) ||
+                p.Price.ToString().Contains(searchText) ||
+                p.Category.Name.Contains(searchText))
+            .OrderBy(p => p.ProductId)
+            .Select(p => new
+            {
+                p.ProductId,
+                p.Name,
+                p.Price,
+                p.Thumbnail,
+                p.Description,
+                SaleDetails = p.SaleDetails.Select(sd => new
+                {
+                    sd.Sale.Discount
+                }),
+                Colors = p.Colors.Select(c => new
+                {
+                    c.Name,
+                    Sizes = c.ProductDetails.Select(pd => new
+                    {
+                        pd.Size,
+                        pd.Quantity
+                    })
+                })
+            })
+            .ToList();
+
+        return Json(searchResults);
+    }
+    [HttpGet]
+    public IActionResult Contact()
+    {
+        return View();
+    }
 }

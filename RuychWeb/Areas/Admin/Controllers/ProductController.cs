@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RuychWeb.Areas.Admin.Models;
@@ -21,7 +22,68 @@ namespace RuychWeb.Areas.Admin.Controllers
             _logger = logger;
         }
 
+        // GET: Admin/Product/Index
+        [Authorize(Roles = "Admin,Staff")]
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 4)
+        {
+            // Lấy tổng số sản phẩm trong cơ sở dữ liệu
+            var totalProducts = await _dataContext.Products.CountAsync();
+
+            // Tính tổng số trang
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
+
+            // Đảm bảo pageNumber không vượt quá tổng số trang
+            pageNumber = Math.Max(1, Math.Min(pageNumber, totalPages));
+
+            // Lấy danh sách sản phẩm cho trang hiện tại
+            var products = await _dataContext.Products
+                .Include(p => p.Category)
+                .Include(p => p.Colors)
+                    .ThenInclude(c => c.ProductDetails)
+                .Include(p => p.SaleDetails)
+                    .ThenInclude(sd => sd.Sale)
+                .Skip((pageNumber - 1) * pageSize)  // Bỏ qua các sản phẩm của các trang trước
+                .Take(pageSize)                     // Lấy sản phẩm cho trang hiện tại
+                .ToListAsync();
+
+            // Chuyển đổi các sản phẩm sang ViewModel
+            var productViewModels = products.Select(p => new ProductViewModel
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                Price = p.Price,
+                Thumbnail = p.Thumbnail,
+                Description = p.Description,
+                CategoryName = p.Category?.Name,
+                Colors = p.Colors?.Select(c => new ColorViewModel
+                {
+                    ColorName = c.Name,
+                    Sizes = c.ProductDetails?.Select(pd => new SizeQuantityViewModel
+                    {
+                        Size = pd.Size,
+                        Quantity = pd.Quantity
+                    }).ToList() ?? new List<SizeQuantityViewModel>()
+                }).ToList() ?? new List<ColorViewModel>(),
+                Sales = p.SaleDetails?.Select(sd => new SaleViewModel
+                {
+                    SaleName = sd.Sale.Name,
+                    Discount = sd.Sale.Discount,
+                    StartDate = sd.Sale.StartDate,
+                    EndDate = sd.Sale.EndDate
+                }).ToList() ?? new List<SaleViewModel>(),
+                SaleIds = p.SaleDetails?.Select(sd => sd.SaleId).ToList() ?? new List<int>()
+            }).ToList();
+
+            // Truyền thông tin phân trang vào View
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = totalPages;
+
+            return View(productViewModels);
+        }
+
+
         // GET: Admin/Product/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             // Lấy danh sách các danh mục từ cơ sở dữ liệu
@@ -29,7 +91,8 @@ namespace RuychWeb.Areas.Admin.Controllers
 
             // Lấy danh sách các khuyến mãi từ cơ sở dữ liệu
             ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
-
+            ViewBag.Colors = new List<string> { "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
+            ViewBag.Sizes = new List<string> { "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
             return View();
         }
 
@@ -113,11 +176,14 @@ namespace RuychWeb.Areas.Admin.Controllers
             // Nếu có lỗi, hiển thị lại form
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
             ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
+            ViewBag.Colors = new List<string> { "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
+            ViewBag.Sizes = new List<string> { "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
             return View(model);
         }
 
         // GET: Admin/Product/Edit/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _dataContext.Products
@@ -153,138 +219,10 @@ namespace RuychWeb.Areas.Admin.Controllers
             // Lấy danh sách categories và sales cho dropdown
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
             ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
-
+            ViewBag.Colors = new List<string> { "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
+            ViewBag.Sizes = new List<string> { "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
             return View(model);
         }
-
-
-        //[HttpPost("{id}")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, ProductEditModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        model.ProductId = id;
-
-        //        var product = await _dataContext.Products
-        //            .Include(p => p.Colors)
-        //                .ThenInclude(c => c.ProductDetails)
-        //            .Include(p => p.SaleDetails)
-        //            .FirstOrDefaultAsync(p => p.ProductId == id);
-
-        //        if (product == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        // Kiểm tra và xử lý nếu có file Thumbnail mới
-        //        if (model.ThumbnailFile != null)
-        //        {
-        //            string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "images/Products");
-        //            string imageName = Guid.NewGuid().ToString() + "_" + model.ThumbnailFile.FileName;
-        //            string filePath = Path.Combine(uploadsDir, imageName);
-
-        //            using (FileStream fs = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                await model.ThumbnailFile.CopyToAsync(fs);
-        //            }
-        //            model.Thumbnail = imageName;
-        //        }
-        //        else
-        //        {
-        //            // Giữ nguyên Thumbnail cũ nếu không có file mới
-        //            model.Thumbnail = product.Thumbnail;
-        //        }
-
-        //        // Cập nhật các thông tin sản phẩm
-        //        product.Name = model.Name;
-        //        product.Price = model.Price;
-        //        product.Thumbnail = model.Thumbnail;
-        //        product.Description = model.Description;
-        //        product.CategoryId = model.CategoryId;
-
-        //        _dataContext.Products.Update(product);
-        //        await _dataContext.SaveChangesAsync();
-
-        //        // Cập nhật hoặc tạo màu sắc mới nếu không có
-        //        var color = product.Colors.FirstOrDefault(c => c.Name == model.Color);
-        //        if (color == null && !string.IsNullOrEmpty(model.Color))
-        //        {
-        //            color = new Color
-        //            {
-        //                Name = model.Color,
-        //                ProductId = product.ProductId
-        //            };
-        //            _dataContext.Colors.Add(color);
-        //            await _dataContext.SaveChangesAsync();
-        //            await Task.Delay(500);// Lưu màu vào cơ sở dữ liệu
-        //        }
-
-        //        // Đảm bảo color đã được tạo trước khi tiếp tục thêm chi tiết sản phẩm
-        //        if (color != null)  // Kiểm tra nếu màu đã được tạo
-        //        {
-        //            // Cập nhật hoặc tạo chi tiết sản phẩm (Size và Quantity)
-        //            var productDetail = color.ProductDetails
-        //                .FirstOrDefault(pd => pd.Size == model.Size);
-
-        //            if (productDetail == null && !string.IsNullOrEmpty(model.Size))
-        //            {
-        //                productDetail = new ProductDetail
-        //                {
-        //                    ColorId = color.ColorId,  // Liên kết với màu đã tạo
-        //                    Size = model.Size,
-        //                    Quantity = model.Quantity
-        //                };
-        //                _dataContext.ProductDetails.Add(productDetail);
-        //            }
-        //            else if (productDetail != null)
-        //            {
-        //                // Cập nhật số lượng nếu đã có chi tiết sản phẩm
-        //                productDetail.Quantity = model.Quantity;
-        //            }
-
-        //            await _dataContext.SaveChangesAsync();
-        //        }
-
-        //        // Cập nhật thông tin khuyến mãi
-        //        if (model.SaleId.HasValue)
-        //        {
-        //            var existingSaleDetail = product.SaleDetails.FirstOrDefault();
-        //            if (existingSaleDetail == null)
-        //            {
-        //                var newSaleDetail = new SaleDetail
-        //                {
-        //                    SaleId = model.SaleId.Value,
-        //                    ProductId = product.ProductId
-        //                };
-        //                _dataContext.SaleDetails.Add(newSaleDetail);
-        //            }
-        //            else
-        //            {
-        //                existingSaleDetail.SaleId = model.SaleId.Value;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // Nếu không có SaleId, loại bỏ chi tiết khuyến mãi nếu có
-        //            var existingSaleDetail = product.SaleDetails.FirstOrDefault();
-        //            if (existingSaleDetail != null)
-        //            {
-        //                _dataContext.SaleDetails.Remove(existingSaleDetail);
-        //            }
-        //        }
-
-        //        await _dataContext.SaveChangesAsync();
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    // Nếu model không hợp lệ, giữ lại danh sách categories và sales
-        //    ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
-        //    ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
-        //    return View(model);
-        //}
-
 
         [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
@@ -292,82 +230,106 @@ namespace RuychWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.ProductId = id;
-
+                // Tìm sản phẩm theo ID
                 var product = await _dataContext.Products
                     .Include(p => p.Colors)
                         .ThenInclude(c => c.ProductDetails)
                     .Include(p => p.SaleDetails)
                     .FirstOrDefaultAsync(p => p.ProductId == id);
 
+                // Kiểm tra nếu sản phẩm không tồn tại
                 if (product == null)
                 {
                     return NotFound();
                 }
 
-                // Cập nhật thông tin sản phẩm
-                await UpdateProductAsync(product, model);
-
-                // Xử lý màu sắc
-                var color = await UpdateOrCreateColorAsync(product, model.Color);
-
-                if (color != null)  // Kiểm tra xem màu đã được tạo chưa
+                // 1. Cập nhật hoặc giữ nguyên ảnh đại diện
+                if (model.ThumbnailFile != null)
                 {
-                    // Nếu có màu, thực hiện cập nhật chi tiết sản phẩm (size và quantity)
-                    await UpdateProductDetailsAsync(color, model);
+                    string imageName = await SaveThumbnailAsync(model);
+                    model.Thumbnail = imageName;
                 }
                 else
                 {
-                    // Nếu không có màu, bạn có thể chọn cách xử lý như tạo mới hoặc không làm gì
-                    // Ví dụ: Tạo màu mới nếu cần
-                    if (!string.IsNullOrEmpty(model.Color))
-                    {
-                        color = new Color
-                        {
-                            Name = model.Color,
-                            ProductId = product.ProductId
-                        };
-                        _dataContext.Colors.Add(color);
-                        await _dataContext.SaveChangesAsync();  // Lưu màu mới vào DB
-                        await UpdateProductDetailsAsync(color, model); // Tiến hành cập nhật chi tiết sản phẩm sau khi tạo màu
-                    }
+                    model.Thumbnail = product.Thumbnail;
                 }
 
+                // 2. Cập nhật thông tin cơ bản của sản phẩm
+                product.Name = model.Name;
+                product.Price = model.Price;
+                product.Thumbnail = model.Thumbnail;
+                product.Description = model.Description;
+                product.CategoryId = model.CategoryId;
+                _dataContext.Products.Update(product);
+                await _dataContext.SaveChangesAsync();
 
-                // Cập nhật thông tin khuyến mãi
-                await UpdateSaleDetailsAsync(product, model);
+                // 3. Cập nhật hoặc tạo mới màu sắc (nếu có)
+                var color = product.Colors.FirstOrDefault(c => c.Name == model.Color);
+                if (color == null && !string.IsNullOrEmpty(model.Color))
+                {
+                    color = new Color
+                    {
+                        Name = model.Color,
+                        ProductId = product.ProductId
+                    };
+                    _dataContext.Colors.Add(color);
+                    await _dataContext.SaveChangesAsync();
+                }
 
-                return RedirectToAction(nameof(Index));
+                // 4. Cập nhật hoặc tạo chi tiết sản phẩm (size và quantity)
+                // 4. Cập nhật hoặc thêm ProductDetail
+                if (color != null && !string.IsNullOrEmpty(model.Size) && model.Quantity.HasValue)
+                {
+                    var existingDetail = _dataContext.ProductDetails
+                        .FirstOrDefault(pd => pd.ColorId == color.ColorId && pd.Size == model.Size);
+
+                    if (existingDetail != null)
+                    {
+                        existingDetail.Quantity = model.Quantity.Value;
+                        _dataContext.ProductDetails.Update(existingDetail);
+                    }
+                    else
+                    {
+                        var productDetail = new ProductDetail
+                        {
+                            ColorId = color.ColorId,
+                            Size = model.Size,
+                            Quantity = model.Quantity.Value
+                        };
+                        _dataContext.ProductDetails.Add(productDetail);
+                    }
+
+                    await _dataContext.SaveChangesAsync();
+                }
+
+                // 5. Cập nhật hoặc xóa khuyến mãi
+                var existingSaleDetail = product.SaleDetails.FirstOrDefault();
+                if (model.SaleId.HasValue)
+                {
+                    if (existingSaleDetail == null)
+                    {
+                        var newSaleDetail = new SaleDetail
+                        {
+                            SaleId = model.SaleId.Value,
+                            ProductId = product.ProductId
+                        };
+                        _dataContext.SaleDetails.Add(newSaleDetail);
+                    }
+                    else
+                    {
+                        existingSaleDetail.SaleId = model.SaleId.Value;
+                    }
+                }
+                else if (existingSaleDetail != null)
+                {
+                    _dataContext.SaleDetails.Remove(existingSaleDetail);
+                }
+
+                await _dataContext.SaveChangesAsync(); // Lưu thông tin cập nhật vào DB
+
+                return RedirectToAction(nameof(Index)); // Trả về danh sách sản phẩm
             }
-
-            // Nếu model không hợp lệ, giữ lại danh sách categories và sales
-            ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
-            ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
             return View(model);
-        }
-
-        private async Task UpdateProductAsync(Product product, ProductEditModel model)
-        {
-            // Cập nhật hoặc xử lý Thumbnail
-            if (model.ThumbnailFile != null)
-            {
-                string imageName = await SaveThumbnailAsync(model);
-                model.Thumbnail = imageName;
-            }
-            else
-            {
-                model.Thumbnail = product.Thumbnail;
-            }
-
-            // Cập nhật thông tin sản phẩm
-            product.Name = model.Name;
-            product.Price = model.Price;
-            product.Thumbnail = model.Thumbnail;
-            product.Description = model.Description;
-            product.CategoryId = model.CategoryId;
-
-            _dataContext.Products.Update(product);
-            await _dataContext.SaveChangesAsync(); // Lưu sản phẩm
         }
 
         private async Task<string> SaveThumbnailAsync(ProductEditModel model)
@@ -384,182 +346,82 @@ namespace RuychWeb.Areas.Admin.Controllers
             return imageName;
         }
 
-        private async Task<Color> UpdateOrCreateColorAsync(Product product, string colorName)
-        {
-            // Kiểm tra và tạo mới màu sắc nếu chưa có
-            var color = product.Colors.FirstOrDefault(c => c.Name == colorName);
-            if (color == null && !string.IsNullOrEmpty(colorName))
-            {
-                color = new Color
-                {
-                    Name = colorName,
-                    ProductId = product.ProductId
-                };
-                _dataContext.Colors.Add(color);
-                await _dataContext.SaveChangesAsync(); // Lưu màu vào cơ sở dữ liệu
-            }
-
-            return color;
-        }
-
-        private async Task UpdateProductDetailsAsync(Color color, ProductEditModel model)
-        {
-            // Kiểm tra nếu có size và quantity, rồi xử lý chi tiết sản phẩm
-            if (!string.IsNullOrEmpty(model.Size) && model.Quantity.HasValue)
-            {
-                var productDetail = color.ProductDetails
-                    .FirstOrDefault(pd => pd.Size == model.Size);
-
-                if (productDetail == null)
-                {
-                    productDetail = new ProductDetail
-                    {
-                        ColorId = color.ColorId,  // Liên kết với màu đã tạo
-                        Size = model.Size,
-                        Quantity = model.Quantity.Value
-                    };
-                    _dataContext.ProductDetails.Add(productDetail);
-                }
-                else
-                {
-                    // Cập nhật số lượng nếu đã có chi tiết sản phẩm
-                    productDetail.Quantity = model.Quantity.Value;
-                }
-
-                await _dataContext.SaveChangesAsync();
-            }
-        }
-
-        private async Task UpdateSaleDetailsAsync(Product product, ProductEditModel model)
-        {
-            // Cập nhật thông tin khuyến mãi
-            if (model.SaleId.HasValue)
-            {
-                var existingSaleDetail = product.SaleDetails.FirstOrDefault();
-                if (existingSaleDetail == null)
-                {
-                    var newSaleDetail = new SaleDetail
-                    {
-                        SaleId = model.SaleId.Value,
-                        ProductId = product.ProductId
-                    };
-                    _dataContext.SaleDetails.Add(newSaleDetail);
-                }
-                else
-                {
-                    existingSaleDetail.SaleId = model.SaleId.Value;
-                }
-            }
-            else
-            {
-                // Nếu không có SaleId, loại bỏ chi tiết khuyến mãi nếu có
-                var existingSaleDetail = product.SaleDetails.FirstOrDefault();
-                if (existingSaleDetail != null)
-                {
-                    _dataContext.SaleDetails.Remove(existingSaleDetail);
-                }
-            }
-
-            await _dataContext.SaveChangesAsync(); // Lưu thông tin khuyến mãi
-        }
-
-
-
         // POST: Admin/Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _dataContext.Products
                 .Include(p => p.Colors)
                 .Include(p => p.SaleDetails)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
+            bool hasOrders = await _dataContext.OrderDetails
+                .AnyAsync(od => od.ProductDetail.Color.ProductId == id);
 
-            if (product == null)
+            if (hasOrders)
             {
-                return NotFound();
+                // Có đơn hàng liên quan -> không cho xoá
+                TempData["AlertMessage"] = "Không thể xoá vì sản phẩm đã tồn tại trong đơn hàng.";
+                return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                if (product == null)
+                {
+                    return NotFound();
+                }
 
-            // Xóa chi tiết sản phẩm và màu sắc
-            var productDetails = _dataContext.ProductDetails.Where(pd => pd.Color.ProductId == id);
-            _dataContext.ProductDetails.RemoveRange(productDetails);
+                // Xóa chi tiết sản phẩm và màu sắc
+                var productDetails = _dataContext.ProductDetails.Where(pd => pd.Color.ProductId == id);
+                _dataContext.ProductDetails.RemoveRange(productDetails);
 
-            var colors = _dataContext.Colors.Where(c => c.ProductId == id);
-            _dataContext.Colors.RemoveRange(colors);
+                var colors = _dataContext.Colors.Where(c => c.ProductId == id);
+                _dataContext.Colors.RemoveRange(colors);
 
-            // Xóa chi tiết khuyến mãi
-            var saleDetails = _dataContext.SaleDetails.Where(sd => sd.ProductId == id);
-            _dataContext.SaleDetails.RemoveRange(saleDetails);
+                // Xóa chi tiết khuyến mãi
+                var saleDetails = _dataContext.SaleDetails.Where(sd => sd.ProductId == id);
+                _dataContext.SaleDetails.RemoveRange(saleDetails);
 
-            // Cuối cùng xóa sản phẩm
-            _dataContext.Products.Remove(product);
-            await _dataContext.SaveChangesAsync();
+                // Cuối cùng xóa sản phẩm
+                _dataContext.Products.Remove(product);
+                await _dataContext.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));  // Quay lại trang danh sách sản phẩm
+                return RedirectToAction(nameof(Index));  // Quay lại trang danh sách sản phẩm
+            }
         }
 
-
-
-
-        // GET: Admin/Product/Index
-
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 4)
+        [HttpGet]
+        public async Task<IActionResult> Search(string keyword = "")
         {
-            // Lấy tổng số sản phẩm trong cơ sở dữ liệu
-            var totalProducts = await _dataContext.Products.CountAsync();
-
-            // Tính tổng số trang
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
-
-            // Đảm bảo pageNumber không vượt quá tổng số trang
-            pageNumber = Math.Max(1, Math.Min(pageNumber, totalPages));
-
-            // Lấy danh sách sản phẩm cho trang hiện tại
             var products = await _dataContext.Products
+                .Include(p => p.Colors).ThenInclude(c => c.ProductDetails)
+                .Include(p => p.SaleDetails).ThenInclude(sd => sd.Sale)
                 .Include(p => p.Category)
-                .Include(p => p.Colors)
-                    .ThenInclude(c => c.ProductDetails)
-                .Include(p => p.SaleDetails)
-                    .ThenInclude(sd => sd.Sale)
-                .Skip((pageNumber - 1) * pageSize)  // Bỏ qua các sản phẩm của các trang trước
-                .Take(pageSize)                     // Lấy sản phẩm cho trang hiện tại
+                .Where(p => p.Name.Contains(keyword) || p.Category.Name.Contains(keyword))
                 .ToListAsync();
 
-            // Chuyển đổi các sản phẩm sang ViewModel
-            var productViewModels = products.Select(p => new ProductViewModel
+            var result = products.Select(p => new
             {
-                ProductId = p.ProductId,
-                Name = p.Name,
-                Price = p.Price,
-                Thumbnail = p.Thumbnail,
-                Description = p.Description,
-                CategoryName = p.Category?.Name,
-                Colors = p.Colors?.Select(c => new ColorViewModel
+                p.ProductId,
+                p.Name,
+                CategoryName = p.Category.Name,
+                Price = p.Price.ToString("N0") + " VND",
+                p.Thumbnail,
+                Colors = p.Colors.Select(c => new
                 {
-                    ColorName = c.Name,
-                    Sizes = c.ProductDetails?.Select(pd => new SizeQuantityViewModel
-                    {
-                        Size = pd.Size,
-                        Quantity = pd.Quantity
-                    }).ToList() ?? new List<SizeQuantityViewModel>()
-                }).ToList() ?? new List<ColorViewModel>(),
-                Sales = p.SaleDetails?.Select(sd => new SaleViewModel
+                    c.Name,
+                    Sizes = c.ProductDetails.Select(d => new { d.Size, d.Quantity })
+                }),
+                Sales = p.SaleDetails.Select(s => new
                 {
-                    SaleName = sd.Sale.Name,
-                    Discount = sd.Sale.Discount,
-                    StartDate = sd.Sale.StartDate,
-                    EndDate = sd.Sale.EndDate
-                }).ToList() ?? new List<SaleViewModel>(),
-                SaleIds = p.SaleDetails?.Select(sd => sd.SaleId).ToList() ?? new List<int>()
-            }).ToList();
+                    s.Sale.Name,
+                    s.Sale.Discount
+                })
+            });
 
-            // Truyền thông tin phân trang vào View
-            ViewBag.PageNumber = pageNumber;
-            ViewBag.TotalPages = totalPages;
-
-            return View(productViewModels);
+            return Json(result);
         }
-
 
     }
 }

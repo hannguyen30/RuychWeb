@@ -1,12 +1,21 @@
 ﻿@using RuychWeb.Models.DTO
 @model IEnumerable<Category>
-
+<style>
+    .panel-title a.active {
+        color: #fff;
+        background-color: #5bc0de; /* Color for active category */
+        font-weight: bold;
+    }
+</style>
 @foreach (var item in Model)
 {
+    var isActive = (ViewBag.SelectedCategory == item.Name); // Check if the category is selected
+    var activeClass = isActive ? "active" : ""; // Add 'active' class if selected
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a asp-action="Index" asp-controller="Category" asp-route-name="@item.Name">
+                <a asp-action="ByCategory" asp-controller="Product" asp-route-name="@item.Name" class="@activeClass">
                     @item.Name
                 </a>
             </h4>

@@ -7,49 +7,58 @@
         <!-- Product Name and Price on the same row -->
         <div class="row mb-3">
             <div class="col-md-6">
-                <label asp-for="Name" class="form-label">Product Name</label>
-                <input asp-for="Name" class="form-control" placeholder="Enter product name" />
+                <label asp-for="Name" class="form-label">Tên sản phẩm</label>
+                <input asp-for="Name" class="form-control" placeholder="Nhập tên sản phẩm" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label asp-for="Price" class="form-label">Price</label>
-                <input asp-for="Price" class="form-control" placeholder="Enter price" />
+                <label asp-for="Price" class="form-label">Giá</label>
+                <input asp-for="Price" class="form-control" placeholder="Nhập giá" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
         </div>
 
         <!-- Thumbnail -->
         <div class="mb-3">
-            <label asp-for="ThumbnailFile" class="form-label">Thumbnail URL</label>
-            <input asp-for="ThumbnailFile" class="form-control" placeholder="Enter thumbnail URL" />
+            <label asp-for="ThumbnailFile" class="form-label">Thêm ảnh</label>
+            <input asp-for="ThumbnailFile" class="form-control" placeholder="Thêm ảnh" />
             <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
         </div>
 
         <!-- Description -->
         <div class="mb-3">
-            <label asp-for="Description" class="form-label">Description</label>
-            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter product description"></textarea>
+            <label asp-for="Description" class="form-label">Mô tả</label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Nhập mô tả"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="row">
             <div class="form-group col-md-3">
-                <label asp-for="CategoryId" class="control-label"></label>
+                <label asp-for="CategoryId" class="control-label">Danh mục</label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group col-md-3">
-                <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
-                <span asp-validation-for="Color" class="text-danger"></span>
+                <label for="Color" class="control-label">Màu sắc</label>
+                <select asp-for="Color" class="form-control">
+                    @foreach (var color in ViewBag.Colors as List<string>)
+                    {
+                        <option value="@color">@color</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="Size" class="control-label">Size</label>
+                <select asp-for="Size" class="form-control">
+                    @foreach (var size in ViewBag.Sizes as List<string>)
+                    {
+                        <option value="@size">@size</option>
+                    }
+                </select>
             </div>
             <div class="form-group col-md-3">
-                <label asp-for="Size" class="control-label"></label>
-                <input asp-for="Size" class="form-control" />
-                <span asp-validation-for="Size" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-3">
-                <label asp-for="Quantity" class="control-label"></label>
+                <label asp-for="Quantity" class="control-label">Số lượng</label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>

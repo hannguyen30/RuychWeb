@@ -70,7 +70,7 @@ app.UseAuthorization();
 app.UseMiddleware<DatabaseInitializerMiddleware>();
 
 app.MapControllerRoute(
-    name: "Areas",
+    name: "area",
     pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}");
 
 app.MapControllerRoute(

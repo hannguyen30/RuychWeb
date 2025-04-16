@@ -1,0 +1,287 @@
+﻿@using RuychWeb.Models.DTO
+@model IEnumerable<Product>
+
+<div class="col-sm-3">
+    <partial name="_SideBar" />
+</div>
+
+<style>
+    .price-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .sale-price {
+        font-size: 1.5em;
+        margin: 0;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: black;
+        font-size: 1.2em;
+        margin: 0;
+    }
+
+    p {
+        margin: 10px 0 0 0;
+    }
+
+    .out-of-stock {
+        position: relative; /* Để các phần tử trong nằm đúng vị trí */
+        pointer-events: none; /* Ngừng các sự kiện hover */
+        opacity: 0.5; /* Làm mờ sản phẩm hết hàng */
+    }
+
+    .out-of-stock-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 0, 0, 0.8);
+        color: #fff;
+        padding: 8px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 4px;
+        z-index: 10;
+    }
+
+    .out-of-stock img {
+        opacity: 0.4;
+    }
+
+    .out-of-stock {
+        position: relative; /* Để các phần tử trong nằm đúng vị trí */
+        pointer-events: none; /* Ngừng các sự kiện hover */
+        opacity: 0.5; /* Làm mờ sản phẩm hết hàng */
+    }
+
+    #slider {
+        display: none;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        margin-bottom: 20px;
+    }
+
+        .filter-group .form-group,
+        .filter-group .filter-price {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+</style>
+
+<div class="col-sm-9 padding-right">
+    @if (!string.IsNullOrEmpty(ViewBag.SearchText))
+    {
+        <h2 class="title text-center search-title">Kết quả tìm kiếm cho: "@ViewBag.SearchText"</h2>
+    }
+    else
+    {
+        <h2 class="title text-center">TẤT CẢ SẢN PHẨM</h2>
+    }
+
+    <div class="filter-group">
+        <div class="form-group">
+            <label for="sortSelect">Sắp xếp theo:</label>
+            <select id="sortSelect" class="form-control">
+                <option value="">-- Mặc định --</option>
+                <option value="price_increase">Giá tăng dần</option>
+                <option value="price_decrease">Giá giảm dần</option>
+            </select>
+        </div>
+
+        <div class="filter-price">
+            <label for="priceRange">Lọc theo giá:</label>
+            <div id="priceSlider"></div>
+            <span id="priceRangeValue">0₫ - 5,000,000₫</span>
+        </div>
+    </div>
+    <div class="features_items">
+        <!-- features_items -->
+    </div>
+
+    <div id="pagination">
+        <ul class="pagination"></ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            loadProducts(1); // Tải sản phẩm khi trang được load
+
+            const priceSlider = document.getElementById('priceSlider');
+            const priceRangeValue = document.getElementById('priceRangeValue');
+            const sortSelect = document.getElementById('sortSelect');
+            const searchInput = document.getElementById("searchInput");
+
+            // Khởi tạo thanh trượt giá
+            noUiSlider.create(priceSlider, {
+                start: [0, 5000000],
+                connect: true,
+                range: {
+                    min: 0,
+                    max: 5000000
+                },
+                step: 100000,
+                format: {
+                    to: function (value) {
+                        return value.toLocaleString('vi-VN') + "₫";
+                    },
+                    from: function (value) {
+                        return value.replace('₫', '').replace(',', '');
+                    }
+                }
+            });
+
+            // Cập nhật giá trị hiển thị khi người dùng kéo thanh trượt
+            priceSlider.noUiSlider.on('update', function (values) {
+                priceRangeValue.innerHTML = values[0] + " - " + values[1];
+                loadProducts(1); // Gọi lại hàm loadProducts khi có sự thay đổi
+            });
+
+            // Lắng nghe sự kiện thay đổi sắp xếp
+            sortSelect.addEventListener("change", function () {
+                loadProducts(1);
+            });
+
+            // Lắng nghe sự kiện tìm kiếm
+            if (searchInput) {
+                searchInput.addEventListener("input", function () {
+                    loadProducts(1); // Lọc sản phẩm khi có thay đổi trong tìm kiếm
+                });
+
+                searchInput.addEventListener("keydown", function (event) {
+                    if (event.key === 'Enter') {
+                        const searchText = searchInput.value.trim();
+                        if (searchText !== "") {
+                            window.location.href = `/Product/Index?searchText=${encodeURIComponent(searchText)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Hàm load sản phẩm
+        async function loadProducts(page, searchText = '') {
+            try {
+                const searchQuery = new URLSearchParams(window.location.search).get('searchText') || searchText;
+                const sortBy = document.getElementById("sortSelect")?.value || "";
+                const parseCurrency = (val) =>
+                parseFloat(val.replace(/\./g, "").trim()) || 0;
+                const priceRange = priceSlider.noUiSlider.get(); // Lấy giá trị từ thanh trượt
+                const minPrice = parseCurrency(priceRange[0]);
+                const maxPrice = parseCurrency(priceRange[1]);
+
+                const response = await fetch(`/Product/GetList?page=${page}&searchText=${encodeURIComponent(searchQuery)}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort_by=${sortBy}`);
+                const result = await response.json();
+                const featuresItems = $('.features_items');
+                featuresItems.empty();
+                if (result.data.length === 0) {
+                    featuresItems.append('<p>Không tìm thấy sản phẩm nào phù hợp.</p>');
+                }
+
+                result.data.forEach(function (item) {
+
+                    let isOutOfStock = true;
+                    let totalQuantity = 0;
+
+                    if (item.colors && item.colors.length > 0) {
+                        item.colors.forEach(color => {
+                            if (color.sizes && color.sizes.length > 0) {
+                                color.sizes.forEach(size => {
+                                    totalQuantity += size.quantity || 0;
+                                });
+                            }
+                        });
+                    }
+
+                    if (totalQuantity > 0) {
+                        isOutOfStock = false;
+                    }
+
+                    const discount = item.saleDetails && item.saleDetails.length > 0 ? item.saleDetails[0].discount : 0;
+                    let salePrice = 0;
+                    if (discount > 0) {
+                        if (discount < 100) {
+                            salePrice = item.price - (item.price * discount / 100);
+                        } else if (discount > 1000) {
+                            salePrice = item.price - discount;
+                        }
+                    }
+
+                    const productHTML = `
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center position-relative ${isOutOfStock ? 'out-of-stock' : ''}">
+                                        <img src="/images/Products/${item.thumbnail}" alt="${item.name}" width="100%" />
+                                        ${isOutOfStock ? `<div class="out-of-stock-label">Hết hàng</div>` : ''}
+                                        <p>${item.name}</p>
+                                        ${salePrice > 0
+                                            ? `<h2 class="sale-price">${salePrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>
+                                                <h4 class="original-price" style="text-decoration: line-through; color: black;">${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h4>`
+                                            : `<h2>${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>`
+                                        }
+                                    </div>
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            ${!isOutOfStock
+                                                ? `<a href="/Product/Detail/${item.productId}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Mua ngay!</a>`
+                                                : ''
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào yêu thích</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`;
+
+                    featuresItems.append(productHTML);
+                });
+
+                Pagination(result.currentPage, result.totalPages);
+            } catch (error) {
+                console.error("Error loading products:", error);
+            }
+        }
+
+        // Hàm phân trang
+        function Pagination(currentPage, totalPages) {
+            var paginationHtml = '<ul class="pagination">';
+            if (totalPages > 1) {
+                paginationHtml += '<li class="page-item ' + (currentPage === 1 ? 'disabled' : '') + '">';
+                paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
+                paginationHtml += 'onclick="' + (currentPage !== 1 ? `loadProducts(${currentPage - 1})` : '') + '">Trước</a></li>';
+
+                for (var i = 1; i <= totalPages; i++) {
+                    paginationHtml += '<li class="page-item ' + (currentPage === i ? 'active' : '') + '">';
+                    paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
+                    paginationHtml += `onclick="loadProducts(${i})">${i}</a></li>`;
+                }
+
+                paginationHtml += '<li class="page-item ' + (currentPage === totalPages ? 'disabled' : '') + '">';
+                paginationHtml += '<a class="page-link" href="javascript:void(0);" ';
+                paginationHtml += 'onclick="' + (currentPage !== totalPages ? `loadProducts(${currentPage + 1})` : '') + '">Sau</a></li>';
+            }
+            paginationHtml += '</ul>';
+
+            $('#pagination').html(paginationHtml);
+        }
+    </script>
+}

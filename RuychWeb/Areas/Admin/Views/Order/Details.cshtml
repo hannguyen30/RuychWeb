@@ -1,0 +1,225 @@
+﻿@model RuychWeb.Areas.Admin.Models.OrderManagerViewModel
+
+@{
+    string statusClass = Model.OrderStatus switch
+    {
+        "Chờ xác nhận" => "bg-secondary text-white",
+        "Đã xác nhận" => "bg-info text-white",
+        "Yêu cầu hủy" => "bg-warning text-white",
+        "Đang giao hàng" => "bg-primary text-white",
+        "Giao hàng thành công" => "bg-warning text-white",
+        "Đã hoàn thành" => "bg-success text-white",
+        "Đã hủy" => "bg-danger text-white",
+        _ => "bg-light text-dark"
+    };
+}
+
+<h3 class="text-primary mb-4">Chi tiết đơn hàng #@Model.OrderId</h3>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+
+        <!-- Thông tin khách hàng và địa chỉ -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Khách hàng:</strong> @Model.Name<br />
+                <strong>SĐT:</strong> @Model.Phone<br />
+                <strong>Địa chỉ: @Model.Address</strong>
+                <span id="address-@Model.OrderId" class="address-info" data-tinh="@Model.Province" data-quan="@Model.District" data-phuong="@Model.Ward"></span><br />
+            </div>
+            <div class="col-md-6">
+                <strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy")<br />
+                <strong>Ngày hoàn thành:</strong>
+                @if (Model.CompletedDate != null)
+                {
+                    @Model.CompletedDate.Value.ToString("dd/MM/yyyy")
+                }
+                else
+                {
+                    <span>Chưa hoàn thành</span>
+                }
+                <br />
+                <strong>Phương thức thanh toán:</strong> @Model.PaymentMethod<br />
+                <strong>Trạng thái thanh toán:</strong>
+                @if (Model.PaymentStatus == "Đã thanh toán")
+                {
+                    <span style="background-color: #d4edda; color:  forestgreen; border-radius: 5px;">
+                        @Model.PaymentStatus
+                    </span>
+                }
+                else
+                {
+                    <span style="background-color: #6c757d; color: #fff;  border-radius: 5px;">
+                        @Model.PaymentStatus
+                    </span>
+                }
+                <br />
+                <strong>Trạng thái đơn hàng:</strong> <span class="badge @statusClass">@Model.OrderStatus</span><br />
+                @if (!string.IsNullOrEmpty(Model.CancelReason))
+                {
+                    <strong class="text-danger">Lý do hủy:</strong> @Model.CancelReason
+                }
+            </div>
+        </div>
+
+        <hr />
+        <h5 class="text-secondary mb-3">Sản phẩm đã đặt</h5>
+
+        <!-- Bảng sản phẩm -->
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Ảnh</th>
+                    <th>Sản phẩm</th>
+                    <th>Màu</th>
+                    <th>Size</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+                {
+                    var index = 1;
+                    foreach (var item in Model.OrderDetails)
+                    {
+                        var price = item.Price; // Ensure price is a non-null decimal (default to 0 if null)
+                        var discount = Model.Discount ?? 0; // Ensure discount is a non-null decimal (default to 0 if null)
+                        decimal discountedPrice = 0;
+
+                        // Check if the discount is a percentage or a fixed amount
+                        if (discount < 100)
+                        {
+                            // Apply percentage discount
+                            discountedPrice = price - price * discount / 100;
+                        }
+                        else if (discount >= 1000)
+                        {
+                            // Apply fixed amount discount
+                            discountedPrice = price - discount;
+                        }
+
+                        decimal totalPrice = discountedPrice * item.Quantity;
+
+                        <tr>
+                            <td>@index</td>
+                            <td><img style="height:50px; width:50px" src="/images/Products/@item.ProductDetail.Color.Product.Thumbnail" /></td>
+                            <td>@item.ProductDetail.Color.Product.Name</td>
+                            <td>@item.ProductDetail.Color.Name</td>
+                            <td>@item.ProductDetail.Size</td>
+                            <td>@item.Quantity</td>
+                            <td>@discountedPrice.ToString("N0") VND</td>
+                            <td>@totalPrice.ToString("N0") VND</td>
+                        </tr>
+                        index++;
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="7" class="text-center text-muted">Không có sản phẩm nào.</td></tr>
+                }
+
+            </tbody>
+        </table>
+
+        <!-- Phí giao hàng -->
+        <div class="text-end mt-4">
+            <h5>
+                Phí giao hàng:
+                <span id="shippingFee-@Model.OrderId" style="font-weight: bold;"></span><br />
+                Tổng tiền:
+                <span style="font-weight: bold; color:red">@Model.TotalFee.ToString("N0") VNĐ</span><br />
+            </h5>
+        </div>
+
+        <!-- Nút quay lại -->
+        <div class="mt-4">
+            <a href="/Admin/Order/Index" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Hàm cập nhật phí giao hàng
+        async function updateShippingFee(orderId, city, district, ward) {
+            try {
+                if (city && district && ward &&
+                    city !== "Chọn Tỉnh/Thành Phố" &&
+                    district !== "Chọn Quận/Huyện" &&
+                    ward !== "Chọn Phường/Xã") {
+
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: "/Admin/Shipping/GetShippingFee",
+                        data: {
+                            city: city,
+                            district: district,
+                            ward: ward
+                        }
+                    });
+
+                    console.log("Phí ship đơn hàng #" + orderId + ":", response);
+
+                    if (response.success) {
+                        const fee = response.shippingFee;
+                        const formattedFee = fee.toLocaleString() + " VND";
+
+                        // Gán phí ship vào thẻ div tương ứng
+                        $("#shippingFee-" + orderId).text(formattedFee);
+                    } else {
+                        $("#shippingFee-" + orderId).text("Không lấy được phí ship");
+                    }
+                }
+            } catch (error) {
+                console.error("Lỗi khi lấy phí ship cho đơn hàng #" + orderId, error);
+                $("#shippingFee-" + orderId).text("Lỗi khi tính phí");
+            }
+        }
+
+        // Hàm lấy tên địa chỉ và cập nhật
+        async function fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId) {
+            try {
+                const tinhRes = await fetch('https://esgoo.net/api-tinhthanh/1/0.htm');
+                const tinhData = await tinhRes.json();
+                const tinh = tinhData.data.find(t => t.id === tinhId);
+
+                const quanRes = await fetch(`https://esgoo.net/api-tinhthanh/2/${tinhId}.htm`);
+                const quanData = await quanRes.json();
+                const quan = quanData.data.find(q => q.id === quanId);
+
+                const phuongRes = await fetch(`https://esgoo.net/api-tinhthanh/3/${quanId}.htm`);
+                const phuongData = await phuongRes.json();
+                const phuong = phuongData.data.find(p => p.id === phuongId);
+
+                const fullAddress =  `${phuong.full_name}, ${quan.full_name}, ${tinh.full_name}`;
+                document.getElementById(`address-${orderId}`).textContent = fullAddress;
+
+                // Gọi tính phí ship
+                updateShippingFee(orderId, tinh.full_name, quan.full_name, phuong.full_name);
+
+            } catch (err) {
+                console.error("Lỗi lấy địa chỉ đơn hàng #" + orderId, err);
+            }
+        }
+
+        // Duyệt qua tất cả các thẻ .address-info và gọi API cho từng đơn hàng
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.address-info').forEach(function (addressElement) {
+                const tinhId = addressElement.getAttribute('data-tinh');
+                const quanId = addressElement.getAttribute('data-quan');
+                const phuongId = addressElement.getAttribute('data-phuong');
+                const orderId = addressElement.id.split('-')[1]; // Lấy ID đơn hàng từ id của phần tử
+
+                // Gọi API lấy thông tin địa chỉ
+                if (tinhId && quanId && phuongId) {
+                    fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId);
+                } else {
+                    console.error("Dữ liệu tỉnh, quận, phường không đầy đủ.");
+                }
+            });
+        });
+    </script>
+}

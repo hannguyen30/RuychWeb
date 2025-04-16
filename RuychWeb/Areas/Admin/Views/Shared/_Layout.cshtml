@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿﻿@using Microsoft.AspNetCore.Identity
+@using RuychWeb.Models.Domain
+@inject SignInManager<Account> SignInManager
+@inject UserManager<Account> UserManager
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -36,7 +40,7 @@
             <li class="nav-item active">
                 <a class="nav-link" asp-action="Index" asp-area="Admin">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <span>Admin</span>
                 </a>
             </li>
 
@@ -46,26 +50,32 @@
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span>
+                    <span>Chart</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-area="Admin" asp-controller="Infor">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Account List</span>
+                    <span>Quản lý tài khoản</span>
                 </a>
             </li>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-area="Admin" asp-controller="Product">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Product List</span>
+                    <span>Quản lý sản phẩm</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index" asp-area="Admin" asp-controller="Order">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Quản lý đơn hàng</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-area="Admin" asp-controller="Shipping">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Shipping Fee</span>
+                    <span>Quản lý phí ship</span>
                 </a>
             </li>
             <!-- Divider -->
@@ -250,33 +260,30 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                     src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
+                            <p class="nav-link dropdown-toggle" id="userDropdown">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.GetUserAsync(User);
+                                    @if (user != null)
+                                    {
+                                        var roles = await UserManager.GetRolesAsync(user);
+                                        @if (roles.Contains("Admin"))
+                                        {
+
+                                            <i class="fa fa-user"></i>
+
+                                            <span>@user.UserName</span>
+
+                                        }
+                                        else if (roles.Contains("Staff"))
+                                        {
+
+                                            <i class="fa fa-user"></i> <span>@user.UserName</span>
+
+                                        }
+                                    }
+                                }
+                            </p>
                         </li>
 
                     </ul>
@@ -348,7 +355,7 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
-    @await RenderSectionAsync("Scripts", required:false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

@@ -1,0 +1,326 @@
+﻿@using RuychWeb.Models.ViewModels
+@model OrderLookupViewModel
+
+<style>
+    #slider {
+        display: none;
+    }
+
+    .orders-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .order-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        font-size: 1rem;
+        transition: transform 0.2s;
+    }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        font-size: 1.5rem;
+    }
+
+    .order-status {
+        text-align: right;
+    }
+
+        .order-status .badge {
+            font-size: 1.3rem;
+        }
+
+    .recipient-info, .total-section {
+        font-size: 1.2rem;
+    }
+
+        .total-section .total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+    .product-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+    }
+
+        .product-item img {
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+    .order-divider {
+        border-top: 1px solid #eee;
+        margin: 12px 0;
+    }
+
+    .lookup-form {
+        max-width: 500px;
+        margin: 24px auto;
+        padding: 24px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .lookup-form label {
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .lookup-form input.form-control {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: none;
+        }
+
+        .lookup-form button.btn {
+            width: 100%;
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+    .lookup-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+
+    .lookup-form-container {
+        flex: 1 1 400px;
+        max-width: 500px;
+    }
+
+    .order-result-container {
+        flex: 2 1 600px;
+    }
+</style>
+<div class="lookup-wrapper">
+    <div class="lookup-form-container">
+        <h2 class="text-center mt-4 mb-3">Tra cứu đơn hàng</h2>
+
+        <div class="lookup-form">
+            <form asp-action="LookupOrder" method="post">
+                <label for="OrderId">Mã đơn hàng:</label>
+                <input type="number" asp-for="OrderId" class="form-control" />
+
+                <label for="Phone">Số điện thoại:</label>
+                <input type="text" asp-for="Phone" class="form-control" />
+
+                <button type="submit" class="btn btn-primary mt-2">Tra cứu</button>
+            </form>
+        </div>
+
+    </div>
+    @if (Model.NotFound)
+    {
+        <div class="alert alert-danger mt-3">Không tìm thấy đơn hàng.</div>
+    }
+    <div class="order-result-container">
+        @if (Model.OrderResult != null)
+        {
+            <div class="order-card mt-4">
+                <!-- Header -->
+                <div class="order-header">
+                    <div>
+                        <strong>Mã đơn hàng:</strong> #@Model.OrderId <br />
+                        <small class="text-muted">Ngày đặt: @Model.OrderResult.CreatedDate.ToString("dd/MM/yyyy")</small> <br />
+                        <small class="text-muted">
+                            Ngày hoàn thành:
+                            @if (@Model.OrderResult.CompletedDate != null)
+                            {
+                                @Model.OrderResult.CompletedDate.Value.ToString("dd/MM/yyyy")
+                            }
+                            else
+                            {
+                                <span>Chưa hoàn thành</span>
+                            }
+                        </small>
+                    </div>
+                    <div class="text-end order-status">
+                        <span class="badge" style="background-color: @(@Model.OrderResult.OrderStatus switch
+                                {
+                                    "Chờ xác nhận" => "#6c757d",  // bg-secondary
+                                    "Đã xác nhận" => "#17a2b8",  // bg-info
+                                    "Đang giao hàng" => "#007bff",  // bg-primary
+                                    "Giao hàng thành công" => "#ffc107",  // bg-warning
+                                    "Đã hoàn thành" => "#28a745",  // bg-success
+                                    "Đã hủy" => "#dc3545",  // bg-danger
+                                    _ => "#f8f9fa"  // bg-light
+                                });
+                                color: white;">
+                            @Model.OrderResult.OrderStatus
+                        </span><br />
+                        <small class="text-muted">Thanh toán: @Model.OrderResult.PaymentStatus</small>
+
+                    </div>
+                </div>
+
+                <!-- Thông tin người nhận -->
+                <div class="recipient-info mt-3">
+                    <strong>Người nhận:</strong> @Model.OrderResult.Name <br />
+                    <strong>SĐT:</strong> @Model.Phone <br />
+                    <strong>Địa chỉ:</strong> @Model.OrderResult.Address
+                    <div class="address-info"
+                         data-tinh="@Model.OrderResult.Province"
+                         data-quan="@Model.OrderResult.District"
+                         data-phuong="@Model.OrderResult.Ward"
+                         id="address-@Model.OrderId">
+                    </div>
+                </div>
+
+                <div class="order-divider my-3"></div>
+
+                <!-- Thông tin sản phẩm -->
+                @{
+                    var item = Model.OrderResult.OrderDetails.FirstOrDefault();
+                    decimal discountedPrice = 0;
+                    decimal totalPrice = 0;
+
+                    if (item != null)
+                    {
+                        decimal price = item.Price;
+                        decimal discount = (decimal)item.Discount;
+
+                        discountedPrice = discount < 100 ? price * (1 - discount / 100)
+                        : (discount >= 1000 ? price - discount : price);
+
+                        totalPrice = discountedPrice * item.Quantity;
+                    }
+                }
+
+                @if (item != null)
+                {
+                    <div class="product-item">
+                        <div class="d-flex" style="gap: 12px;">
+                            <img src="/images/Products/@item.ImageUrl" alt="@item.ProductName" width="64" height="64" />
+                            <div>
+                                <strong>@item.ProductName</strong><br />
+                                <small>Màu: @item.ColorName | Size: @item.Size</small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            SL: @item.Quantity <br />
+                            <strong>@String.Format("{0:N0}", totalPrice)₫</strong>
+                        </div>
+                    </div>
+                }
+
+                <div class="order-divider my-3"></div>
+
+                <!-- Tổng tiền -->
+                <div class="total-section">
+                    <div id="shippingFee-@Model.OrderId">
+                        Phí giao hàng: Đang tính...
+                    </div>
+                    <div class="total-section">
+                        <div><strong>Tổng cộng:</strong> <span class="total">@Model.OrderResult.TotalFee.ToString("N0")₫</span></div>
+                    </div>
+                    @if (Model.OrderResult.OrderStatus == "Chờ xác nhận" || Model.OrderResult.OrderStatus == "Đã xác nhận")
+                    {
+                        <form asp-action="CancelOrder" method="post" style="display:inline-block; margin-top: 10px;">
+                            <input type="hidden" name="OrderId" value="@Model.OrderId" />
+                            <label for="cancelReason">Lý do hủy:</label>
+                            <input type="text" name="CancelReason" id="cancelReason" class="form-control" placeholder="Nhập lý do hủy đơn hàng" required />
+                            <button type="submit" class="btn btn-danger btn-sm mt-2">Yêu cầu hủy</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        async function fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId) {
+            try {
+                const tinhRes = await fetch('https://esgoo.net/api-tinhthanh/1/0.htm');
+                const tinhData = await tinhRes.json();
+                const tinh = tinhData.data.find(t => t.id === tinhId);
+
+                const quanRes = await fetch(`https://esgoo.net/api-tinhthanh/2/${tinhId}.htm`);
+                const quanData = await quanRes.json();
+                const quan = quanData.data.find(q => q.id === quanId);
+
+                const phuongRes = await fetch(`https://esgoo.net/api-tinhthanh/3/${quanId}.htm`);
+                const phuongData = await phuongRes.json();
+                const phuong = phuongData.data.find(p => p.id === phuongId);
+
+                const fullAddress = `${tinh.full_name}, ${quan.full_name}, ${phuong.full_name}`;
+                document.getElementById(`address-${orderId}`).textContent = fullAddress;
+
+                updateShippingFee(orderId, tinh.full_name, quan.full_name, phuong.full_name);
+            } catch (err) {
+                console.error("Lỗi lấy địa chỉ đơn hàng #" + orderId, err);
+            }
+        }
+
+        async function updateShippingFee(orderId, city, district, ward) {
+            try {
+                if (city && district && ward) {
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: "/Admin/Shipping/GetShippingFee",
+                        data: {
+                            city: city,
+                            district: district,
+                            ward: ward
+                        }
+                    });
+
+                    if (response.success) {
+                        const fee = response.shippingFee;
+                        const formattedFee = fee.toLocaleString() + " VND";
+                        $("#shippingFee-" + orderId).text("Phí giao hàng: " + formattedFee);
+
+                        const subtotal = parseFloat($("#subtotal-" + orderId).data("value") || 0);
+                        const total = subtotal + fee;
+                        $("#total-" + orderId).text(total.toLocaleString() + " VND");
+                    } else {
+                        $("#shippingFee-" + orderId).text("Không lấy được phí ship");
+                    }
+                }
+            } catch (error) {
+                console.error("Lỗi khi lấy phí ship cho đơn hàng #" + orderId, error);
+                $("#shippingFee-" + orderId).text("Lỗi khi tính phí");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.address-info').forEach(function (el) {
+                const tinhId = el.getAttribute("data-tinh");
+                const quanId = el.getAttribute("data-quan");
+                const phuongId = el.getAttribute("data-phuong");
+                const orderId = el.id.split("-")[1];
+
+                if (tinhId && quanId && phuongId) {
+                    fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId);
+                }
+            });
+        });
+    </script>
+}
