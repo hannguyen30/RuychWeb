@@ -122,10 +122,6 @@ button#checkout-btn {
     border-color: #0d6efd;
 }
 
-#slider {
-    display: none;
-}
-
 .quantity-wrapper {
     position: relative;
     max-width: 200px;
@@ -275,9 +271,7 @@ button#checkout-btn {
     border-top: 1px dashed #ccc;
 }
 
-#slider {
-    display: none;
-}
+
 
 .order-checkout-page .form-group input,
 .order-checkout-page .form-group select {

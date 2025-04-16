@@ -6,376 +6,551 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Home | Ruych Studio</title>
-	<link href="~/css/bootstrap.min.css" rel="stylesheet">
-	<link href="~/css/font-awesome.min.css" rel="stylesheet">
-	<link href="~/css/prettyPhoto.css" rel="stylesheet">
-	<link href="~/css/price-range.css" rel="stylesheet">
-	<link href="~/css/animate.css" rel="stylesheet">
-	<link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
-	<link href="~/css/responsive.css" rel="stylesheet" asp-append-version="true">
-	<link href="~/css/custom.css" rel="stylesheet" asp-append-version="true">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Ruych Studio</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/prettyPhoto.css" rel="stylesheet">
+    <link href="~/css/price-range.css" rel="stylesheet">
+    <link href="~/css/animate.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/responsive.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/custom.css" rel="stylesheet" asp-append-version="true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css">
 
-	<!--[if lt IE 9]>
-	<script src="js/html5shiv.js"></script>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
-	<link rel="shortcut icon" href="images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <!-- Thêm JavaScript của noUiSlider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    <style>
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            z-index: 1000;
+            width: 250px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background 0.2s;
+        }
+
+            .search-item:last-child {
+                border-bottom: none;
+            }
+
+            .search-item:hover {
+                background: #f9f9f9;
+            }
+
+            .search-item a {
+                display: flex;
+                text-decoration: none;
+                color: inherit;
+                width: 100%;
+            }
+
+            .search-item img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+
+            .search-item .info {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+                .search-item .info h5 {
+                    font-size: 14px;
+                    margin: 0;
+                    font-weight: 500;
+                }
+
+                .search-item .info p {
+                    font-size: 13px;
+                    color: #888;
+                    margin: 2px 0 0;
+                }
+
+        .price {
+            margin: 4px 0 0;
+            font-size: 13px;
+        }
+
+        span.sale {
+            position: relative;
+        }
+
+        .price .sale {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .price .original {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* Sáng lên khi focus */
+        #searchInput {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            width: 100%;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+            #searchInput:focus {
+                border-color: #ff5e57;
+                box-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
+                outline: none;
+            }
+
+        .out-of-stock {
+            opacity: 0.5; /* Làm mờ sản phẩm */
+            pointer-events: none; /* Tắt các sự kiện chuột, ngừng click */
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
-	<header id="header">
-		<!--header-->
-		<div class="header_top">
-			<!--header_top-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="contactinfo">
-							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +0379034609</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> jeanruych@gmail.com</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="social-icons pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="https://www.facebook.com/ruychstudio"><i class="fab fa-facebook"></i></a></li>
-								<li><a href="https://www.instagram.com/ruych.studio"><i class="fab fa-instagram"></i></a></li>
-								<li><a href="https://shopee.vn/ruych.studio"><i class="fa fa-shopping-bag"></i></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header_top-->
+    <header id="header">
+        <!--header-->
+        <div class="header_top">
+            <!--header_top-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="contactinfo">
+                            <ul class="nav nav-pills">
+                                <li><a href="#"><i class="fa fa-phone"></i> +0379034609</a></li>
+                                <li><a href="#"><i class="fa fa-envelope"></i> jeanruych@gmail.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="social-icons pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a href="https://www.facebook.com/ruychstudio"><i class="fab fa-facebook"></i></a></li>
+                                <li><a href="https://www.instagram.com/ruych.studio"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://shopee.vn/ruych.studio"><i class="fa fa-shopping-bag"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header_top-->
 
-		<div class="header-middle">
-			<!--header-middle-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a asp-action="Index" asp-controller="Home"><img class="logo_ruych" src="~/images/logo.jpg" /></a>
-						</div>
-					</div>
-					<div class="col-sm-8">
-						<div class="shop-menu pull-right">
-							<ul class="nav navbar-nav">
-								<li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+        <div class="header-middle">
+            <!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo pull-left">
+                            <a asp-action="Index" asp-controller="Home"><img class="logo_ruych" src="~/images/logo.jpg" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="shop-menu pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
 
-								@if (User.Identity.IsAuthenticated)
-								{
-									var user = await UserManager.GetUserAsync(User);
-									if (user != null)
-									{
-										<li class="dropdown">
-											<a href="#" class="dropdown-toggle">
-												Chào mừng - @user.UserName <i class="fa fa-angle-down"></i>
-											</a>
-											<ul class="sub-menu">
-												@{
-													var roles = await UserManager.GetRolesAsync(user);
-												}
-												@if (roles.Contains("Admin"))
-												{
-													<li>
-														<a asp-controller="Admin" class="linkacc">
-															<i class="fa fa-user"></i><span> Trang quản trị</span>
-														</a>
-													</li>
-												}
-												else if (roles.Contains("Customer"))
-												{
-													<li>
-														<a asp-action="MyProfile" asp-controller="UserInfor" class="linkacc">
-															<i class="fa fa-user"></i><span> Thông tin của bạn</span>
-														</a>
-													</li>
-												}
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.GetUserAsync(User);
+                                    if (user != null)
+                                    {
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle">
+                                                Chào mừng - @user.UserName <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                @{
+                                                    var roles = await UserManager.GetRolesAsync(user);
+                                                }
+                                                @if (roles.Contains("Admin"))
+                                                {
+                                                    <li>
+                                                        <a asp-controller="Admin" class="linkacc">
+                                                            <i class="fa fa-user"></i><span> Trang quản trị</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else if (roles.Contains("Customer"))
+                                                {
+                                                    <li>
+                                                        <a asp-action="MyProfile" asp-controller="UserInfor" class="linkacc">
+                                                            <i class="fa fa-user"></i><span> Thông tin của bạn</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a asp-action="OrderHistory" asp-controller="UserOrder" class="linkacc">
+                                                            <i class="fa fa-shopping-cart"></i><span> Lịch sử mua hàng</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else if (roles.Contains("Staff"))
+                                                {
+                                                    <li>
+                                                        <a asp-controller="Admin" class="linkacc">
+                                                            <i class="fa fa-user"></i><span> Trang quản trị</span>
+                                                        </a>
+                                                    </li>
+                                                }
 
-												<li>
-													<a asp-action="ChangePassword" asp-controller="Account" class="linkacc">
-														<i class="fa fa-unlock-alt"></i><span> Đổi mật khẩu</span>
-													</a>
-												</li>
-												<li>
-													<a asp-action="Logout" asp-controller="Account" class="linkacc">
-														<i class="fa fa-unlock"></i><span> Đăng xuất</span>
-													</a>
-												</li>
-											</ul>
-										</li>
+                                                <li>
+                                                    <a asp-action="ChangePassword" asp-controller="Account" class="linkacc">
+                                                        <i class="fa fa-unlock-alt"></i><span> Đổi mật khẩu</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Logout" asp-controller="Account" class="linkacc">
+                                                        <i class="fa fa-unlock"></i><span> Đăng xuất</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
 
-									}
-								}
-								else
-								{
-									<li>
-										<a asp-action="Login" asp-controller="Account">
-											<i class="fa fa-lock"></i> Đăng nhập
-										</a>
-									</li>
-								}
-							</ul>
-						</div>
-					</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a asp-action="Login" asp-controller="Account">
+                                            <i class="fa fa-lock"></i> Đăng nhập
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
 
-				</div>
-			</div>
-		</div><!--/header-middle-->
+                </div>
+            </div>
+        </div><!--/header-middle-->
 
-		<div class="header-bottom">
-			<!--header-bottom-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<div class="mainmenu pull-left">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a asp-action="Index" asp-controller="Home" class="active">Trang chủ</a></li>
-								<li class="dropdown">
-									<a href="#">Shop<i class="fa fa-angle-down"></i></a>
-									<ul role="menu" class="sub-menu">
-										<li><a href="shop.html">Sản phẩm</a></li>
-									</ul>
-								</li>
-								<li class="dropdown">
-									<a href="#">Blog<i class="fa fa-angle-down"></i></a>
-									<ul role="menu" class="sub-menu">
-										<li><a href="blog-single.html">Blog</a></li>
-									</ul>
-								</li>
-								<li><a href="contact-us.html">Liên hệ</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Tìm kiếm" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header-bottom-->
-	</header><!--/header-->
+        <div class="header-bottom">
+            <!--header-bottom-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="mainmenu pull-left">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li><a asp-action="Index" asp-controller="Home" class="active">Trang chủ</a></li>
+                                <li><a asp-action="Index" asp-controller="Product">Sản phẩm</a></li>
+                                <li><a asp-action="Contact" asp-controller="Home">Liên hệ</a></li>
+                                <li><a asp-action="LookupOrder" asp-controller="UserOrder">Tra cứu đơn hàng</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 position-relative">
+                        <div class="search_box position-relative">
+                            <input type="text" placeholder="Tìm kiếm sản phẩm..." id="searchInput" />
+                            <div class="search-results" id="searchResults"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header-bottom-->
+    </header><!--/header-->
 
-	<section id="slider">
-		<!--slider-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-							<li data-target="#slider-carousel" data-slide-to="1"></li>
-						</ol>
-						<div id="myCarousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">
-									<img src="images/Slide1.jpg" alt="Slide 1">
-								</div>
-								<div class="item">
-									<img src="images/Slide2.jpg" alt="Slide 2">
-								</div>
-					
-							</div>
-						</div>
+    <section id="slider">
+        <!--slider-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#slider-carousel" data-slide-to="1"></li>
+                        </ol>
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img src="images/Slide1.jpg" alt="Slide 1">
+                                </div>
+                                <div class="item">
+                                    <img src="images/Slide2.jpg" alt="Slide 2">
+                                </div>
 
-						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-							<i class="fa fa-angle-left"></i>
-						</a>
-						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-							<i class="fa fa-angle-right"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section><!--/slider-->
+                            </div>
+                        </div>
 
-	<section>
-		<div class="container">
-			<div class="row">
-				@RenderBody()
-			</div>
-		</div>
-	</section>
+                        <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/slider-->
 
-	<footer id="footer">
-		<!--Footer-->
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="companyinfo">
-							<h2><span></span>RUYCH</h2>
+    <section>
+        <div class="container">
+            <div class="row">
+                @RenderBody()
+            </div>
+        </div>
+    </section>
 
-						</div>
-					</div>
-					<div class="col-sm-7">
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe1.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>March 2025</h2>
-							</div>
-						</div>
+    <footer id="footer">
+        <!--Footer-->
 
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe2.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>March 2025</h2>
-							</div>
-						</div>
 
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe3.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>March 2025</h2>
-							</div>
-						</div>
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Dịch vụ</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Hỗ trợ trực tuyến</a></li>
+                                <li><a href="#">Liên hệ chúng tôi</a></li>
+                                <li><a href="#">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Sản phẩm</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">T-Shirt</a></li>
+                                <li><a href="#">Nam</a></li>
+                                <li><a href="#">Nữ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Chính sách</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Điều khoản sử dụng</a></li>
+                                <li><a href="#">Chính sách đặc biệt</a></li>
+                                <li><a href="#">Chính sách hoàn tiền</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Về Ruych</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Thông tin cửa hàng</a></li>
+                                <li><a href="#">Tuyển dụng</a></li>
+                                <li><a href="#">Địa điểm</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <div class="single-widget">
+                            <h2>Biết thêm về Ruych</h2>
+                            <form action="#" class="searchform">
+                                <input type="text" placeholder="Địa chỉ email" />
+                                <button type="submit" class="btn btn-default"><i class="fa fa fa-arrow-right"></i></button>
+                                <p>Biết được thông tin mới nhất <br />về cửa hàng...</p>
+                            </form>
+                        </div>
+                    </div>
 
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe4.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>March 2025</h2>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="address">
-							<img src="images/home/map.png" alt="" />
-							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
 
-		<div class="footer-widget">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>Dịch vụ</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Hỗ trợ trực tuyến</a></li>
-								<li><a href="#">Liên hệ chúng tôi</a></li>
-								<li><a href="#">FAQs</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>Sản phẩm</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">T-Shirt</a></li>
-								<li><a href="#">Nam</a></li>
-								<li><a href="#">Nữ</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>Chính sách</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Điều khoản sử dụng</a></li>
-								<li><a href="#">Chính sách đặc biệt</a></li>
-								<li><a href="#">Chính sách hoàn tiền</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>Về Ruych</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Thông tin cửa hàng</a></li>
-								<li><a href="#">Tuyển dụng</a></li>
-								<li><a href="#">Địa điểm</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-3 col-sm-offset-1">
-						<div class="single-widget">
-							<h2>Biết thêm về Ruych</h2>
-							<form action="#" class="searchform">
-								<input type="text" placeholder="Địa chỉ email" />
-								<button type="submit" class="btn btn-default"><i class="fa fa fa-arrow-right"></i></button>
-								<p>Biết được thông tin mới nhất <br />về cửa hàng...</p>
-							</form>
-						</div>
-					</div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <p class="pull-left">Copyright © 2025 Ruych Inc. All rights reserved.</p>
+                    <p class="pull-right">Designed by Ruych</p>
+                </div>
+            </div>
+        </div>
 
-				</div>
-			</div>
-		</div>
+    </footer><!--/Footer-->
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <script src="~/js/price-range.js"></script>
+    <script src="~/js/jquery.prettyPhoto.js"></script>
+    <script src="~/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+                   document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const searchResults = document.getElementById("searchResults");
+            let debounceTimeout = null;
 
-		<div class="footer-bottom">
-			<div class="container">
-				<div class="row">
-					<p class="pull-left">Copyright © 2025 Ruych Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by Han</p>
-				</div>
-			</div>
-		</div>
+            // Ẩn kết quả khi load trang
+            searchResults.style.display = "none";
 
-	</footer><!--/Footer-->
-	<script src="~/js/jquery.js"></script>
-	<script src="~/js/bootstrap.min.js"></script>
-	<script src="~/js/jquery.scrollUp.min.js"></script>
-	<script src="~/js/price-range.js"></script>
-	<script src="~/js/jquery.prettyPhoto.js"></script>
-	<script src="~/js/main.js"></script>
+            // Xử lý khi gõ vào ô input (gọi API tìm kiếm mà không chuyển hướng)
+            searchInput.addEventListener("input", function () {
+                const searchText = searchInput.value.trim();
 
-	@await RenderSectionAsync("Scripts", required: false)
+                if (searchText === "") {
+                    hideSearchResults();
+                    return;
+                }
+
+                // Thực hiện debounce để giảm số lần gọi API khi gõ nhanh
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(() => {
+                    fetchSearchResults(searchText);
+                }, 300); // Delay 300ms trước khi gọi API
+            });
+
+            // Kiểm tra khi nhấn "Enter" để chuyển hướng
+            searchInput.addEventListener("keydown", function (event) {
+                if (event.key === 'Enter') {
+                    const searchText = event.target.value.trim();
+                    if (searchText !== "") {
+                        // Chuyển hướng đến URL mới có chứa từ khóa tìm kiếm
+                        window.location.href = "/Product/Index?searchText=" + encodeURIComponent(searchText);
+                    }
+                }
+            });
+
+            // Ẩn khi click ra ngoài
+            document.addEventListener("click", function (e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    hideSearchResults();
+                }
+            });
+
+            // Hàm gọi API tìm kiếm
+            function fetchSearchResults(searchText) {
+                fetch("/Home/Search?searchText=" + encodeURIComponent(searchText))
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            renderResults(data);
+                        } else {
+                            hideSearchResults();
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Search error:", err);
+                        hideSearchResults();
+                    });
+            }
+
+            // Hàm render kết quả tìm kiếm
+            function renderResults(results) {
+                if (results.length === 0) {
+                    searchResults.innerHTML = "<p style='padding: 10px;'>Không tìm thấy sản phẩm nào.</p>";
+                    searchResults.style.display = "block";
+                    return;
+                }
+
+                let html = "";
+                results.forEach(item => {
+                    // Kiểm tra tình trạng hết hàng
+                    let isOutOfStock = true;
+                    let totalQuantity = 0;
+
+                    // Kiểm tra màu sắc và kích thước của sản phẩm để tính số lượng tồn kho
+                    if (item.colors && item.colors.length > 0) {
+                        item.colors.forEach(color => {
+                            if (color.sizes && color.sizes.length > 0) {
+                                color.sizes.forEach(size => {
+                                    totalQuantity += size.quantity || 0;
+                                });
+                            }
+                        });
+                    }
+
+                    // Nếu có tồn kho, sản phẩm không hết hàng
+                    if (totalQuantity > 0) {
+                        isOutOfStock = false;
+                    }
+
+                    let productClass = isOutOfStock ? "out-of-stock" : ""; // Nếu hết hàng, thêm class "out-of-stock"
+
+                    let price = item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    let discountedPrice = null;
+
+                    // Tính toán giá giảm (nếu có)
+                    if (item.saleDetails && item.saleDetails.length > 0) {
+                        const discount = item.saleDetails[0].discount;
+                        if (discount < 100) {
+                            discountedPrice = item.price - (item.price * discount / 100);
+                        } else if (discount > 1000) {
+                            discountedPrice = item.price - discount;
+                        }
+                    }
+
+                    html += `
+                        <div class="search-item ${productClass}">
+                            <a href="/Product/Detail/${item.productId}">
+                                <img src="/images/Products/${item.thumbnail}" alt="${item.name}" />
+                                <div class="info">
+                                    <h5>${item.name}</h5>
+                                    ${
+                                        discountedPrice
+                                            ? `<p class="price">
+                                                    <span class="sale">${discountedPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                                                    <span class="original">${price}</span>
+                                                </p>`
+                                            : `<p class="price">${price}</p>`
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                });
+
+                searchResults.innerHTML = html;
+                searchResults.style.display = "block";
+            }
+
+            // Hàm ẩn kết quả tìm kiếm
+            function hideSearchResults() {
+                searchResults.innerHTML = "";
+                searchResults.style.display = "none";
+            }
+        });
+
+    </script>
+
+
 </body>
 </html>

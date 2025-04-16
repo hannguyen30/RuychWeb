@@ -11,12 +11,12 @@
         <form asp-action="Edit" asp-route-id="@Model.ProductId" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Name" class="control-label"></label>
+                    <label asp-for="Name" class="control-label">Tên sản phẩm</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
-                    <label asp-for="Price" class="control-label"></label>
+                    <label asp-for="Price" class="control-label">Giá</label>
                     <input asp-for="Price" class="form-control" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
@@ -24,10 +24,10 @@
             @if (!string.IsNullOrEmpty(Model.Thumbnail))
             {
                 <div class="form-group">
-                    <label class="control-label">Current Thumbnail</label>
+                    <label class="control-label">Hình ảnh hiện tại</label>
                     <div>
                         <img src="@Url.Content("~/images/Products/" + Model.Thumbnail)" alt="Current Thumbnail" style="max-height: 100px; max-width: 100px;" />
-                        <p>Current image: @Model.Thumbnail</p>
+                        <p>Đường dẫn hiện tại: @Model.Thumbnail</p>
                     </div>
                 </div>
                 <!-- Nếu có ảnh rồi, hiển thị tên ảnh và không cần upload lại, chỉ upload nếu muốn thay đổi -->
@@ -37,38 +37,47 @@
             {
                 <!-- Nếu không có ảnh, cho phép người dùng tải lên mới -->
                 <div class="form-group">
-                    <label asp-for="ThumbnailFile" class="control-label">Upload New Thumbnail</label>
+                    <label asp-for="ThumbnailFile" class="control-label">Tạo ảnh mới</label>
                     <input asp-for="ThumbnailFile" class="form-control" type="file" />
                     <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
                 </div>
             }
 
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Mổ tả</label>
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-3">
-                    <label asp-for="CategoryId" class="control-label"></label>
+                    <label asp-for="CategoryId" class="control-label">Danh mục</label>
                     <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="Color" class="control-label"></label>
-                    <input asp-for="Color" class="form-control" />
-                    <span asp-validation-for="Color" class="text-danger"></span>
+                    <label for="Color" class="control-label">Màu sắc</label>
+                    <select asp-for="Color" class="form-control">
+                        @foreach (var color in ViewBag.Colors as List<string>)
+                        {
+                            <option value="@color">@color</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="Size" class="control-label">Size</label>
+                    <select asp-for="Size" class="form-control">
+                        @foreach (var size in ViewBag.Sizes as List<string>)
+                        {
+                            <option value="@size">@size</option>
+                        }
+                    </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="Size" class="control-label"></label>
-                    <input asp-for="Size" class="form-control" />
-                    
-                </div>
-                <div class="form-group col-md-3">
-                    <label asp-for="Quantity" class="control-label"></label>
+                    <label asp-for="Quantity" class="control-label">Số lượng</label>
                     <input asp-for="Quantity" class="form-control" />
-                   
+
                 </div>
             </div>
 

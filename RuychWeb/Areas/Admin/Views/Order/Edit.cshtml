@@ -1,0 +1,52 @@
+﻿@model RuychWeb.Areas.Admin.Models.OrderEditViewModel
+@{
+    ViewData["Title"] = "Chỉnh sửa đơn hàng";
+}
+
+@{
+    var statusList = new Dictionary<string, string>
+    {
+        { "Chờ xác nhận", "Chờ xác nhận" },
+        { "Đã xác nhận", "Đã xác nhận" },
+        { "Yêu cầu hủy", "Yêu cầu hủy" },
+        { "Đang giao hàng", "Đang giao hàng" },
+        { "Giao hàng thành công", "Giao hàng thành công" },
+        { "Đã hoàn thành", "Đã hoàn thành" },
+        { "Đã hủy", "Đã hủy" }
+    };
+}
+<h2>Chỉnh sửa đơn hàng @Model.OrderId</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="OrderId" />
+
+    <div class="form-group">
+        <label asp-for="OrderStatus"></label>
+        <select asp-for="OrderStatus" class="form-control">
+            @foreach (var status in statusList)
+            {
+                <option value="@status.Key" selected="@(Model.OrderStatus == status.Key ? "selected" : null)">
+                    @status.Value
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CancelReason"></label>
+        <input asp-for="CancelReason" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CompletedDate"></label>
+        <input asp-for="CompletedDate" type="datetime-local" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EmployeeId"></label>
+        <input asp-for="EmployeeId" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

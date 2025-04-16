@@ -1,0 +1,341 @@
+﻿@using RuychWeb.Models.ViewModels
+@model List<OrderHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+}
+
+<style>
+
+    #slider {
+        display: none;
+    }
+
+
+    .orders-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .order-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        font-size: 1rem;
+        transition: transform 0.2s;
+    }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        font-size: 1.5rem;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .order-status {
+        margin-left: auto;
+        text-align: right;
+    }
+
+        .order-status .badge {
+            font-size: 1.3rem;
+        }
+
+    .recipient-info, .total-section {
+        font-size: 1.2rem;
+    }
+
+        .total-section .total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+    .product-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+    }
+
+        .product-item img {
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+    .order-divider {
+        border-top: 1px solid #eee;
+        margin: 12px 0;
+    }
+
+</style>
+
+<div class="container mt-5">
+    <h4 class="mb-4">Lịch sử đơn hàng</h4>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Bạn chưa có đơn hàng nào hoàn thành.</div>
+    }
+    else
+    {
+        <div class="orders-grid">
+            @foreach (var order in Model)
+            {
+                <div class="order-card">
+                    <!-- Header -->
+                    <div class="order-header">
+                        <div>
+                            <strong>Mã đơn hàng:</strong> #@order.OrderId <br />
+                            <small class="text-muted">Ngày đặt: @order.CreatedDate.ToString("dd/MM/yyyy")</small><br />
+                            <small class="text-muted">Ngày hoàn thành: @order.CompletedDate.Value.ToString("dd/MM/yyyy")</small>
+                        </div>
+                        <div class="text-end order-status">
+                            <span class="badge" style="background-color: @(order.OrderStatus switch
+                                {
+                                    "Chờ xác nhận" => "#6c757d",  // bg-secondary
+                                    "Đã xác nhận" => "#17a2b8",  // bg-info
+                                    "Đang giao hàng" => "#007bff",  // bg-primary
+                                    "Giao hàng thành công" => "#ffc107",  // bg-warning
+                                    "Đã hoàn thành" => "#28a745",  // bg-success
+                                    "Đã hủy" => "#dc3545",  // bg-danger
+                                    _ => "#f8f9fa"  // bg-light
+                                });
+                                color: white;">
+                                @order.OrderStatus
+                            </span><br />
+                            <small class="text-muted">Thanh toán: @order.PaymentStatus</small>
+                        </div>
+
+                    </div>
+
+                    <!-- Thông tin người nhận -->
+                    <div class="recipient-info">
+                        <strong>Người nhận:</strong> @order.Name <br />
+                        <strong>SĐT:</strong> @order.Phone <br />
+                        <strong>Địa chỉ: @order.Address</strong>
+                        <div class="address-info"
+                             data-tinh="@order.Province"
+                             data-quan="@order.District"
+                             data-phuong="@order.Ward"
+                             id="address-@order.OrderId">
+                        </div>
+                    </div>
+
+                    <div class="order-divider"></div>
+
+                    <!-- Danh sách sản phẩm -->
+                    @foreach (var item in order.OrderDetails)
+                    {
+                        <div class="product-item">
+                            <div style="display: flex; gap: 12px;">
+                                <img src="/images/Products/@item.ImageUrl" alt="@item.ProductName" width="64" height="64" style="object-fit: cover; border-radius: 6px;" />
+                                <div>
+                                    <strong>@item.ProductName</strong><br />
+                                    <small>Màu: @item.ColorName | Size: @item.Size</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                SL: @item.Quantity <br />
+                                @{
+                                    decimal price = item.Price;
+                                    decimal discount = (decimal)item.Discount;
+                                    decimal discountedPrice;
+
+                                    if (discount < 100)
+                                    {
+                                        discountedPrice = price * (1 - (discount / 100));
+                                    }
+                                    else if (discount >= 1000)
+                                    {
+                                        discountedPrice = price - discount;
+                                    }
+                                    else
+                                    {
+                                        discountedPrice = price;
+                                    }
+
+                                    decimal totalPrice = discountedPrice * item.Quantity;
+                                }
+                                <strong>@String.Format("{0:N0}", totalPrice)₫</strong>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="order-divider"></div>
+
+                    <!-- Tổng tiền -->
+                    <div class="total-section">
+                        <div class="total-section">
+                            <div id="shippingFee-@order.OrderId">
+                                Phí giao hàng: Đang tính...
+                            </div>
+                            <div><strong>Tổng cộng:</strong> <span class="total">@order.TotalFee.ToString("N0")₫</span></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        async function getAddressInfo(tinhId, quanId, phuongId, orderId) {
+            try {
+                // Lấy thông tin tỉnh
+                const tinhResponse = await fetch('https://esgoo.net/api-tinhthanh/1/0.htm');
+                const data_tinh = await tinhResponse.json();
+
+                if (data_tinh.error === 0) {
+                    const tinh = data_tinh.data.find(item => item.id === tinhId);
+                    if (tinh) {
+                        // Lấy thông tin quận
+                        const quanResponse = await fetch(`https://esgoo.net/api-tinhthanh/2/${tinhId}.htm`);
+                        const data_quan = await quanResponse.json();
+
+                        if (data_quan.error === 0) {
+                            const quan = data_quan.data.find(item => item.id === quanId);
+                            if (quan) {
+                                // Lấy thông tin phường
+                                const phuongResponse = await fetch(`https://esgoo.net/api-tinhthanh/3/${quanId}.htm`);
+                                const data_phuong = await phuongResponse.json();
+
+                                if (data_phuong.error === 0) {
+                                    const phuong = data_phuong.data.find(item => item.id === phuongId);
+                                    if (phuong) {
+                                        const fullAddress = `${tinh.full_name}, ${quan.full_name}, ${phuong.full_name}`;
+                                        // Cập nhật địa chỉ vào phần tử tương ứng
+                                        document.getElementById(`address-${orderId}`).textContent = fullAddress;
+                                    } else {
+                                        console.error("Không tìm thấy phường.");
+                                    }
+                                } else {
+                                    console.error("Lỗi khi lấy danh sách phường/xã.");
+                                }
+                            } else {
+                                console.error("Không tìm thấy quận.");
+                            }
+                        } else {
+                            console.error("Lỗi khi lấy danh sách quận/huyện.");
+                        }
+                    } else {
+                        console.error("Không tìm thấy tỉnh.");
+                    }
+                } else {
+                    console.error("Lỗi khi lấy danh sách tỉnh.");
+                }
+            } catch (error) {
+                console.error("Có lỗi xảy ra khi lấy thông tin địa chỉ:", error);
+            }
+        }
+        // Duyệt qua tất cả các thẻ .address-info và gọi API cho từng đơn hàng
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.address-info').forEach(function(addressElement) {
+                const tinhId = addressElement.getAttribute('data-tinh');
+                const quanId = addressElement.getAttribute('data-quan');
+                const phuongId = addressElement.getAttribute('data-phuong');
+                const orderId = addressElement.id.split('-')[1]; // Lấy ID đơn hàng từ id của phần tử
+
+                // Gọi API lấy thông tin địa chỉ
+                if (tinhId && quanId && phuongId) {
+                    getAddressInfo(tinhId, quanId, phuongId, orderId);
+                } else {
+                    console.error("Dữ liệu tỉnh, quận, phường không đầy đủ.");
+                }
+            });
+        });
+        // Hàm lấy tên địa chỉ và cập nhật
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.address-info').forEach(function (addressElement) {
+                const tinhId = addressElement.getAttribute('data-tinh');
+                const quanId = addressElement.getAttribute('data-quan');
+                const phuongId = addressElement.getAttribute('data-phuong');
+                const orderId = addressElement.id.split('-')[1];
+
+                fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId);
+            });
+        });
+        // Hàm cập nhật phí ship
+        async function updateShippingFee(orderId, city, district, ward) {
+            try {
+                if (city && district && ward &&
+                    city !== "Chọn Tỉnh/Thành Phố" &&
+                    district !== "Chọn Quận/Huyện" &&
+                    ward !== "Chọn Phường/Xã") {
+
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: "/Admin/Shipping/GetShippingFee",
+                        data: {
+                            city: city,
+                            district: district,
+                            ward: ward
+                        }
+                    });
+
+                    console.log("Phí ship đơn hàng #" + orderId + ":", response);
+
+                    if (response.success) {
+                        const fee = response.shippingFee;
+                        const formattedFee = fee.toLocaleString() + " VND";
+
+                        // Gán phí ship vào thẻ div tương ứng
+                        $("#shippingFee-" + orderId).text("Phí giao hàng: " + formattedFee);
+
+                        // Cập nhật tổng tiền nếu cần (nếu bạn muốn cập nhật luôn phần tổng)
+                        const subtotal = parseFloat($("#subtotal-" + orderId).data("value") || 0);
+                        const total = subtotal + fee;
+                        $("#total-" + orderId).text(total.toLocaleString() + " VND");
+                    } else {
+                        $("#shippingFee-" + orderId).text("Không lấy được phí ship");
+                    }
+
+                }
+            } catch (error) {
+                console.error("Lỗi khi lấy phí ship cho đơn hàng #" + orderId, error);
+                $("#shippingFee-" + orderId).text("Lỗi khi tính phí");
+            }
+        }
+        // Hàm lấy tên địa chỉ và cập nhật
+        async function fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId) {
+            try {
+                const tinhRes = await fetch('https://esgoo.net/api-tinhthanh/1/0.htm');
+                const tinhData = await tinhRes.json();
+                const tinh = tinhData.data.find(t => t.id === tinhId);
+
+                const quanRes = await fetch(`https://esgoo.net/api-tinhthanh/2/${tinhId}.htm`);
+                const quanData = await quanRes.json();
+                const quan = quanData.data.find(q => q.id === quanId);
+
+                const phuongRes = await fetch(`https://esgoo.net/api-tinhthanh/3/${quanId}.htm`);
+                const phuongData = await phuongRes.json();
+                const phuong = phuongData.data.find(p => p.id === phuongId);
+
+                const fullAddress = `${tinh.full_name}, ${quan.full_name}, ${phuong.full_name}`;
+                document.getElementById(`address-${orderId}`).textContent = fullAddress;
+
+                // Gọi tính phí ship
+                updateShippingFee(orderId, tinh.full_name, quan.full_name, phuong.full_name);
+
+            } catch (err) {
+                console.error("Lỗi lấy địa chỉ đơn hàng #" + orderId, err);
+            }
+        }
+    </script>
+    }

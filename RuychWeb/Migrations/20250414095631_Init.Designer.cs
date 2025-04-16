@@ -12,7 +12,7 @@ using RuychWeb.Repository;
 namespace RuychWeb.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250413130837_Init")]
+    [Migration("20250414095631_Init")]
     partial class Init
     {
         /// <inheritdoc />

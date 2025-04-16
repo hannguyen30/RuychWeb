@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace RuychWeb.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class UserInforController : Controller
     {
         private readonly ILogger<UserInforController> _logger;
@@ -18,7 +19,6 @@ namespace RuychWeb.Controllers
             _dataContext = context;
         }
 
-        // Hiển thị trang MyProfile
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
@@ -28,25 +28,19 @@ namespace RuychWeb.Controllers
             if (accountId == null)
                 return RedirectToAction("Login", "Account");
 
-            // Tìm customer theo accountId
             var customer = await _dataContext.Customers
                 .Include(c => c.Account)
                 .FirstOrDefaultAsync(c => c.AccountId == accountId);
-
-            // Trả về view và customer đã bao gồm các trường nullable
             return View(customer);
         }
-        [HttpPost]
-        [Authorize]  // Đảm bảo rằng người dùng đã đăng nhập
+
         public async Task<IActionResult> MyProfile(Customer model)
         {
-            // Lấy ID của người dùng đang đăng nhập
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (accountId == null)
                 return RedirectToAction("Login", "Account");
 
-            // Tìm customer theo accountId
             var customer = await _dataContext.Customers
                 .FirstOrDefaultAsync(c => c.AccountId == accountId);
 

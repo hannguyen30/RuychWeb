@@ -1,5 +1,30 @@
-﻿@using RuychWeb.Models.DTO﻿
+﻿@using Newtonsoft.Json
+@using RuychWeb.Models.DTO﻿
+@using RuychWeb.Models.Vnpay
 @model IEnumerable<Product>
+
+@{
+    var json = TempData["PaymentResponse"] as string;
+    var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
+}
+
+@if (paymentResponse != null)
+{
+    <div class="payment-success-overlay">
+        <div class="payment-success-modal">
+            <div class="payment-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>Thanh toán thành công!</h2>
+            <p><strong>Mã đơn hàng:</strong> @paymentResponse.OrderId</p>
+            <p><strong>Thông tin:</strong> @paymentResponse.OrderDescription</p>
+            <p><strong>Phương thức:</strong> @paymentResponse.PaymentMethod</p>
+            <p><strong>Mã giao dịch:</strong> @paymentResponse.TransactionId</p>
+            <p><strong>Mã thanh toán:</strong> @paymentResponse.PaymentId</p>
+            <a asp-controller="UserOrder" asp-action="LookupOrder" class="btn-go-history">Xem đơn hàng</a>
+        </div>
+    </div>
+}
 <div class="col-sm-3">
     @Html.Partial("_SideBar")
 </div>
@@ -32,20 +57,42 @@
         pointer-events: none; /* Ngừng các sự kiện hover */
         opacity: 0.5; /* Làm mờ sản phẩm hết hàng */
     }
+
+    .out-of-stock-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 0, 0, 0.8);
+        color: #fff;
+        padding: 8px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 4px;
+        z-index: 10;
+    }
+
+    .out-of-stock img {
+        opacity: 0.4;
+    }
+
+    .out-of-stock {
+        position: relative; /* Để các phần tử trong nằm đúng vị trí */
+        pointer-events: none; /* Ngừng các sự kiện hover */
+        opacity: 0.5; /* Làm mờ sản phẩm hết hàng */
+    }
 </style>
 <div class="col-sm-9 padding-right">
     <h2 class="title text-center">SẢN PHẨM ĐẶC TRƯNG</h2>
     <div class="features_items">
         <!--features_items-->
 
-
-
     </div><!--features_items-->
     <div id="pagination">
         <ul class="pagination">
         </ul>
     </div>
-    <div class="recommended_items">
+    @*  <div class="recommended_items">
         <!--recommended_items-->
         <h2 class="title text-center">BẠN CÓ CẦN THÊM ?</h2>
 
@@ -116,7 +163,7 @@
                 <i class="fa fa-angle-right"></i>
             </a>
         </div>
-    </div><!--/recommended_items-->
+    </div><!--/recommended_items--> *@
 
 </div>
 @section Scripts {
@@ -144,7 +191,7 @@
         $(document).ready(function () {
             loadProducts(1);
         });
-              function loadProducts(page) {
+               function loadProducts(page) {
             $.ajax({
                 url: "/Home/GetList",
                 type: "GET",
@@ -217,13 +264,15 @@
                         featuresItems.append(productHTML);
                     });
 
-                    renderPagination(result.currentPage, result.totalPages);
+                    // Sử dụng đúng tên hàm Pagination
+                    Pagination(result.currentPage, result.totalPages);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error loading products:', error);
                 }
             });
         }
+
 
 
 
@@ -248,5 +297,36 @@
 
             $('#pagination').html(paginationHtml);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+                    var shouldClearCart = '@TempData["ClearCart"]' === 'True';
+
+                    if (shouldClearCart) {
+                        localStorage.removeItem("cart"); // hoặc key khác nếu bạn dùng key khác
+                        console.log("Đã xóa giỏ hàng trong localStorage");
+
+                        // Hiển thị thông báo (nếu cần)
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đặt hàng thành công!',
+                            text: 'Giỏ hàng của bạn đã được xóa.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+
+                    setTimeout(() => {
+                // Làm mờ và ẩn modal
+                const overlay = document.querySelector('.payment-success-overlay');
+                if (overlay) {
+                    overlay.style.transition = 'opacity 0.5s ease';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        // Redirect sau khi ẩn hoàn toàn
+                        window.location.href = '/UserOrder/LookupOrder';
+                    }, 500); // chờ thêm chút để hiệu ứng fade-out chạy xong
+                }
+            }, 6000);
     </script>
 }

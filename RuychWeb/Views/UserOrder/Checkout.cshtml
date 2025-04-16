@@ -5,7 +5,13 @@
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
 }
+<style>
 
+    #slider {
+        display: none;
+    }
+
+</style>
 @if (paymentResponse != null)
 {
     <div class="payment-success-overlay">
@@ -91,10 +97,10 @@
                                     @{
                                         var price = item.Price;
                                         var discount1 = item.Discount;
-                                        if (discount1 < 100)
+                                        if (discount1 < 100 && discount1 > 0)
                                         {
                                             var discountedPrice = price - (price * discount1 / 100);
-                                            <span>@discountedPrice.ToString("N0") VND</span>
+                                            <span> @Math.Floor((decimal)discountedPrice).ToString("N0") VND</span>
                                             <span style="text-decoration: line-through; color: gray; margin-left: 10px;">
                                                 @price.ToString("N0") VND
                                             </span>
@@ -102,7 +108,7 @@
                                         else if (discount1 > 1000)
                                         {
                                             var discountedPrice = price - discount1;
-                                            <span>@discountedPrice.ToString("N0") VND</span>
+                                            <span> @((decimal)discountedPrice).ToString("N0") VND</span>
                                             <span style="text-decoration: line-through; color: gray; margin-left: 10px;">
                                                 @price.ToString("N0") VND
                                             </span>
@@ -133,7 +139,7 @@
                                 }
                                 else if (discount > 1000) // Fixed amount discount
                                 {
-                                    discountedPrice = price - discount;
+                                    discountedPrice = price - (decimal)discount;
                                 }
                                 else // No discount
                                 {

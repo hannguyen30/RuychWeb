@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RuychWeb.Models.DTO;
 using RuychWeb.Repository;
@@ -13,15 +14,32 @@ namespace RuychWeb.Areas.Admin.Controllers
         {
             this._dataContext = context;
         }
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "Admin,Staff")]
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10)
         {
-            var shippingList = await _dataContext.Shippings.ToListAsync();
-            ViewBag.Shippings = shippingList;
+            // Lấy tổng số bản ghi trong cơ sở dữ liệu
+            var totalShippings = await _dataContext.Shippings.CountAsync();
+
+            // Lấy danh sách shipping theo trang
+            var shippings = await _dataContext.Shippings
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Tính tổng số trang
+            var totalPages = (int)Math.Ceiling(totalShippings / (double)pageSize);
+
+            // Lưu thông tin phân trang vào ViewBag
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = pageSize;
+
+            ViewBag.Shippings = shippings;
             return View();
         }
+
         [HttpPost]
         [Route("StoreShipping")]
-
         public async Task<IActionResult> StoreShipping(Shipping shippingModel, string phuong, string quan, string tinh, decimal price)
         {
 

@@ -1,12 +1,12 @@
 ﻿@using RuychWeb.Areas.Admin.Models
 @using Newtonsoft.Json
 @model ProductViewModel
-@{
-    var colorSizesDict = Model.Colors?.ToDictionary(
-        c => c.ColorName,
-        c => c.Sizes?.Select(s => s.Size).ToList() ?? new List<string>()
-    ) ?? new Dictionary<string, List<string>>();
-}
+@* @{ *@
+@*     var colorSizesDict = Model.Colors?.ToDictionary( *@
+@*         c => c.ColorName, *@
+@*         c => c.Sizes?.Select(s => s.Size).ToList() ?? new List<string>() *@
+@*     ) ?? new Dictionary<string, List<string>>(); *@
+@* } *@
 <style>
     .custom-dropdown {
         position: relative;
@@ -146,7 +146,10 @@
         <input type="hidden" name="Image" value="@Model.Thumbnail" />
         <input type="hidden" name="Price" value="@Model.Price" />
         <input type="hidden" name="MaxQuantity" id="MaxQuantity" />
-        <input type="hidden" name="Discount" id="Discount" value="@Model.Sales.First().Discount" />
+        @{
+            var discount = Model.Sales?.FirstOrDefault()?.Discount ?? 0;
+        }
+        <input type="hidden" name="Discount" id="Discount" value="@discount" />
         <input type="hidden" name="DiscountedPrice" id="DiscountedPrice" value="@Model.DiscountedPrice" />
 
         <div class="row mt-4">
@@ -176,25 +179,13 @@
                     <p><strong>MÀU SẮC</strong></p>
                     @foreach (var color in Model.Colors.Select((value, index) => new { value, index }))
                     {
-                        if (User.Identity.IsAuthenticated)
-                        {
-                            var cssColor = GetColorCode(color.value.ColorName);
-                            string radioId = $"color_{color.index}";
-                            <input type="radio" name="Color" id="@radioId" value="@color.value.ColorName" style="display:none" class="d-none color-radio" required />
-                            <label for="@radioId" class="color-label" style="cursor: pointer; display: inline-block; margin-right: 8px;">
-                                <span class="color-circle" style="display:inline-block; width:25px; height:25px; background-color:@cssColor; border:2px solid black; border-radius:50%; transition: all 0.3s;"></span>
-                            </label>
-                        }
-                        else
-                        {
-                            var cssColor = GetColorCode(color.value.ColorName);
-                            <input type="hidden" name="Color" value="color.value.ColorName" />
-                            string radioId = $"color_{color.index}";
-                            <input type="radio" name="Color" id="@radioId" value="@color.value.ColorName" style="display:none" class="d-none color-radio" required />
-                            <label for="@radioId" class="color-label" style="cursor: pointer; display: inline-block; margin-right: 8px;">
-                                <span class="color-circle" style="display:inline-block; width:25px; height:25px; background-color:@cssColor; border:2px solid black; border-radius:50%; transition: all 0.3s;"></span>
-                            </label>
-                        }
+
+                        var cssColor = GetColorCode(color.value.ColorName);
+                        string radioId = $"color_{color.index}";
+                        <input type="radio" name="Color" id="@radioId" value="@color.value.ColorName" style="display:none" class="d-none color-radio" required />
+                        <label for="@radioId" class="color-label" style="cursor: pointer; display: inline-block; margin-right: 8px;">
+                            <span class="color-circle" style="display:inline-block; width:25px; height:25px; background-color:@cssColor; border:2px solid black; border-radius:50%; transition: all 0.3s;"></span>
+                        </label>
                     }
                 </div>
 

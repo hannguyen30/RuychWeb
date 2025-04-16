@@ -2,7 +2,13 @@
 @using RuychWeb.Models.Vnpay
 @using RuychWeb.Models.ViewModels
 @model OrderViewModel
+<style>
 
+    #slider {
+        display: none;
+    }
+
+</style>
 @{
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
@@ -17,12 +23,12 @@
         if (item.Discount < 100)
         {
             // Giảm theo phần trăm
-            discountedPrice = item.Price * (1 - item.Discount / 100m);
+            discountedPrice = item.Price * (1 - (decimal)item.Discount / 100m);
         }
         else if (item.Discount >= 1000)
         {
             // Giảm trực tiếp theo số tiền
-            discountedPrice = item.Price - item.Discount;
+            discountedPrice = item.Price - (decimal)item.Discount;
         }
         else
         {
@@ -108,42 +114,49 @@
                 <div class="col-md-4">
                     <h4>ĐƠN HÀNG</h4>
                     <ul class="list-group mb-3">
-                        @foreach (var item in Model.OrderDetails)
+                        @foreach (var item in Model.OrderDetails.Select((value, index) => new { value, index }))
                         {
-                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].ProductDetailId" value="@item.ProductDetailId" />
-                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].Quantity" value="@item.Quantity" />
-                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].Price" value="@item.Price" />
+                            <input type="hidden" name="OrderDetails[@item.index].ProductDetailId" value="@item.value.ProductDetailId" />
+                            <input type="hidden" name="OrderDetails[@item.index].Quantity" value="@item.value.Quantity" />
+                            <input type="hidden" name="OrderDetails[@item.index].Price" value="@item.value.Price" />
+                            <input type="hidden" name="OrderDetails[@item.index].Discount" value="@item.value.Discount" />
+                            <input type="hidden" name="OrderDetails[@item.index].ColorName" value="@item.value.ColorName" />
+                            <input type="hidden" name="OrderDetails[@item.index].Size" value="@item.value.Size" />
+                            <input type="hidden" name="OrderDetails[@item.index].ProductName" value="@item.value.ProductName" />
+
+                            @* Tính toán giá sau giảm *@
                             decimal discountedPrice;
 
-                            if (item.Discount < 100)
+                            if (item.value.Discount < 100)
                             {
-                                discountedPrice = item.Price * (1 - item.Discount / 100.0m);
+                                discountedPrice = item.value.Price * (1 - (decimal)item.value.Discount / 100.0m);
                             }
-                            else if (item.Discount >= 1000)
+                            else if (item.value.Discount >= 1000)
                             {
-                                discountedPrice = item.Price - item.Discount;
+                                discountedPrice = item.value.Price - (decimal)item.value.Discount;
                             }
                             else
                             {
-                                discountedPrice = item.Price; // không giảm giá
+                                discountedPrice = item.value.Price; // Không giảm giá
                             }
 
                             <li class="list-group-item">
                                 <div>
-                                    <strong>@item.ProductName - @item.ColorName</strong><br />
-                                    <small>Size: @item.Size - SL: @item.Quantity</small>
+                                    <strong>@item.value.ProductName - @item.value.ColorName</strong><br />
+                                    <small>Size: @item.value.Size - SL: @item.value.Quantity</small>
                                 </div>
                                 <div style="color: #a94442; font-weight: bold; margin: 5px 0;">
-                                    <span>@(discountedPrice.ToString("N0")) VND</span>
-                                    @if (item.Discount > 0)
+                                    <span>@Math.Floor((decimal)discountedPrice).ToString("N0") VND</span>
+                                    @if (item.value.Discount > 0)
                                     {
                                         <span style="text-decoration: line-through; color: gray; margin-left: 10px;">
-                                            @item.Price.ToString("N0") VND
+                                            @item.value.Price.ToString("N0") VND
                                         </span>
                                     }
                                 </div>
                             </li>
                         }
+
                     </ul>
 
                     <div class="mt-3">
@@ -165,8 +178,6 @@
                             <input type="hidden" name="Total" value="@total" />
                         </h5>
                     </div>
-
-
                     <button type="submit" class="btn btn-warning mt-3">HOÀN TẤT ĐẶT HÀNG</button>
                 </div>
             </div>
@@ -238,12 +249,12 @@
                         data: { city: city, district: district, ward: ward },
                         success: function (response) {
                             if (response.success) {
-                                var shippingFee = response.shippingFee;
-                                $("#shippingFee").text(shippingFee.toLocaleString() + " VND");
-                                $("#shippingFeeInput").val(shippingFee);
+                                $("#shippingFee").text(response.shippingFee.toLocaleString() + " VND");
 
                                 var subtotal = parseFloat($("#subtotal").data("value"));
-                                var total = subtotal + shippingFee;
+                                var total = subtotal + response.shippingFee;
+
+                                $("input[name='Total']").val(total); // ✅ cập nhật input hidden
                                 $("#total").text(total.toLocaleString() + " VND");
                             } else {
                                 alert(response.message);
@@ -256,5 +267,23 @@
                 }
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+                    var shouldClearCart = '@TempData["ClearCart"]' === 'True';
+
+                    if (shouldClearCart) {
+                        localStorage.removeItem("cart"); // hoặc key khác nếu bạn dùng key khác
+                        console.log("Đã xóa giỏ hàng trong localStorage");
+
+                        // Hiển thị thông báo (nếu cần)
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đặt hàng thành công!',
+                            text: 'Giỏ hàng của bạn đã được xóa.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+
     </script>
     }

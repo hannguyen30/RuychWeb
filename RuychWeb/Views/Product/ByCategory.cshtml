@@ -1,0 +1,105 @@
+﻿@using RuychWeb.Areas.Admin.Models
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewBag.Title = "Sản phẩm theo danh mục";
+}
+<style>
+    #slider {
+        display: none;
+    }
+
+    .out-of-stock-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 0, 0, 0.8);
+        color: #fff;
+        padding: 8px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 4px;
+        z-index: 10;
+    }
+
+    .out-of-stock img {
+        opacity: 0.4;
+    }
+
+    .panel-title a.active {
+        color: #fff;
+        background-color: #5bc0de;
+        font-weight: bold;
+    }
+</style>
+<div class="col-sm-3">
+    @Html.Partial("_SideBar")
+</div>
+
+<div class="col-sm-9 padding-right">
+    <h2 class="title text-center">SẢN PHẨM THEO DANH MỤC @ViewBag.SelectedCategory</h2>
+
+    <div class="features_items">
+        @foreach (var item in Model)
+        {
+            var totalQuantity = item.Colors?.SelectMany(c => c.Sizes)?.Sum(s => s.Quantity) ?? 0;
+            var isOutOfStock = totalQuantity <= 0;
+
+            var discount = item.Sales.FirstOrDefault()?.Discount ?? 0;
+            var salePrice = 0m;
+
+            if (discount > 0)
+            {
+                if (discount < 100)
+                {
+                    salePrice = item.Price - (item.Price * discount / 100);
+                }
+                else if (discount > 1000)
+                {
+                    salePrice = item.Price - discount;
+                }
+            }
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center position-relative @(isOutOfStock ? "out-of-stock" : "")">
+                            <img src="~/images/Products/@item.Thumbnail" alt="@item.Name" width="100%" />
+                            @if (isOutOfStock)
+                            {
+                                <div class="out-of-stock-label">Hết hàng</div>
+                            }
+                            <p>@item.Name</p>
+                            @if (salePrice > 0)
+                            {
+                                <div class="price-container">
+                                    <h2 class="sale-price">@salePrice.ToString("c0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</h2>
+                                    <h4 class="original-price">@item.Price.ToString("c0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</h4>
+                                </div>
+                            }
+                            else
+                            {
+                                <h2>@item.Price.ToString("c0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</h2>
+                            }
+                        </div>
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                @if (!isOutOfStock)
+                                {
+                                    <a href="/Product/Detail/@item.ProductId" class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart"></i>Mua ngay!
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified">
+                            <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào yêu thích</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

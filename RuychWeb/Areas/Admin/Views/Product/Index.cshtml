@@ -11,13 +11,13 @@
         max-width: 150px; /* Cố định chiều rộng cột */
     }
 </style>
-<h3 class="text-primary">Product List</h3>
+<h3 class="text-primary">Quản lý sản phẩm</h3>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between">
         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" id="searchBox" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." />
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button">
                         <i class="fas fa-search fa-sm"></i>
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </form>
-        <a asp-action="Create" asp-controller="Product" class="btn btn-success btn-sm">Add New Product</a>
+        <a asp-action="Create" asp-controller="Product" class="btn btn-success btn-sm">Thêm sản phẩm</a>
     </div>
 
     <div class="card-body">
@@ -33,15 +33,15 @@
             <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead class="table-dark">
                     <tr>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Thumbnail</th>
-                        <th>Colors</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Tên danh mục</th>
+                        <th>Giá</th>
+                        <th>Ảnh</th>
+                        <th>Màu</th>
                         <th>Size</th>
-                        <th>Quantity</th>
-                        <th>Sale</th>
-                        <th>Actions</th>
+                        <th>Số lượng</th>
+                        <th>Giảm giá</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@
                                 <tr>
                                     <td>@(color == product.Colors.First() ? product.Name : "")</td>
                                     <td>@(color == product.Colors.First() ? product.CategoryName : "")</td>
-                                    <td>@(color == product.Colors.First() ? $"{product.Price} VND" : "")</td>
+                                    <td>@(color == product.Colors.First() ? $"{Math.Floor(product.Price).ToString("N0")} VND" : "")</td>
                                     <td>
                                         @(color == product.Colors.First() ? Html.Raw($"<img src='/images/Products/{product.Thumbnail}' style='width:90px;height:90px;' />") : "")
                                     </td>
@@ -92,10 +92,12 @@
                                         {
                                             @foreach (var sale in product.Sales)
                                             {
-                                                <span class="badge bg-warning d-block text-wrap">
-                                                    <p class="mb-0">@sale.SaleName: @sale.Discount% Off</p>
-                                                </span>
-                                                <br />
+                                                @if (color == product.Colors.First())
+                                                {
+                                                    <span class="badge bg-warning d-block text-wrap">
+                                                        <p class="mb-0">@($"{sale.SaleName}: {sale.Discount}% Off")</p>
+                                                    </span>
+                                                }
                                             }
                                         }
                                         else
@@ -104,10 +106,13 @@
                                         }
                                     </td>
                                     <td>
-                                        <a href="/Admin/Product/Edit/@product.ProductId" class="btn btn-warning btn-sm">Edit</a>
-                                        <form asp-action="Delete" asp-controller="Product" asp-route-id="@product.ProductId" method="post" style="display:inline;">
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
-                                        </form>
+                                        @if (color == product.Colors.First())
+                                        {
+                                            <a href="/Admin/Product/Edit/@product.ProductId" class="btn btn-warning btn-sm">Edit</a>
+                                            <form asp-action="Delete" asp-controller="Product" asp-route-id="@product.ProductId" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                                            </form>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -186,3 +191,73 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            const searchBox = document.getElementById('searchBox');
+
+            searchBox.addEventListener('input', async function () {
+                const keyword = this.value;
+                const res = await fetch(`/Admin/Product/Search?keyword=${encodeURIComponent(keyword)}`);
+                const data = await res.json();
+
+                const tbody = document.querySelector('#dataTable tbody');
+                tbody.innerHTML = ''; // Clear table
+
+                data.forEach(product => {
+                    // Nếu không có màu, in 1 dòng
+                    if (product.colors.length === 0) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${product.name}</td>
+                            <td>${product.categoryName}</td>
+                            <td>${product.price}</td>
+                            <td><img src="/images/Products/${product.thumbnail}" style="width:90px;height:90px;" /></td>
+                            <td><span class="text-muted">No color</span></td>
+                            <td><span class="text-muted">--</span></td>
+                            <td><span class="text-muted">--</span></td>
+                            <td>${product.sales.length ? product.sales.map(s => `<span class="badge bg-warning text-wrap d-block">${s.name}: ${s.discount}% Off</span>`).join('') : '<span class="text-muted">No sale</span>'}</td>
+                            <td>
+                                <a href="/Admin/Product/Edit/${product.productId}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="/Admin/Product/Delete/${product.productId}" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá sản phẩm này?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    }
+
+                    // Có màu
+                    product.colors.forEach((color, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index === 0 ? product.name : ''}</td>
+                            <td>${index === 0 ? product.categoryName : ''}</td>
+                            <td>${index === 0 ? product.price : ''}</td>
+                            <td>${index === 0 ? `<img src="/images/Products/${product.thumbnail}" style="width:90px;height:90px;" />` : ''}</td>
+                            <td>${color.name}</td>
+                            <td>${color.sizes.map(s => `<span class="badge bg-info">${s.size}</span><br/>`).join('')}</td>
+                            <td>${color.sizes.map(s => `<span class="badge bg-success">${s.quantity}</span><br/>`).join('')}</td>
+                            <td>${index === 0 && product.sales.length ? product.sales.map(s => `<span class="badge bg-warning text-wrap d-block">${s.name}: ${s.discount}% Off</span>`).join('') : (index === 0 ? '<span class="text-muted">No sale</span>' : '')}</td>
+                            <td>
+                                ${index === 0 ? `
+                                    <a href="/Admin/Product/Edit/${product.productId}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="/Admin/Product/Delete/${product.productId}" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá sản phẩm này?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                ` : ''}
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                });
+            });
+        });
+        @if (TempData["AlertMessage"] != null)
+        {
+            <text>
+                                                                  alert("@Html.Raw(TempData["AlertMessage"])");
+            </text>
+        }
+    </script>
+}

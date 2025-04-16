@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RuychWeb.Areas.Admin.Models;
@@ -17,7 +18,7 @@ namespace RuychWeb.Areas.Admin.Controllers
             _userManager = userManager;
             this._dataContext = dataContext;
         }
-
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 4)
         {
             var totalAccounts = _userManager.Users.Count();
@@ -76,7 +77,7 @@ namespace RuychWeb.Areas.Admin.Controllers
             return View(pagedUsers);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -127,7 +128,7 @@ namespace RuychWeb.Areas.Admin.Controllers
 
             return View(model);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -212,7 +213,7 @@ namespace RuychWeb.Areas.Admin.Controllers
             await _dataContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {

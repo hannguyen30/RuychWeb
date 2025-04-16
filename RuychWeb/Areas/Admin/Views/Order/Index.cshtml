@@ -1,0 +1,181 @@
+﻿@model List<RuychWeb.Models.DTO.Order>
+
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+}
+<h3 class="text-primary">Quản lý đơn hàng</h3>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between">
+        <form class="form-inline d-none d-sm-inline-block">
+            <div class="input-group">
+                <input type="text" id="searchBox" class="form-control bg-light border-0 small" placeholder="Tìm theo tên hoặc SĐT..." />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search fa-sm"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover" width="100%" cellspacing="0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>SĐT</th>
+                        <th>Ngày tạo</th>
+                        <th>Tổng tiền</th>
+                        <th>Phương thức</th>
+                        <th>Thanh toán</th>
+                        <th>Trạng thái</th>
+                        <th>Lý do hủy</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTableBody">
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.Name</td>
+                            <td>@order.Phone</td>
+                            <td>@order.CreatedDate.ToString("dd/MM/yyyy")</td>
+                            <td><span class="badge bg-danger text-white">@order.TotalFee.ToString("N0") VND</span></td>
+                            <td>@order.PaymentMethod</td>
+                            <td>
+                                <span class="badge @(order.PaymentStatus == "Đã thanh toán" ? "bg-success text-white" : "bg-secondary text-white")">
+                                    @order.PaymentStatus
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge
+                                    @(order.OrderStatus == "Chờ xác nhận" ? "bg-secondary text-white" :
+                                      order.OrderStatus == "Đã xác nhận" ? "bg-info text-white" :
+                                      order.OrderStatus == "Yêu cầu hủy" ? "bg-warning text-white" :
+                                      order.OrderStatus == "Đang giao hàng" ? "bg-primary text-white" :
+                                      order.OrderStatus == "Giao hàng thành công" ? "bg-warning  text-white" :
+                                      order.OrderStatus == "Đã hoàn thành" ? "bg-success text-white" :
+                                      order.OrderStatus == "Đã hủy" ? "bg-danger text-white" :
+                                      "bg-light text-dark")">
+                                    @order.OrderStatus
+                                </span>
+                            </td>
+                            <td>@(string.IsNullOrEmpty(order.CancelReason) ? "—" : order.CancelReason)</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Order", new { orderId = order.OrderId })" class="btn btn-sm btn-info">Chi tiết</a>
+                                <a href="/Admin/Order/Edit/@order.OrderId" class="btn btn-sm btn-warning">Sửa</a>
+                                <form asp-action="Delete" asp-route-id="@order.OrderId" method="post" style="display:inline;" onsubmit="return confirm('Xác nhận xoá đơn hàng này?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <div>
+                <span>Page @ViewBag.PageNumber of @ViewBag.TotalPages</span>
+            </div>
+            <div>
+                <!-- Previous Button -->
+                <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber - 1, ViewBag.PageSize })"
+                   class="btn btn-info btn-sm"
+                @if (ViewBag.PageNumber == 1)
+                {
+                    <text>disabled</text>
+                }>Previous</a>
+
+                <!-- Display Page Numbers -->
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <a href="@Url.Action("Index", new { pageNumber = i, ViewBag.PageSize })"
+                       class="btn btn-secondary btn-sm"
+                    @if (i == ViewBag.PageNumber)
+                    {
+                        <text>style="background-color: #007bff; color: white;"</text>
+                    }>
+                        @i</a>
+                }
+
+                <!-- Next Button -->
+                <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber + 1, ViewBag.PageSize })"
+                   class="btn btn-info btn-sm"
+                @if (ViewBag.PageNumber == ViewBag.TotalPages)
+                {
+                    <text>disabled</text>
+                }>Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+            async function loadOrders(keyword = "") {
+            const res = await fetch(`/Admin/Order/Search?keyword=${encodeURIComponent(keyword)}`);
+            const data = await res.json();
+
+            const tbody = document.getElementById("orderTableBody");
+            tbody.innerHTML = "";
+
+            if (data.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='10' class='text-center'>Không tìm thấy đơn hàng nào.</td></tr>";
+                return;
+            }
+
+            data.forEach(order => {
+                const statusClass = {
+                    "Chờ xác nhận": "bg-secondary text-white",
+                    "Đã xác nhận": "bg-info text-white",
+                    "Yêu cầu hủy": "bg-warning text-white",
+                    "Đang giao hàng": "bg-primary text-white",
+                    "Giao hàng thành công": "bg-warning text-white",
+                    "Đã hoàn thành": "bg-success text-white",
+                    "Đã hủy": "bg-danger text-white"
+                }[order.orderStatus] || "bg-light text-dark";
+
+                const paymentClass = order.paymentStatus === "Đã thanh toán"
+                    ? "bg-success text-white"
+                    : "bg-secondary text-white";
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${order.orderId}</td>
+                    <td>${order.name}</td>
+                    <td>${order.phone}</td>
+                    <td>${new Date(order.createdDate).toLocaleDateString("vi-VN")}</td>
+                    <td><span class="badge bg-danger text-white">${order.totalFee.toLocaleString()} VND</span></td>
+                    <td>${order.paymentMethod}</td>
+                    <td><span class="badge ${paymentClass}">${order.paymentStatus}</span></td>
+                    <td><span class="badge ${statusClass}">${order.orderStatus}</span></td>
+                    <td>${order.cancelReason || "—"}</td>
+                    <td>
+                        <a href="/Admin/Order/Details/${order.orderId}" class="btn btn-sm btn-info">Chi tiết</a>
+                        <a href="/Admin/Order/Edit/${order.orderId}" class="btn btn-sm btn-warning">Sửa</a>
+                        <form action="/Admin/Order/Delete/${order.orderId}" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá đơn này?');">
+                            <button class="btn btn-sm btn-danger">Xoá</button>
+                        </form>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Gọi ban đầu để hiển thị tất cả đơn hàng
+        document.addEventListener("DOMContentLoaded", function () {
+            loadOrders();
+        });
+
+        // Gọi khi tìm kiếm
+        document.getElementById("searchBox").addEventListener("input", function () {
+            const keyword = this.value.trim();
+            loadOrders(keyword);
+        });
+    </script>
+
+}
