@@ -1,0 +1,114 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Thống kê doanh thu";
+
+    var labels = string.Join(",", Model.Select(x => $"\"{x.Period}\""));
+    var values = string.Join(",", Model.Select(x => x.TotalRevenue));
+
+    string periodType = Context.Request.Query["periodType"];
+    string from = Context.Request.Query["from"];
+    string to = Context.Request.Query["to"];
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Biểu đồ doanh thu</h2>
+
+    <!-- Form lọc doanh thu -->
+    <form method="get" class="row g-3 mb-4 p-4 border rounded shadow-sm bg-light">
+        <div class="col-md-3">
+            <label class="form-label">Từ ngày</label>
+            <input type="date" name="from" value="@from" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Đến ngày</label>
+            <input type="date" name="to" value="@to" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Loại thống kê</label>
+            <select name="periodType" class="form-select">
+                <option value="ngày" selected="@(periodType == "ngày")">Theo ngày</option>
+                <option value="tháng" selected="@(periodType == "tháng")">Theo tháng</option>
+                <option value="năm" selected="@(periodType == "năm")">Theo năm</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Lọc doanh thu</button>
+        </div>
+    </form>
+
+    <!-- Biểu đồ -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-primary text-white">
+            <h6 class="m-0 font-weight-bold">Doanh thu theo @periodType</h6>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <p class="text-center">Không có dữ liệu để hiển thị biểu đồ.</p>
+            }
+            else
+            {
+                <div class="chart-area" style="height: 300px;">
+                    <canvas id="revenueChart" style="max-height: 100%;"></canvas>
+                </div>
+            }
+            <hr />
+            <p class="mb-0 text-muted">Nguồn dữ liệu từ các đơn hàng đã thanh toán.</p>
+        </div>
+    </div>
+</div>
+<a href="@Url.Action("Index", "Report", new { area = "Admin" })">Quay về danh sách</a>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = @Html.Raw("[" + labels + "]");
+        const values = @Html.Raw("[" + values + "]");
+
+        if (labels.length > 0 && values.length > 0) {
+            let ctx = document.getElementById('revenueChart').getContext('2d');
+
+            const chartConfig = {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN') + ' ₫';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    return tooltipItem.raw.toLocaleString('vi-VN') + ' ₫';
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            new Chart(ctx, chartConfig);
+        }
+    </script>
+}

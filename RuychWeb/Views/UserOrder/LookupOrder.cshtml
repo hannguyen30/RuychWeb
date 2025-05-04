@@ -1,5 +1,8 @@
 ﻿@using RuychWeb.Models.ViewModels
 @model OrderLookupViewModel
+@{
+    ViewData["Title"] = "Tra cứu đơn hàng";
+}
 
 <style>
     #slider {
@@ -22,9 +25,6 @@
         transition: transform 0.2s;
     }
 
-        .order-card:hover {
-            transform: translateY(-5px);
-        }
 
     .order-header {
         display: flex;
@@ -166,6 +166,7 @@
                                 {
                                     "Chờ xác nhận" => "#6c757d",  // bg-secondary
                                     "Đã xác nhận" => "#17a2b8",  // bg-info
+                                    "Yêu cầu hủy" => "#ffc107",  // bg-warning
                                     "Đang giao hàng" => "#007bff",  // bg-primary
                                     "Giao hàng thành công" => "#ffc107",  // bg-warning
                                     "Đã hoàn thành" => "#28a745",  // bg-success
@@ -196,25 +197,19 @@
                 <div class="order-divider my-3"></div>
 
                 <!-- Thông tin sản phẩm -->
-                @{
-                    var item = Model.OrderResult.OrderDetails.FirstOrDefault();
+                @foreach (var item in Model.OrderResult.OrderDetails)
+                {
                     decimal discountedPrice = 0;
                     decimal totalPrice = 0;
 
-                    if (item != null)
-                    {
-                        decimal price = item.Price;
-                        decimal discount = (decimal)item.Discount;
+                    decimal price = item.Price;
+                    decimal discount = (decimal)item.Discount;
 
-                        discountedPrice = discount < 100 ? price * (1 - discount / 100)
-                        : (discount >= 1000 ? price - discount : price);
+                    discountedPrice = discount < 100 ? price * (1 - discount / 100)
+                    : (discount >= 1000 ? price - discount : price);
 
-                        totalPrice = discountedPrice * item.Quantity;
-                    }
-                }
+                    totalPrice = discountedPrice * item.Quantity;
 
-                @if (item != null)
-                {
                     <div class="product-item">
                         <div class="d-flex" style="gap: 12px;">
                             <img src="/images/Products/@item.ImageUrl" alt="@item.ProductName" width="64" height="64" />
@@ -249,11 +244,19 @@
                             <button type="submit" class="btn btn-danger btn-sm mt-2">Yêu cầu hủy</button>
                         </form>
                     }
+                    @if (Model.OrderResult.OrderStatus == "Giao hàng thành công")
+                    {
+                        <form asp-action="ConfirmReceived" method="post" style="display:inline-block; margin-top: 10px;">
+                            <input type="hidden" name="OrderId" value="@Model.OrderId" />
+                            <button type="submit" class="btn btn-success btn-sm mt-2">Đã nhận hàng</button>
+                        </form>
+                    }
                 </div>
             </div>
         }
     </div>
 </div>
+
 @section Scripts {
     <script>
         async function fetchAddressNamesAndUpdate(orderId, tinhId, quanId, phuongId) {

@@ -8,6 +8,7 @@ namespace RuychWeb.Areas.Admin.Models
         // Order properties (from Order class)
         public int OrderId { get; set; }
         public string Name { get; set; }
+        public string EmployeeName { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -29,11 +30,12 @@ namespace RuychWeb.Areas.Admin.Models
         public string Ward { get; set; }
         public string District { get; set; }
         public string Province { get; set; }
-
+        public string? FullAddress { get; set; }
         // Customer and Employee related data (optional for additional details)
         public Customer Customer { get; set; }
         public Employee Employee { get; set; }
 
         public decimal? Discount { get; set; }
     }
+
 }

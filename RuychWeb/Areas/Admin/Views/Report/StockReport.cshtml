@@ -1,0 +1,80 @@
+﻿@model List<RuychWeb.Areas.Admin.Models.StockReportViewModel>
+
+@{
+    ViewData["Title"] = "Báo cáo tồn kho";
+    var query = Context.Request.Query;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">
+            @ViewData["Title"]
+        </h2>
+    </div>
+
+    <form method="get" class="row g-2 mb-4">
+        <div class="col-md-3">
+            <input type="text" name="productName" placeholder="Tên sản phẩm" value="@query["productName"]" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="color" placeholder="Màu" value="@query["color"]" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="size" placeholder="Size" value="@query["size"]" class="form-control" />
+        </div>
+        <div class="col-md-5 d-flex align-items-start">
+            <button type="submit" class="btn btn-primary me-2">
+                Lọc
+            </button>
+            <a href="@Url.Action("StockReport", "Report", new { area = "Admin" })" class="btn btn-outline-secondary">
+                Đặt lại
+            </a>
+        </div>
+    </form>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Màu</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Số lượng tồn</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Color</td>
+                            <td>@item.Size</td>
+                            <td>
+                                @if (item.Quantity == 0)
+                                {
+                                    <span class="badge bg-danger">Hết hàng</span>
+                                }
+                                else if (item.Quantity < 10)
+                                {
+                                    <span class="badge bg-warning text-dark">@item.Quantity</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">@item.Quantity</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">Không có dữ liệu tồn kho phù hợp.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

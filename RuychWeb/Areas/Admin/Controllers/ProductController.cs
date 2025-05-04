@@ -22,7 +22,6 @@ namespace RuychWeb.Areas.Admin.Controllers
             _logger = logger;
         }
 
-        // GET: Admin/Product/Index
         [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 4)
         {
@@ -51,23 +50,24 @@ namespace RuychWeb.Areas.Admin.Controllers
             {
                 ProductId = p.ProductId,
                 Name = p.Name,
-                Price = p.Price,
+                Price = p.Price ?? 0,
                 Thumbnail = p.Thumbnail,
                 Description = p.Description,
                 CategoryName = p.Category?.Name,
+                OnSale = p.OnSale,
                 Colors = p.Colors?.Select(c => new ColorViewModel
                 {
-                    ColorName = c.Name,
+                    ColorName = c.Name ?? "No color",
                     Sizes = c.ProductDetails?.Select(pd => new SizeQuantityViewModel
                     {
-                        Size = pd.Size,
+                        Size = pd.Size ?? "--",
                         Quantity = pd.Quantity
                     }).ToList() ?? new List<SizeQuantityViewModel>()
                 }).ToList() ?? new List<ColorViewModel>(),
                 Sales = p.SaleDetails?.Select(sd => new SaleViewModel
                 {
                     SaleName = sd.Sale.Name,
-                    Discount = sd.Sale.Discount,
+                    Discount = (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0,
                     StartDate = sd.Sale.StartDate,
                     EndDate = sd.Sale.EndDate
                 }).ToList() ?? new List<SaleViewModel>(),
@@ -81,24 +81,24 @@ namespace RuychWeb.Areas.Admin.Controllers
             return View(productViewModels);
         }
 
-
-        // GET: Admin/Product/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             // Lấy danh sách các danh mục từ cơ sở dữ liệu
-            ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
+            var categories = _dataContext.Categories.ToList();
+            categories.Insert(0, new Category { CategoryId = 0, Name = "-- Chọn danh mục --" });
+            ViewBag.Categories = new SelectList(categories, "CategoryId", "Name");
 
             // Lấy danh sách các khuyến mãi từ cơ sở dữ liệu
             ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
-            ViewBag.Colors = new List<string> { "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
-            ViewBag.Sizes = new List<string> { "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
+            ViewBag.Colors = new List<string> { null, "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
+            ViewBag.Sizes = new List<string> { null, "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
             return View();
         }
 
-        // POST: Admin/Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(ProductCreateModel model)
         {
             if (ModelState.IsValid)
@@ -110,9 +110,21 @@ namespace RuychWeb.Areas.Admin.Controllers
                 {
                     // Nếu sản phẩm đã tồn tại, hiển thị thông báo lỗi
                     ModelState.AddModelError("Name", "Sản phẩm với tên này đã tồn tại.");
-                    ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
+                    var categories = _dataContext.Categories.ToList();
+                    categories.Insert(0, new Category { CategoryId = 0, Name = "-- Chọn danh mục --" });
+                    ViewBag.Categories = new SelectList(categories, "CategoryId", "Name");
                     return View(model);
                 }
+
+                if (model.CategoryId == 0 || model.CategoryId == null)
+                {
+                    ModelState.AddModelError("CategoryId", "Vui lòng chọn danh mục.");
+                    var categories = _dataContext.Categories.ToList();
+                    categories.Insert(0, new Category { CategoryId = 0, Name = "-- Chọn danh mục --" });
+                    ViewBag.Categories = new SelectList(categories, "CategoryId", "Name");
+                    return View(model);
+                }
+
                 if (model.ThumbnailFile != null)
                 {
                     string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "images/Products");
@@ -124,38 +136,59 @@ namespace RuychWeb.Areas.Admin.Controllers
                     fs.Close();
                     model.Thumbnail = imageName;
                 }
-
+                decimal price = model.Price ?? 0;
                 // Tạo sản phẩm mới
                 var product = new Product
                 {
                     Name = model.Name,
-                    Price = model.Price,
+                    Price = price,
                     Thumbnail = model.Thumbnail ?? "default.png",  // Nếu không có thumbnail thì sử dụng ảnh mặc định
-                    Description = model.Description,
-                    CategoryId = model.CategoryId
+                    Description = model.Description ?? "",
+                    CategoryId = model.CategoryId,
+                    OnSale = model.OnSale
                 };
 
                 _dataContext.Products.Add(product);
                 await _dataContext.SaveChangesAsync();  // Lưu sản phẩm
 
-                // Tạo màu sắc
-                var color = new Color
+                // Cập nhật hoặc tạo mới màu sắc (nếu có)
+                var color = product.Colors?.FirstOrDefault(c => c.Name == model.Color);
+                if (color == null && !string.IsNullOrEmpty(model.Color))  // Kiểm tra nếu màu sắc không rỗng
                 {
-                    Name = model.Color,
-                    ProductId = product.ProductId
-                };
-                _dataContext.Colors.Add(color);
-                await _dataContext.SaveChangesAsync();  // Lưu màu sắc
+                    color = new Color
+                    {
+                        Name = model.Color,
+                        ProductId = product.ProductId
+                    };
+                    _dataContext.Colors.Add(color);
+                    await _dataContext.SaveChangesAsync();
+                }
 
-                // Tạo chi tiết sản phẩm
-                var productDetail = new ProductDetail
+                // Cập nhật hoặc thêm ProductDetail (nếu có màu và kích thước hợp lệ)
+                if (color != null && !string.IsNullOrEmpty(model.Size) && model.Quantity.HasValue)
                 {
-                    ColorId = color.ColorId,
-                    Size = model.Size,
-                    Quantity = model.Quantity
-                };
-                _dataContext.ProductDetails.Add(productDetail);
-                await _dataContext.SaveChangesAsync();  // Lưu chi tiết sản phẩm
+                    var existingDetail = _dataContext.ProductDetails?
+                        .FirstOrDefault(pd => pd.ColorId == color.ColorId && pd.Size == model.Size);
+
+                    if (existingDetail != null)
+                    {
+                        existingDetail.Quantity = model.Quantity.Value;
+                        _dataContext.ProductDetails?.Update(existingDetail);
+                    }
+                    else
+                    {
+                        var productDetail = new ProductDetail
+                        {
+                            ColorId = color.ColorId,
+                            Size = model.Size,
+                            Quantity = model.Quantity.Value
+                        };
+                        _dataContext.ProductDetails?.Add(productDetail);
+                    }
+
+                    await _dataContext.SaveChangesAsync();
+                }
+
 
                 // Nếu có thông tin về khuyến mãi
                 if (model.SaleId.HasValue)  // Kiểm tra nếu SaleId không null
@@ -170,18 +203,19 @@ namespace RuychWeb.Areas.Admin.Controllers
                 }
 
                 // Quay lại danh sách sản phẩm sau khi tạo thành công
+                TempData["Success"] = "Thêm sản phẩm thành công!";
                 return RedirectToAction(nameof(Index));
             }
 
             // Nếu có lỗi, hiển thị lại form
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
             ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
-            ViewBag.Colors = new List<string> { "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
-            ViewBag.Sizes = new List<string> { "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
+            ViewBag.Colors = new List<string> { null, "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
+            ViewBag.Sizes = new List<string> { null, "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
+            TempData["Failed"] = "Thêm sản phẩm thất bại!";
             return View(model);
         }
 
-        // GET: Admin/Product/Edit/5
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
@@ -203,8 +237,9 @@ namespace RuychWeb.Areas.Admin.Controllers
             {
                 ProductId = product.ProductId,
                 Name = product.Name,
-                Price = product.Price,
+                Price = (decimal)product.Price,
                 Thumbnail = product.Thumbnail,
+                OnSale = product.OnSale,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 // Kiểm tra xem product.Colors có tồn tại không và có ít nhất một màu không
@@ -219,13 +254,14 @@ namespace RuychWeb.Areas.Admin.Controllers
             // Lấy danh sách categories và sales cho dropdown
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
             ViewBag.Sales = new SelectList(_dataContext.Sales, "SaleId", "Name");
-            ViewBag.Colors = new List<string> { "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
-            ViewBag.Sizes = new List<string> { "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
+            ViewBag.Colors = new List<string> { null, "Blue", "Red", "Green", "Purple", "Pink", "Gray", "Brown", "Black", "White" }; // Danh sách màu sắc
+            ViewBag.Sizes = new List<string> { null, "S", "M", "L", "XL", "XXL" }; // Danh sách kích thước
             return View(model);
         }
 
         [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, ProductEditModel model)
         {
             if (ModelState.IsValid)
@@ -260,11 +296,12 @@ namespace RuychWeb.Areas.Admin.Controllers
                 product.Thumbnail = model.Thumbnail;
                 product.Description = model.Description;
                 product.CategoryId = model.CategoryId;
+                product.OnSale = model.OnSale;
                 _dataContext.Products.Update(product);
                 await _dataContext.SaveChangesAsync();
 
                 // 3. Cập nhật hoặc tạo mới màu sắc (nếu có)
-                var color = product.Colors.FirstOrDefault(c => c.Name == model.Color);
+                var color = product.Colors?.FirstOrDefault(c => c.Name == model.Color);
                 if (color == null && !string.IsNullOrEmpty(model.Color))
                 {
                     color = new Color
@@ -276,17 +313,16 @@ namespace RuychWeb.Areas.Admin.Controllers
                     await _dataContext.SaveChangesAsync();
                 }
 
-                // 4. Cập nhật hoặc tạo chi tiết sản phẩm (size và quantity)
                 // 4. Cập nhật hoặc thêm ProductDetail
                 if (color != null && !string.IsNullOrEmpty(model.Size) && model.Quantity.HasValue)
                 {
-                    var existingDetail = _dataContext.ProductDetails
+                    var existingDetail = _dataContext.ProductDetails?
                         .FirstOrDefault(pd => pd.ColorId == color.ColorId && pd.Size == model.Size);
 
                     if (existingDetail != null)
                     {
                         existingDetail.Quantity = model.Quantity.Value;
-                        _dataContext.ProductDetails.Update(existingDetail);
+                        _dataContext.ProductDetails?.Update(existingDetail);
                     }
                     else
                     {
@@ -326,9 +362,10 @@ namespace RuychWeb.Areas.Admin.Controllers
                 }
 
                 await _dataContext.SaveChangesAsync(); // Lưu thông tin cập nhật vào DB
-
+                TempData["Success"] = "Thay đổi thông tin sản phẩm thành công!";
                 return RedirectToAction(nameof(Index)); // Trả về danh sách sản phẩm
             }
+            TempData["Failed"] = "Thay đổi thông tin sản phẩm thất bại!";
             return View(model);
         }
 
@@ -346,7 +383,6 @@ namespace RuychWeb.Areas.Admin.Controllers
             return imageName;
         }
 
-        // POST: Admin/Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -386,7 +422,7 @@ namespace RuychWeb.Areas.Admin.Controllers
                 // Cuối cùng xóa sản phẩm
                 _dataContext.Products.Remove(product);
                 await _dataContext.SaveChangesAsync();
-
+                TempData["Success"] = "Xóa sản phẩm thành công!";
                 return RedirectToAction(nameof(Index));  // Quay lại trang danh sách sản phẩm
             }
         }
@@ -398,7 +434,10 @@ namespace RuychWeb.Areas.Admin.Controllers
                 .Include(p => p.Colors).ThenInclude(c => c.ProductDetails)
                 .Include(p => p.SaleDetails).ThenInclude(sd => sd.Sale)
                 .Include(p => p.Category)
-                .Where(p => p.Name.Contains(keyword) || p.Category.Name.Contains(keyword))
+                .Where(p =>
+                    string.IsNullOrEmpty(keyword) ||
+                    p.Name.ToLower().Contains(keyword.ToLower()) ||
+                    p.Category.Name.ToLower().Contains(keyword.ToLower()))
                 .ToListAsync();
 
             var result = products.Select(p => new
@@ -406,7 +445,7 @@ namespace RuychWeb.Areas.Admin.Controllers
                 p.ProductId,
                 p.Name,
                 CategoryName = p.Category.Name,
-                Price = p.Price.ToString("N0") + " VND",
+                Price = Math.Floor((decimal)p.Price),
                 p.Thumbnail,
                 Colors = p.Colors.Select(c => new
                 {
@@ -422,6 +461,5 @@ namespace RuychWeb.Areas.Admin.Controllers
 
             return Json(result);
         }
-
     }
 }

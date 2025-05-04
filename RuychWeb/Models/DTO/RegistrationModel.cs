@@ -4,17 +4,19 @@ namespace RuychWeb.Models.DTO
 {
     public class RegistrationModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email không được bỏ trống")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        [RegularExpression(@"^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$",
+                          ErrorMessage = "Email không hợp lệ. Vui lòng nhập email hợp lệ.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu không được bỏ trống")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập lại mật khẩu")]
+        [Compare("Password", ErrorMessage = "Mật khẩu nhập lại không khớp")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string PasswordConfirm { get; set; }
     }
 }

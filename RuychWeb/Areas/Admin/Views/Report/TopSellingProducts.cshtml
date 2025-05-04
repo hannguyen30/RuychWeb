@@ -1,0 +1,98 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Sản phẩm bán chạy";
+
+    // Chuyển đổi các tên sản phẩm và số lượng bán thành chuỗi để sử dụng trong Chart.js
+    var labels = string.Join(",", Model.Select(x => $"\"{x.ProductName} ({x.Color})\""));
+    var quantities = string.Join(",", Model.Select(x => x.QuantitySold));
+    var percentages = string.Join(",", Model.Select(x => x.Percent));
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Sản Phẩm Bán Chạy</h2>
+
+    <!-- Form lọc sản phẩm bán chạy -->
+    <form method="get" class="row g-3 mb-4 p-4 border rounded shadow-sm bg-light">
+        <div class="col-md-3">
+            <label class="form-label">Tháng</label>
+            <input type="number" name="month" value="@Context.Request.Query["month"]" class="form-control" min="1" max="12" />
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Năm</label>
+            <input type="number" name="year" value="@Context.Request.Query["year"]" class="form-control" min="2000" />
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Lọc sản phẩm</button>
+        </div>
+    </form>
+
+    <!-- Biểu đồ -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-primary text-white">
+            <h6 class="m-0 font-weight-bold">Sản phẩm bán chạy</h6>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <p class="text-center">Không có dữ liệu để hiển thị biểu đồ.</p>
+            }
+            else
+            {
+                <div class="chart-area" style="height: 300px;">
+                    <canvas id="topSellingProductsChart" style="max-height: 100%;"></canvas>
+                </div>
+            }
+            <hr />
+            <p class="mb-0 text-muted">Sản phẩm bán chạy được xếp hạng theo số lượng bán ra.</p>
+        </div>
+    </div>
+</div>
+<a href="@Url.Action("Index", "Report", new { area = "Admin" })">Quay về danh sách</a>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = @Html.Raw("[" + labels + "]");
+        const quantities = @Html.Raw("[" + quantities + "]");
+        const percentages = @Html.Raw("[" + percentages + "]");
+
+        // Tạo biểu đồ tròn
+        ctx = document.getElementById('topSellingProductsChart').getContext('2d');
+
+        const chartConfig = {
+            type: 'pie', // Đổi từ bar sang pie
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Sản phẩm bán chạy',
+                    data: quantities,
+                    backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)', 'rgba(255, 159, 64, 0.6)',
+                                      'rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'], // Màu sắc cho các phần trong biểu đồ
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',
+                                  'rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'], // Màu viền
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const percentage = percentages[tooltipItem.dataIndex];
+                                return tooltipItem.raw.toLocaleString('vi-VN') + ' sản phẩm (' + percentage.toFixed(2) + '%)';
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, chartConfig);
+    </script>
+}

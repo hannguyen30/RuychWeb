@@ -388,3 +388,97 @@ button#checkout-btn {
         transform: scale(1);
     }
 }
+
+
+.success-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.success-modal {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.success-icon {
+    font-size: 50px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.success-modal h2 {
+    font-size: 24px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.success-modal p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.success-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.btn-go-home {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+    .btn-go-home:hover {
+        background-color: #218838;
+    }
+
+.swal2-popup.custom-toast-popup {
+    font-size: 1.6rem !important; /* Tăng kích cỡ chữ */
+    padding: 2em 2.5em !important; /* Tăng khoảng cách bên trong */
+    min-width: 400px !important; /* Tăng chiều rộng tối thiểu */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.swal2-title {
+    font-size: 1.5em !important;
+}
+
+.swal2-icon {
+    font-size: 2em !important;
+}
+
+.swal2-popup.custom-toast-popup,
+.swal2-popup.custom-toast-popup-error {
+    font-size: 1.6rem !important;
+    padding: 2em 2.5em !important;
+    min-width: 400px !important;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.swal2-popup.custom-toast-popup-error {
+    background-color: #f8d7da !important; /* nền đỏ nhạt */
+    color: #721c24 !important; /* chữ đỏ đậm */
+    border: 1px solid #f5c6cb !important;
+}

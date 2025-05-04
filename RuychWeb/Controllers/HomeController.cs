@@ -15,25 +15,27 @@ public class HomeController : Controller
         _dataContext = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string success)
     {
+        ViewData["Title"] = "Trang chủ | Ruych Studio";
+        if (success == "true")
+        {
+            TempData["OrderSuccess"] = "Đặt hàng thành công!";
+        }
+
         return View();
     }
     [HttpGet]
     public IActionResult GetList(int page = 1, int pageSize = 6)
     {
-        // Tổng số sản phẩm
-        var totalProducts = _dataContext.Products.Count();
 
-        // Tính toán số trang dựa trên tổng số sản phẩm và kích thước trang
+        var totalProducts = _dataContext.Products.Where(p => p.OnSale).Count();
         var totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
-
-        // Lấy danh sách sản phẩm cho trang hiện tại
-        var products = _dataContext.Products
+        var products = _dataContext.Products.Where(p => p.OnSale)
             .Include(p => p.SaleDetails)
                 .ThenInclude(sd => sd.Sale)
             .Include(p => p.Colors)
-                .ThenInclude(c => c.ProductDetails) // Bao gồm chi tiết sản phẩm (màu, kích thước, số lượng)
+                .ThenInclude(c => c.ProductDetails)
             .OrderBy(p => p.ProductId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -46,7 +48,7 @@ public class HomeController : Controller
                 p.Description,
                 SaleDetails = p.SaleDetails.Select(sd => new
                 {
-                    sd.Sale.Discount // Bao gồm thông tin giảm giá
+                    Discount = (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0,
                 }),
                 Colors = p.Colors.Select(c => new
                 {
@@ -86,7 +88,7 @@ public class HomeController : Controller
                 p.Description,
                 SaleDetails = p.SaleDetails.Select(sd => new
                 {
-                    sd.Sale.Discount
+                    Discount = (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0,
                 }),
                 Colors = p.Colors.Select(c => new
                 {
@@ -105,6 +107,7 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Contact()
     {
+        ViewBag.Title = "Liên hệ | Ruych Studio";
         return View();
     }
 }

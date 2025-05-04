@@ -1,0 +1,138 @@
+﻿@model List<RuychWeb.Models.DTO.Category>
+
+@{
+    ViewData["Title"] = "Category List";
+}
+
+<h3 class="text-primary">Danh mục sản phẩm</h3>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between">
+        <form method="get" asp-action="Index" asp-controller="Category" class="form-inline">
+            <div class="input-group">
+                <input id="searchBox" type="text" name="searchString" value="@ViewBag.SearchString" class="form-control bg-light border-0 small" placeholder="Tìm kiếm danh mục..." />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <a asp-action="Create" class="btn btn-success btn-sm">Thêm danh mục</a>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên danh mục</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td>@category.CategoryId</td>
+                            <td>@category.Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@category.CategoryId" class="btn btn-warning btn-sm">Sửa</a>
+                                <form asp-action="Delete" asp-route-id="@category.CategoryId" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xoá danh mục này?');">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-between">
+            <div>
+                <span>Trang @ViewBag.PageNumber / @ViewBag.TotalPages</span>
+            </div>
+            <div>
+                <!-- Previous Button -->
+                <a href="@Url.Action("Index", new { searchString = ViewBag.SearchString, pageNumber = ViewBag.PageNumber - 1, pageSize = 10 })"
+                   class="btn btn-info btn-sm"
+                @(ViewBag.PageNumber == 1 ? "disabled" : "")>Trước</a>
+
+                <!-- Page Numbers -->
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <a href="@Url.Action("Index", new { searchString = ViewBag.SearchString, pageNumber = i, pageSize = 10 })"
+                       class="btn btn-secondary btn-sm"
+                    @(i == ViewBag.PageNumber ? "style='background-color: #007bff; color: white;'" : "")>
+                        @i
+                    </a>
+                }
+
+                <!-- Next Button -->
+                <a href="@Url.Action("Index", new { searchString = ViewBag.SearchString, pageNumber = ViewBag.PageNumber + 1, pageSize = 10 })"
+                   class="btn btn-info btn-sm"
+                @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")>Sau</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchBox = document.getElementById('searchBox');
+
+                searchBox.addEventListener('input', async function () {
+                    const keyword = this.value;
+
+                    if (keyword.trim() === '') {
+                        location.reload(); // Nếu trống thì load lại trang
+                        return;
+                    }
+
+                    const res = await fetch(`/Admin/Category/Search?keyword=${encodeURIComponent(keyword)}`);
+                    const data = await res.json();
+
+                    const tbody = document.querySelector('#dataTable tbody');
+                    tbody.innerHTML = ''; // Clear table trước
+
+                    data.forEach(category => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${category.categoryId}</td>
+                            <td>${category.name}</td>
+                            <td>
+                                <a href="/Admin/Category/Edit/${category.categoryId}" class="btn btn-warning btn-sm">Sửa</a>
+                                <form action="/Admin/Category/Delete/${category.categoryId}" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá chuyên mục này?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                });
+            });
+
+        @if (TempData["AlertMessage"] != null)
+        {
+            <text>
+                                                alert("@Html.Raw(TempData["AlertMessage"])");
+            </text>
+        }
+
+         document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+    </script>
+}

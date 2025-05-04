@@ -4,49 +4,91 @@
 }
 
 @{
-    var statusList = new Dictionary<string, string>
+    var statusList = new List<string>
     {
-        { "Chờ xác nhận", "Chờ xác nhận" },
-        { "Đã xác nhận", "Đã xác nhận" },
-        { "Yêu cầu hủy", "Yêu cầu hủy" },
-        { "Đang giao hàng", "Đang giao hàng" },
-        { "Giao hàng thành công", "Giao hàng thành công" },
-        { "Đã hoàn thành", "Đã hoàn thành" },
-        { "Đã hủy", "Đã hủy" }
+        "Chờ xác nhận",
+        "Đã xác nhận",
+        "Yêu cầu hủy",
+        "Đang giao hàng",
+        "Giao hàng thành công",
+        "Đã hoàn thành",
+        "Đã hủy"
     };
+
+    int currentStatusIndex = statusList.IndexOf(Model.OrderStatus ?? "Chờ xác nhận");
 }
+<style>
+    option.disabled-option {
+        color: #999;
+        background-color: #f8f9fa;
+        cursor: not-allowed;
+    }
+
+    select:disabled,
+    select option:disabled {
+        color: #999;
+        cursor: not-allowed;
+    }
+</style>
+
 <h2>Chỉnh sửa đơn hàng @Model.OrderId</h2>
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="OrderId" />
 
     <div class="form-group">
-        <label asp-for="OrderStatus"></label>
-        <select asp-for="OrderStatus" class="form-control">
-            @foreach (var status in statusList)
+        <label asp-for="OrderStatus">Trạng thái đơn hàng</label>
+        <select asp-for="OrderStatus" class="form-control" id="OrderStatus">
+            @for (int i = 0; i < statusList.Count; i++)
             {
-                <option value="@status.Key" selected="@(Model.OrderStatus == status.Key ? "selected" : null)">
-                    @status.Value
+                var status = statusList[i];
+                var isSelected = Model.OrderStatus == status;
+
+                bool isDisabled = false;
+
+                if (Model.OrderStatus == "Đã hoàn thành")
+                {
+                    // Disable tất cả khi đơn đã hoàn thành
+                    isDisabled = true;
+                }
+                else if (Model.OrderStatus == "Yêu cầu hủy")
+                {
+                    // Chỉ cho phép chuyển sang "Đã hủy"
+                    isDisabled = status != "Đã hủy" && status != "Yêu cầu hủy";
+                }
+                else
+                {
+                    // Không cho quay về trạng thái trước
+                    isDisabled = i < currentStatusIndex;
+                }
+
+                <option value="@status"
+                        selected="@(isSelected ? "selected" : null)"
+                        disabled="@(isDisabled ? "disabled" : null)"
+                        class="@(isDisabled ? "disabled-option" : "")">
+                    @status
                 </option>
             }
         </select>
+
     </div>
 
     <div class="form-group">
-        <label asp-for="CancelReason"></label>
+        <label asp-for="CancelReason">Lý do hủy</label>
         <input asp-for="CancelReason" class="form-control" />
     </div>
 
     <div class="form-group">
-        <label asp-for="CompletedDate"></label>
-        <input asp-for="CompletedDate" type="datetime-local" class="form-control" />
+        <label asp-for="CompletedDate">Ngày hoàn thành</label>
+        <input asp-for="CompletedDate" readonly type="datetime-local" class="form-control" />
     </div>
 
     <div class="form-group">
-        <label asp-for="EmployeeId"></label>
-        <input asp-for="EmployeeId" class="form-control" />
+        <label asp-for="EmployeeName">Nhân viên thực hiện</label>
+        <input asp-for="EmployeeName" readonly class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary">Lưu</button>
     <a asp-action="Index" class="btn btn-secondary">Hủy</a>
 </form>
+<a href="@Url.Action("Index", "Order", new { area = "Admin" })">Quay về danh sách</a>

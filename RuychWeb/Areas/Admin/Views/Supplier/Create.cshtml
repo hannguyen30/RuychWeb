@@ -1,0 +1,37 @@
+﻿@model RuychWeb.Models.DTO.Supplier
+
+@{
+    ViewData["Title"] = "Create Supplier";
+}
+
+<h3>Thêm nhà cung cấp</h3>
+
+<form method="post" asp-action="Create" asp-controller="Supplier" class="form-horizontal">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Tên nhà cung cấp</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label">Số điện thoại</label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address" class="control-label">Địa chỉ</label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm</button>
+</form>
+
+<a href="@Url.Action("Index", "Supplier", new { area = "Admin" })">Quay về danh sách</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

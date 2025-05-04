@@ -18,12 +18,12 @@ namespace RuychWeb.Controllers
         }
         public IActionResult Index(string searchText)
         {
-            ViewBag.SearchText = searchText; // Truyền sang View nếu cần
+            ViewBag.SearchText = searchText;
             return View();
         }
         public IActionResult GetList(int page = 1, int pageSize = 9, string searchText = "", string sort_by = "", decimal minPrice = 0, decimal maxPrice = decimal.MaxValue)
         {
-            var query = _dataContext.Products
+            var query = _dataContext.Products.Where(p => p.OnSale)
                 .Include(p => p.SaleDetails).ThenInclude(sd => sd.Sale)
                 .Include(p => p.Colors).ThenInclude(c => c.ProductDetails)
                 .Include(p => p.Category)
@@ -41,10 +41,8 @@ namespace RuychWeb.Controllers
                 );
             }
 
-            // ✅ Lọc theo khoảng giá
-            query = query.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+            query = query.Where(p => (p.Price ?? 0) >= minPrice && (p.Price ?? 0) <= maxPrice);
 
-            // Sắp xếp như trước
             switch (sort_by)
             {
                 case "price_increase":
@@ -68,10 +66,13 @@ namespace RuychWeb.Controllers
                 {
                     p.ProductId,
                     p.Name,
-                    p.Price,
+                    Price = p.Price ?? 0,
                     p.Thumbnail,
                     p.Description,
-                    SaleDetails = p.SaleDetails.Select(sd => new { sd.Sale.Discount }),
+                    SaleDetails = p.SaleDetails.Select(sd => new
+                    {
+                        Discount = (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0
+                    }),
                     Colors = p.Colors.Select(c => new
                     {
                         c.Name,
@@ -86,16 +87,10 @@ namespace RuychWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int Id)
         {
-            // Kiểm tra xem sản phẩm có tồn tại không trước
+
             var product = await _dataContext.Products
                 .FirstOrDefaultAsync(p => p.ProductId == Id);
 
-            if (product == null)
-            {
-                return NotFound(); // Không tìm thấy sản phẩm
-            }
-
-            // Load đầy đủ thông tin liên quan đến sản phẩm
             product = await _dataContext.Products
                 .Where(p => p.ProductId == Id)
                 .Include(p => p.Category)
@@ -105,12 +100,12 @@ namespace RuychWeb.Controllers
                     .ThenInclude(sd => sd.Sale)
                 .FirstOrDefaultAsync();
 
-            // Tạo ViewModel để truyền qua View
+
             var productViewModel = new ProductViewModel
             {
                 ProductId = product.ProductId,
                 Name = product.Name,
-                Price = product.Price,
+                Price = (decimal)product.Price,
                 Thumbnail = product.Thumbnail,
                 Description = product.Description,
                 CategoryName = product.Category?.Name,
@@ -126,7 +121,7 @@ namespace RuychWeb.Controllers
                 Sales = product.SaleDetails?.Select(sd => new SaleViewModel
                 {
                     SaleName = sd.Sale.Name,
-                    Discount = sd.Sale.Discount,
+                    Discount = (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0,
                     StartDate = sd.Sale.StartDate,
                     EndDate = sd.Sale.EndDate
                 }).ToList() ?? new List<SaleViewModel>(),
@@ -138,14 +133,14 @@ namespace RuychWeb.Controllers
 
         public async Task<IActionResult> ByCategory(string name = "")
         {
-            // Lấy danh mục theo tên
+
             var category = await _dataContext.Categories.FirstOrDefaultAsync(c => c.Name == name);
             if (category == null)
             {
                 return RedirectToAction("Index", "Product");
             }
 
-            // Lấy tất cả sản phẩm thuộc danh mục
+
             var products = await _dataContext.Products
                 .Where(p => p.CategoryId == category.CategoryId)
                 .Include(p => p.SaleDetails).ThenInclude(sd => sd.Sale)
@@ -153,24 +148,23 @@ namespace RuychWeb.Controllers
                 .OrderBy(p => p.ProductId)
                 .ToListAsync();
 
-            // Chuyển đổi thành ProductViewModel
+
             var viewModel = products.Select(p => new ProductViewModel
             {
                 ProductId = p.ProductId,
                 Name = p.Name,
-                Price = p.Price,
+                Price = p.Price ?? 0,
                 Thumbnail = p.Thumbnail,
                 Description = p.Description,
                 CategoryId = p.CategoryId,
-                CategoryName = category.Name, // gán tên danh mục
+                CategoryName = category.Name,
 
-                // Thêm thông tin giảm giá từ SaleDetails
+
                 Sales = p.SaleDetails.Select(sd => new SaleViewModel
                 {
-                    Discount = sd.Sale.Discount
+                    Discount = (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0,
                 }).ToList(),
 
-                // Thêm thông tin màu sắc và kích thước
                 Colors = p.Colors.Select(c => new ColorViewModel
                 {
                     ColorId = c.ColorId,
@@ -184,8 +178,8 @@ namespace RuychWeb.Controllers
 
             }).ToList();
 
-            ViewBag.SelectedCategory = category.Name; // Truyền tên danh mục sang View
-            return View(viewModel); // View nằm trong /Views/Product/ByCategory.cshtml
+            ViewBag.SelectedCategory = category.Name;
+            return View(viewModel);
         }
 
     }

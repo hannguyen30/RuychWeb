@@ -10,6 +10,7 @@
 
 </style>
 @{
+    ViewData["Title"] = "Đặt hàng";
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
     decimal subtotal = 0;
@@ -73,15 +74,18 @@
                     <h4>THÔNG TIN GIAO HÀNG</h4>
                     <div class="form-group">
                         <label for="Name">Họ Tên</label>
-                        <input type="text" class="form-control" id="Name" name="Name" required />
+                        <input type="text" class="form-control" id="Name" name="Name" />
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="Phone">Số điện thoại</label>
-                        <input type="text" class="form-control" id="Phone" name="Phone" required />
+                        <input type="text" class="form-control" id="Phone" name="Phone" />
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="Address">Địa chỉ</label>
-                        <input type="text" class="form-control" id="Address" name="Address" required />
+                        <input type="text" class="form-control" id="Address" name="Address" />
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
@@ -89,18 +93,21 @@
                         <select class="form-control" id="tinh" name="Tinh" required>
                             <option value="0">Chọn Tỉnh/Thành Phố</option>
                         </select>
+                        @Html.ValidationMessageFor(m => m.Tinh, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="District">Quận/Huyện</label>
                         <select class="form-control" id="quan" name="Quan" required>
                             <option value="0">Chọn Quận/Huyện</option>
                         </select>
+                        @Html.ValidationMessageFor(m => m.Quan, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="Ward">Phường/Xã</label>
                         <select class="form-control" id="phuong" name="Phuong" required>
                             <option value="0">Chọn Phường/Xã</option>
                         </select>
+                        @Html.ValidationMessageFor(m => m.Phuong, "", new { @class = "text-danger" })
                     </div>
 
                     <h4>PHƯƠNG THỨC THANH TOÁN</h4>

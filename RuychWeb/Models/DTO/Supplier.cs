@@ -9,6 +9,6 @@ namespace RuychWeb.Models.DTO
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public ICollection<Receipt> Receipts { get; set; }
+        public ICollection<Receipt> Receipts { get; set; } = new List<Receipt>();
     }
 }

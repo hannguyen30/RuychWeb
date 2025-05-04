@@ -1,6 +1,6 @@
 ﻿@model RuychWeb.Models.DTO.RegistrationModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Đăng ký";
 }
 <style>
     #slider {
@@ -59,12 +59,17 @@
         font-size: 0.95em;
         font-weight: 500;
     }
+
+    .validation-summary-errors {
+        color: red;
+        font-size: 0.95em;
+        margin-top: 10px;
+    }
 </style>
 
 <section id="register">
     <div class="signup-form">
         <h3>ĐĂNG KÝ TÀI KHOẢN</h3>
-        @Html.ValidationSummary()
         <form asp-action="Registration" method="post">
             @if (TempData["msg"] != null)
             {
@@ -90,8 +95,12 @@
                 <input type="password" class="form-control" asp-for="PasswordConfirm" />
                 <span class="text-danger" asp-validation-for="PasswordConfirm"></span>
             </div>
-
             <button type="submit" class="btn btn-info">ĐĂNG KÝ</button>
         </form>
     </div>
 </section>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

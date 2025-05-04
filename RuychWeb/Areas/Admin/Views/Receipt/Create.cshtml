@@ -1,0 +1,103 @@
+﻿@model RuychWeb.Areas.Admin.Models.ReceiptViewModel
+
+
+<h3>Thêm mới phiếu nhập</h3>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Nhà cung cấp</label>
+        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers" required>
+            <option value="">Chọn nhà cung cấp</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Nhân viên</label>
+        <input asp-for="EmployeeName" class="form-control" readonly />
+        <input type="hidden" asp-for="EmployeeId" />
+    </div>
+
+    <hr />
+    <h5>Chi tiết sản phẩm nhập</h5>
+
+    <div id="item-container">
+        <!-- First item -->
+        <div class="receipt-item" data-index="0">
+            <div class="row mb-2">
+                <div class="col-md-3">
+                    <select name="ReceiptItems[0].ProductId" class="form-control" asp-items="ViewBag.Products" required>
+                        <option value="">Chọn sản phẩm</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="ReceiptItems[0].Color" class="form-control" required>
+                        <option value="">Chọn màu</option>
+                        @foreach (var color in ViewBag.Colors as List<string>)
+                        {
+                            <option value="@color">@color</option>
+                        }
+                    </select>
+
+                </div>
+                <div class="col-md-2">
+                    <select name="ReceiptItems[0].Size" class="form-control" required>
+                        <option value="">Chọn kích thước</option>
+                        @foreach (var size in ViewBag.Sizes as List<string>)
+                        {
+                            <option value="@size">@size</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input name="ReceiptItems[0].Quantity" type="number" class="form-control" placeholder="Số lượng" required />
+                </div>
+                <div class="col-md-2">
+                    <input name="ReceiptItems[0].Price" type="number" step="0.01" class="form-control" placeholder="Giá nhập" required />
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger btn-sm remove-item">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" id="add-item" class="btn btn-secondary mb-3">+ Thêm sản phẩm</button>
+    <br />
+    <button type="submit" class="btn btn-primary">Lưu phiếu nhập</button>
+</form>
+<a href="@Url.Action("Index", "Receipt", new { area = "Admin" })">Quay về danh sách</a>
+@section Scripts {
+    <script>
+        let index = 1;
+
+        document.getElementById("add-item").addEventListener("click", function () {
+            const container = document.getElementById("item-container");
+            const newItem = container.querySelector(".receipt-item").cloneNode(true);
+
+            newItem.setAttribute("data-index", index);
+
+            // Cập nhật name attributes
+            newItem.querySelectorAll("select, input").forEach(input => {
+                const name = input.getAttribute("name");
+                if (name) {
+                    const newName = name.replace(/\d+/, index);
+                    input.setAttribute("name", newName);
+                    input.value = "";
+                }
+            });
+
+            container.appendChild(newItem);
+            index++;
+        });
+
+        // Xóa dòng sản phẩm
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-item")) {
+                const items = document.querySelectorAll(".receipt-item");
+                if (items.length > 1) {
+                    e.target.closest(".receipt-item").remove();
+                }
+            }
+        });
+    </script>
+}

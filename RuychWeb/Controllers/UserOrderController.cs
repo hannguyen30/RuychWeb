@@ -26,9 +26,33 @@ namespace RuychWeb.Controllers
             _vnPayService = vnPayService;
         }
 
-        //Trang dành cho khách hàng đã đăng nhập
         public async Task<IActionResult> Checkout()
         {
+            if (TempData["PError"] != null)
+            {
+                ModelState.AddModelError(nameof(OrderViewModel.Phuong), TempData["PError"].ToString());
+            }
+            if (TempData["QError"] != null)
+            {
+                ModelState.AddModelError(nameof(OrderViewModel.Quan), TempData["QError"].ToString());
+            }
+            if (TempData["TError"] != null)
+            {
+                ModelState.AddModelError(nameof(OrderViewModel.Tinh), TempData["TError"].ToString());
+            }
+            if (TempData["NameError"] != null)
+            {
+                ModelState.AddModelError(nameof(OrderViewModel.Name), TempData["NameError"].ToString());
+            }
+            if (TempData["PhoneError"] != null)
+            {
+                ModelState.AddModelError(nameof(OrderViewModel.Phone), TempData["PhoneError"].ToString());
+            }
+            if (TempData["AddressError"] != null)
+            {
+                ModelState.AddModelError(nameof(OrderViewModel.Address), TempData["AddressError"].ToString());
+            }
+
             var user = await _userManager.GetUserAsync(User);
 
             var customer = await _context.Customers
@@ -37,11 +61,9 @@ namespace RuychWeb.Controllers
             var cart = await _context.Carts
                 .FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
 
-            // Get the shipping options
             var shippingList = await _context.Shippings.ToListAsync();
             ViewBag.Shippings = shippingList;
 
-            // Get the cart details and include related tables
             var cartDetails = await _context.CartDetails
                 .Where(cd => cd.CartId == cart.CartId)
                 .Include(cd => cd.ProductDetail)
@@ -64,15 +86,14 @@ namespace RuychWeb.Controllers
                     ProductName = cd.ProductDetail?.Color?.Product?.Name ?? "Unknown",
                     ColorName = cd.ProductDetail?.Color?.Name ?? "Unknown",
                     Size = cd.ProductDetail?.Size ?? "Unknown",
-                    Discount = cd.ProductDetail?.Color?.Product?.SaleDetails
-                        .FirstOrDefault()?.Sale?.Discount ?? 0
+                    Discount = cd.ProductDetail?.Color?.Product?.SaleDetails.
+                        Select(sd => (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0).FirstOrDefault()
                 }).ToList()
             };
 
             return View(orderViewModel);
         }
 
-        // Đặt hàng cho khách hàng đã đăng nhập
         [HttpPost]
         public async Task<IActionResult> PlaceOrder(OrderViewModel model, decimal Total)
         {
@@ -102,10 +123,45 @@ namespace RuychWeb.Controllers
                 .ThenInclude(c => c.Product)
                 .ToListAsync();
 
-            if (!ModelState.IsValid)
-                return View(model);
+            if (model == null ||
+                  model.Tinh == "0" || model.Quan == "0" || model.Phuong == "0" ||
+                  string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Phone) ||
+                   !model.Phone.All(char.IsDigit) || model.Phone.Length < 10 || string.IsNullOrEmpty(model.Address))
+            {
+                if (model.Phuong == "0")
+                {
+                    TempData["PError"] = "Vui lòng chọn Phường/Xã.";
+                }
+                if (model.Quan == "0")
+                {
+                    TempData["QError"] = "Vui lòng chọn Quận/Huyện.";
+                }
+                if (model.Tinh == "0")
+                {
+                    TempData["TError"] = "Vui lòng chọn Tỉnh/Thành Phố.";
+                }
+                if (string.IsNullOrEmpty(model.Name))
+                {
+                    TempData["NameError"] = "Vui lòng nhập họ tên.";
+                }
+                if (string.IsNullOrEmpty(model.Phone))
+                {
+                    TempData["PhoneError"] = "Vui lòng nhập số điện thoại.";
+                }
+                else if (!model.Phone.All(char.IsDigit) || model.Phone.Length < 10)
+                {
+                    TempData["PhoneError"] = "Số điện thoại không hợp lệ (Cần 10 chữ số).";
+                }
+                if (string.IsNullOrEmpty(model.Address))
+                {
+                    TempData["AddressError"] = "Vui lòng nhập địa chỉ.";
+                }
 
-            // Tạo đơn hàng và chi tiết đơn hàng
+                // Quay lại trang Checkout
+                return RedirectToAction("Checkout");
+            }
+
+
             var order = new Order
             {
                 Name = model.Name,
@@ -117,10 +173,10 @@ namespace RuychWeb.Controllers
                 CancelReason = "",
                 CarrierName = "Giao hàng tiết kiệm",
                 PaymentStatus = "Chưa thanh toán",
-                OrderStatus = model.PaymentMethod == "Online" ? "Chờ xác nhận" : "Chờ xác nhận",  // Đơn hàng online sẽ có trạng thái 'Chờ thanh toán'
+                OrderStatus = model.PaymentMethod == "Online" ? "Chờ xác nhận" : "Chờ xác nhận",
                 TotalFee = Total,
                 CustomerId = customer.CustomerId,
-                EmployeeId = 1 // ID nhân viên giao hàng, có thể thay đổi theo logic của bạn
+                EmployeeId = 1
             };
 
             _context.Orders.Add(order);
@@ -132,7 +188,7 @@ namespace RuychWeb.Controllers
                 var orderDetail = new OrderDetail
                 {
                     Quantity = cartDetail.Quantity,
-                    Price = cartDetail.ProductDetail.Color.Product.Price,
+                    Price = (decimal)cartDetail.ProductDetail.Color.Product.Price,
                     OrderId = order.OrderId,
                     ProductDetailId = cartDetail.ProductDetailId
                 };
@@ -163,9 +219,9 @@ namespace RuychWeb.Controllers
                 var paymentUrl = _vnPayService.CreatePaymentUrl(paymentInfo, HttpContext);
                 return Redirect(paymentUrl);
             }
-
-            // Nếu thanh toán COD, trực tiếp chuyển đến trang Checkout
-            return RedirectToAction("Index", "Home");
+            TempData["OrderId"] = order.OrderId;
+            TempData["SuccessMessage"] = "Đặt hàng thành công!";
+            return RedirectToAction("Index", "Home", new { success = "true" });
         }
 
         // Trang dành cho khách hàng chưa đăng nhập
@@ -199,6 +255,24 @@ namespace RuychWeb.Controllers
             foreach (var item in model.OrderDetails)
             {
                 _logger.LogInformation($"OrderDetailViewModel => ProductDetailId: {item.ProductDetailId}, Quantity: {item.Quantity}, Price: {item.Price}");
+            }
+
+            if (model == null || model.Tinh == "0" || model.Quan == "0" || model.Phuong == "0")
+            {
+                if (model.Phuong == "0")
+                {
+                    ModelState.AddModelError(nameof(model.Phuong), "Vui lòng chọn Phường/Xã.");
+                }
+                if (model.Quan == "0")
+                {
+                    ModelState.AddModelError(nameof(model.Quan), "Vui lòng chọn Quận/Huyện.");
+                }
+                if (model.Tinh == "0")
+                {
+                    ModelState.AddModelError(nameof(model.Tinh), "Vui lòng chọn Tỉnh/Thành Phố.");
+                }
+
+                return View("LocalCheckout", model);  // Quay lại trang hiện tại và thông báo lỗi
             }
 
             var order = new Order
@@ -283,8 +357,9 @@ namespace RuychWeb.Controllers
                 var paymentUrl = _vnPayService.CreatePaymentUrl(paymentInfo, HttpContext);
                 return Redirect(paymentUrl);
             }
-
-            return RedirectToAction("Index", "Home");
+            TempData["OrderId"] = order.OrderId;
+            TempData["SuccessMessage"] = "Đặt hàng thành công!";
+            return RedirectToAction("Index", "Home", new { success = "true" });
         }
 
         // Trả về dữ liệu sau khi thanh toán xong
@@ -386,8 +461,8 @@ namespace RuychWeb.Controllers
                         Size = od.ProductDetail.Size,
                         Quantity = od.Quantity,
                         Price = od.Price,
-                        Discount = od.ProductDetail.Color.Product.SaleDetails
-                            .FirstOrDefault()?.Sale?.Discount ?? 0,
+                        Discount = od.ProductDetail.Color.Product.SaleDetails.
+                            Select(sd => (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0).FirstOrDefault(),
                         ImageUrl = od.ProductDetail.Color.Product.Thumbnail
                     }).ToList()
                 };
@@ -400,10 +475,8 @@ namespace RuychWeb.Controllers
         //Hàm tách dịa chỉ từ chuỗi số nhập từ form
         public static (string Address, string Ward, string District, string Province) SplitAddress(string fullAddress)
         {
-            // Giả sử bạn có địa chỉ theo định dạng: "Số nhà, Đường, Phường, Quận, Tỉnh"
             var parts = fullAddress?.Split(',') ?? new string[0];
 
-            // Tạo giá trị mặc định nếu không có đủ phần
             string address = parts.Length > 0 ? parts[0].Trim() : string.Empty;
             string ward = parts.Length > 1 ? parts[1].Trim() : string.Empty;
             string district = parts.Length > 2 ? parts[2].Trim() : string.Empty;
@@ -467,7 +540,8 @@ namespace RuychWeb.Controllers
                     Size = od.ProductDetail.Size,
                     Quantity = od.Quantity,
                     Price = od.Price,
-                    Discount = od.ProductDetail.Color.Product.SaleDetails.FirstOrDefault()?.Sale?.Discount ?? 0,
+                    Discount = od.ProductDetail.Color.Product.SaleDetails
+                    .Select(sd => (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0).FirstOrDefault(),
                     ImageUrl = od.ProductDetail.Color.Product.Thumbnail
                 }).ToList()
             };
@@ -493,13 +567,36 @@ namespace RuychWeb.Controllers
                 order.CancelReason = cancelReason;
                 _context.Orders.Update(order);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("OrderDetails", new { orderId = orderId });
+                return RedirectToAction("LookupOrder");
             }
             else
             {
-                TempData["ErrorMessage"] = "Đ";
-                return RedirectToAction("OrderDetails", new { orderId = orderId });
+                return RedirectToAction("LookupOrder");
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmReceived(int OrderId)
+        {
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == OrderId);
+            if (order == null || order.OrderStatus != "Giao hàng thành công")
+            {
+                return NotFound();
+            }
+
+            order.OrderStatus = "Đã hoàn thành";
+            order.CompletedDate = DateTime.Now;
+
+            if (order.PaymentStatus == "Chưa thanh toán")
+            {
+                order.PaymentStatus = "Đã thanh toán";
+                order.PaymentDate = DateTime.Now;
+            }
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Đã xác nhận nhận hàng.";
+            return RedirectToAction("LookupOrder");
         }
     }
 }

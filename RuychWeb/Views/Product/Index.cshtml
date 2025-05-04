@@ -1,6 +1,8 @@
 ﻿@using RuychWeb.Models.DTO
 @model IEnumerable<Product>
-
+@{
+    ViewData["Title"] = "Sản phẩm";
+}
 <div class="col-sm-3">
     <partial name="_SideBar" />
 </div>
@@ -207,7 +209,7 @@
                         });
                     }
 
-                    if (totalQuantity > 0) {
+                    if (totalQuantity > 0 && item.price > 0) {
                         isOutOfStock = false;
                     }
 
@@ -229,11 +231,14 @@
                                         <img src="/images/Products/${item.thumbnail}" alt="${item.name}" width="100%" />
                                         ${isOutOfStock ? `<div class="out-of-stock-label">Hết hàng</div>` : ''}
                                         <p>${item.name}</p>
-                                        ${salePrice > 0
-                                            ? `<h2 class="sale-price">${salePrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>
-                                                <h4 class="original-price" style="text-decoration: line-through; color: black;">${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h4>`
-                                            : `<h2>${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>`
-                                        }
+                                               ${salePrice > 0
+                                                ? `<h2 class="sale-price">${salePrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>
+                                                   <h4 class="original-price" style="text-decoration: line-through; color: black;">${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h4>`
+                                                : (item.price === 0
+                                                    ? `<h2>Chờ cập nhật giá</h2>`
+                                                    : `<h2>${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>`
+                                                  )
+                                            }
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">

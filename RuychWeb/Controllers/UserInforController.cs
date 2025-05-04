@@ -44,22 +44,16 @@ namespace RuychWeb.Controllers
             var customer = await _dataContext.Customers
                 .FirstOrDefaultAsync(c => c.AccountId == accountId);
 
-            if (customer == null)
-            {
-                return NotFound(); // Nếu không tìm thấy khách hàng, trả về lỗi
-            }
-
-            // Cập nhật thông tin khách hàng từ model
             customer.Name = model.Name;
             customer.Phone = model.Phone;
             customer.Email = model.Email;
             customer.Address = model.Address;
 
-            // Lưu thay đổi vào cơ sở dữ liệu
+
             _dataContext.Customers.Update(customer);
             await _dataContext.SaveChangesAsync();
 
-            // Sau khi lưu thành công, chuyển hướng lại trang thông tin cá nhân
+            TempData["InfoChanged"] = "Thông tin đã được thay đổi thành công!";
             return RedirectToAction("MyProfile");
         }
 

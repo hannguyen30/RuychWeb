@@ -18,7 +18,7 @@ namespace RuychWeb.Models.DTO
         public string PaymentStatus { get; set; }
         public string OrderStatus { get; set; }
         public string? CancelReason { get; set; }
-        public string CarrierName { get; set; }
+        public string? CarrierName { get; set; }
         public decimal TotalFee { get; set; }
         [AllowNull]
         public int? CustomerId { get; set; }
