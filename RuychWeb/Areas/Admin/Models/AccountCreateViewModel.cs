@@ -5,12 +5,9 @@ namespace RuychWeb.Areas.Admin.Models
     public class AccountCreateViewModel
     {
         [Required]
-        [Display(Name = "Username")]
-        [RegularExpression(@"^\S+$", ErrorMessage = "Username cannot contain spaces")]
-        public string UserName { get; set; }
-
-        [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        [RegularExpression(@"^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$",
+                          ErrorMessage = "Email không hợp lệ. Vui lòng nhập email hợp lệ.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -22,7 +19,8 @@ namespace RuychWeb.Areas.Admin.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Mật khẩu không trùng khớp")]
         public string ConfirmPassword { get; set; }
+
     }
 }

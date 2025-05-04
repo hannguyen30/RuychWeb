@@ -12,8 +12,8 @@ using RuychWeb.Repository;
 namespace RuychWeb.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250414095631_Init")]
-    partial class Init
+    [Migration("20250501151101_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -230,7 +230,6 @@ namespace RuychWeb.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorId"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductId")
@@ -259,7 +258,6 @@ namespace RuychWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarrierName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CompletedDate")
@@ -350,14 +348,13 @@ namespace RuychWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Thumbnail")
@@ -386,7 +383,6 @@ namespace RuychWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Size")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductDetailId");

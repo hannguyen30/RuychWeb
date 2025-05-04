@@ -21,11 +21,14 @@
 
         <!-- Thông tin khách hàng và địa chỉ -->
         <div class="row mb-3">
+
             <div class="col-md-6">
+                <strong>Người bán:</strong> @Model.EmployeeName<br />
                 <strong>Khách hàng:</strong> @Model.Name<br />
                 <strong>SĐT:</strong> @Model.Phone<br />
-                <strong>Địa chỉ: @Model.Address</strong>
+                <strong>Địa chỉ: @Model.Address,</strong>
                 <span id="address-@Model.OrderId" class="address-info" data-tinh="@Model.Province" data-quan="@Model.District" data-phuong="@Model.Ward"></span><br />
+                <strong>Đơn vị vận chuyển:</strong> @Model.CarrierName<br />
             </div>
             <div class="col-md-6">
                 <strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy")<br />
@@ -47,6 +50,12 @@
                         @Model.PaymentStatus
                     </span>
                 }
+                else if (Model.PaymentStatus == "Đã hoàn tiền")
+                {
+                    <span style="background-color: #d4edda; color:  yellow; border-radius: 5px;">
+                        @Model.PaymentStatus
+                    </span>
+                }
                 else
                 {
                     <span style="background-color: #6c757d; color: #fff;  border-radius: 5px;">
@@ -59,6 +68,9 @@
                 {
                     <strong class="text-danger">Lý do hủy:</strong> @Model.CancelReason
                 }
+                <div class="mt-4">
+                    <a href="@Url.Action("ExportToPdf", "Order", new { orderId = Model.OrderId })" class="btn btn-primary">Xuất PDF</a>
+                </div>
             </div>
         </div>
 
@@ -83,24 +95,13 @@
                 @if (Model.OrderDetails != null && Model.OrderDetails.Any())
                 {
                     var index = 1;
-                    foreach (var item in Model.OrderDetails)
+                    @foreach (var item in Model.OrderDetails)
                     {
-                        var price = item.Price; // Ensure price is a non-null decimal (default to 0 if null)
-                        var discount = Model.Discount ?? 0; // Ensure discount is a non-null decimal (default to 0 if null)
-                        decimal discountedPrice = 0;
+                        var price = item.Price; // Đây là giá đã giảm rồi
+                        var discount = Model.Discount ?? 0; // Lấy mức giảm giá từ đơn hàng, không tính lại ở đây
+                        decimal discountedPrice = price; // Đã có giá giảm rồi, không cần tính lại
 
-                        // Check if the discount is a percentage or a fixed amount
-                        if (discount < 100)
-                        {
-                            // Apply percentage discount
-                            discountedPrice = price - price * discount / 100;
-                        }
-                        else if (discount >= 1000)
-                        {
-                            // Apply fixed amount discount
-                            discountedPrice = price - discount;
-                        }
-
+                        // Đảm bảo không áp dụng giảm giá lần nữa
                         decimal totalPrice = discountedPrice * item.Quantity;
 
                         <tr>
@@ -220,6 +221,19 @@
                     console.error("Dữ liệu tỉnh, quận, phường không đầy đủ.");
                 }
             });
+        });
+         document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
         });
     </script>
 }

@@ -227,7 +227,6 @@ namespace RuychWeb.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorId"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductId")
@@ -256,7 +255,6 @@ namespace RuychWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarrierName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CompletedDate")
@@ -347,14 +345,13 @@ namespace RuychWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Thumbnail")
@@ -383,7 +380,6 @@ namespace RuychWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Size")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductDetailId");

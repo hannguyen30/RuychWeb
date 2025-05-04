@@ -8,7 +8,7 @@
 
         public ColorViewModel()
         {
-            Sizes = new List<SizeQuantityViewModel>(); // Khởi tạo kích thước và số lượng
+            Sizes = new List<SizeQuantityViewModel>(); // Khởi tạo kích thước và số lượng rỗng khi 1 màu mới được tạo
         }
     }
 }

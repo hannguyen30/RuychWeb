@@ -15,6 +15,7 @@
                 </div>
             </div>
         </form>
+        <a asp-action="Create" asp-controller="Order" asp-area="Admin" class="btn btn-success btn-sm">Thêm đơn hàng</a>
     </div>
 
     <div class="card-body">
@@ -45,7 +46,10 @@
                             <td><span class="badge bg-danger text-white">@order.TotalFee.ToString("N0") VND</span></td>
                             <td>@order.PaymentMethod</td>
                             <td>
-                                <span class="badge @(order.PaymentStatus == "Đã thanh toán" ? "bg-success text-white" : "bg-secondary text-white")">
+                                <span class="badge
+                                    @(order.PaymentStatus == "Đã thanh toán" ? "bg-success text-white" :
+                                      order.PaymentStatus == "Đã hoàn tiền" ? "bg-warning text-white" :
+                                      "bg-secondary text-white")">
                                     @order.PaymentStatus
                                 </span>
                             </td>
@@ -78,7 +82,7 @@
 
         <div class="d-flex justify-content-between">
             <div>
-                <span>Page @ViewBag.PageNumber of @ViewBag.TotalPages</span>
+                <span>Trang @ViewBag.PageNumber / @ViewBag.TotalPages</span>
             </div>
             <div>
                 <!-- Previous Button -->
@@ -87,7 +91,7 @@
                 @if (ViewBag.PageNumber == 1)
                 {
                     <text>disabled</text>
-                }>Previous</a>
+                }>Trước</a>
 
                 <!-- Display Page Numbers -->
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
@@ -107,7 +111,7 @@
                 @if (ViewBag.PageNumber == ViewBag.TotalPages)
                 {
                     <text>disabled</text>
-                }>Next</a>
+                }>Sau</a>
             </div>
         </div>
     </div>
@@ -116,9 +120,13 @@
 
 @section Scripts {
     <script>
-            async function loadOrders(keyword = "") {
+                    let debounceTimeout;
+
+        async function loadOrders(keyword = "") {
             const res = await fetch(`/Admin/Order/Search?keyword=${encodeURIComponent(keyword)}`);
             const data = await res.json();
+
+            console.log(data); // Để kiểm tra dữ liệu trả về từ server
 
             const tbody = document.getElementById("orderTableBody");
             tbody.innerHTML = "";
@@ -166,15 +174,47 @@
             });
         }
 
-        // Gọi ban đầu để hiển thị tất cả đơn hàng
-        document.addEventListener("DOMContentLoaded", function () {
-            loadOrders();
-        });
-
-        // Gọi khi tìm kiếm
         document.getElementById("searchBox").addEventListener("input", function () {
             const keyword = this.value.trim();
-            loadOrders(keyword);
+
+            // Nếu có một sự kiện debounce trước đó, hủy bỏ nó
+            clearTimeout(debounceTimeout);
+
+            // Tạo một sự kiện mới để tìm kiếm sau 500ms
+            debounceTimeout = setTimeout(() => {
+                if (keyword.length > 0) {
+                    loadOrders(keyword);
+                } else {
+                    location.reload(); // Hoặc tải lại Razor để hiển thị lại danh sách gốc
+                }
+            }, 500); // Delay 500ms trước khi gọi API tìm kiếm
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            var failed = '@TempData["Failed"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+            if (failed && failed !== '') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: failed,
+                showConfirmButton: false,
+                timer: 4000,
+                customClass: {
+                    popup: 'custom-toast-popup-error'
+                }
+            });
+        }
         });
     </script>
 

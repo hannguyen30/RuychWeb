@@ -4,21 +4,22 @@
     ViewData["Title"] = "Account List";
 }
 
-<h3 class="text-primary">Account List</h3>
+<h3 class="text-primary">Danh sách tài khoản</h3>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between">
-        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <!-- Form tìm kiếm -->
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search fa-sm"></i>
                     </button>
                 </div>
             </div>
         </form>
-        <a asp-action="Create" asp-controller="Infor" class="btn btn-success btn-sm">Add New Account</a>
+        <a asp-action="Create" asp-controller="Infor" class="btn btn-success btn-sm">Thêm tài khoản</a>
     </div>
 
     <div class="card-body">
@@ -26,41 +27,28 @@
             <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead class="table-dark">
                     <tr>
-                        <th>Name</th>
+                        <th>Tên</th>
                         <th>Email</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>Actions</th>
+                        <th>SĐT</th>
+                        <th>Quyền</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user in Model)
                     {
-                        if (user.Role == "Customer")
-                        {
-                            <td>@user.Name</td>
-                            <td>@user.Email</td>
-                            <td>@user.Phone</td>
-                            <td>@user.Role</td>
-                            <td>
-                            <form asp-action="Delete" asp-controller="Account" asp-route-id="@user.Id" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this account?');">Delete</button>
-                            </form>
-                        </td>
-                        }else{
                         <tr>
                             <td>@user.Name</td>
                             <td>@user.Email</td>
                             <td>@user.Phone</td>
                             <td>@user.Role</td>
                             <td>
-                                <a asp-action="Edit" asp-controller="Infor" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
+                                <a asp-action="Edit" asp-controller="Infor" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Sửa</a>
                                 <form asp-action="Delete" asp-controller="Infor" asp-route-id="@user.Id" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this account?');">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this account?');">Xóa</button>
                                 </form>
                             </td>
                         </tr>
-                        }
                     }
                 </tbody>
             </table>
@@ -69,38 +57,55 @@
         <!-- Phân trang -->
         <div class="d-flex justify-content-between">
             <div>
-                <span>Page @ViewBag.PageNumber of @ViewBag.TotalPages</span>
+                <span>Trang @ViewBag.PageNumber / @ViewBag.TotalPages</span>
             </div>
             <div>
                 <!-- Previous Button -->
-                <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber - 1, pageSize = 4 })"
+                <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber - 1, pageSize = 10, searchTerm = ViewBag.SearchTerm })"
                    class="btn btn-info btn-sm"
                 @if (ViewBag.PageNumber == 1)
                 {
                     <text>disabled</text>
-                }>Previous</a>
+                }>Trước</a>
 
                 <!-- Display Page Numbers -->
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
-                    <a href="@Url.Action("Index", new { pageNumber = i, pageSize = 4 })"
+                    <a href="@Url.Action("Index", new { pageNumber = i, pageSize = 10, searchTerm = ViewBag.SearchTerm })"
                        class="btn btn-secondary btn-sm"
                     @if (i == ViewBag.PageNumber)
                     {
                         <text>style="background-color: #007bff; color: white;"</text>
                     }>
                         @i
-                        </a>
+                                            </a>
                 }
 
                 <!-- Next Button -->
-                <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber + 1, pageSize = 4 })"
+                <a href="@Url.Action("Index", new { pageNumber = ViewBag.PageNumber + 1, pageSize = 10, searchTerm = ViewBag.SearchTerm })"
                    class="btn btn-info btn-sm"
                 @if (ViewBag.PageNumber == ViewBag.TotalPages)
                 {
                     <text>disabled</text>
-                }>Next</a>
+                }>Sau</a>
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+    </script>
+}

@@ -4,8 +4,25 @@
 @model IEnumerable<Product>
 
 @{
+    ViewData["Title"] = "Trang chủ";
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
+    var successMessage = TempData["OrderSuccess"] as string;
+}
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    var orderId = TempData["OrderId"].ToString();
+    <div class="success-overlay">
+        <div class="success-modal">
+            <div class="success-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>🎉 Đặt hàng thành công!</h2>
+            <p>@successMessage</p>
+            <p><strong>Mã đơn hàng:</strong> @orderId</p> <!-- Hiển thị mã đơn hàng -->
+            <a href="/UserOrder/LookupOrder" class="btn-go-home">Tra cứu đơn hàng</a> <!-- Nút về trang Lookup -->
+        </div>
+    </div>
 }
 
 @if (paymentResponse != null)
@@ -185,8 +202,9 @@
         .out-of-stock img {
             opacity: 0.4;
         }
-    </style>
 
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
             loadProducts(1);
@@ -243,7 +261,11 @@
                                             ${salePrice > 0
                                                 ? `<h2 class="sale-price">${salePrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>
                                                    <h4 class="original-price" style="text-decoration: line-through; color: black;">${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h4>`
-                                                : `<h2>${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>`}
+                                                : (item.price === 0
+                                                    ? `<h2>Chờ cập nhật giá</h2>`
+                                                    : `<h2>${item.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h2>`
+                                                  )
+                                            }
                                         </div>
                                         <div class="product-overlay">
                                             <div class="overlay-content">
@@ -328,5 +350,32 @@
                     }, 500); // chờ thêm chút để hiệu ứng fade-out chạy xong
                 }
             }, 6000);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var successMessage = '@TempData["SuccessMessage"]';  // Lấy thông báo từ TempData
+
+            if (successMessage) {
+                var overlay = document.querySelector('.success-overlay');
+                overlay.classList.add('active');
+
+                setTimeout(function () {
+                    overlay.classList.remove('active');
+                }, 5000);  // Ẩn thông báo sau 5 giây
+            }
+        });
+
+            document.addEventListener("DOMContentLoaded", function () {
+            var passwordChanged = '@TempData["PasswordChanged"]';
+            if (passwordChanged && passwordChanged !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: passwordChanged,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
     </script>
 }

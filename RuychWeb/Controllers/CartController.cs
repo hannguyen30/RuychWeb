@@ -7,7 +7,6 @@ using RuychWeb.Repository;
 
 namespace RuychWeb.Controllers
 {
-
     public class CartController : Controller
     {
         private readonly UserManager<Account> _userManager;
@@ -19,15 +18,15 @@ namespace RuychWeb.Controllers
             _context = context;
         }
 
-        // Hiển thị giỏ hàng của người dùng đang đăng nhập
         public IActionResult Index()
         {
-            // Kiểm tra người dùng đã đăng nhập hay chưa
             if (User.Identity.IsAuthenticated)
             {
-                // Lấy thông tin tài khoản người dùng đang đăng nhập
+                if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                {
+                    return Forbid();
+                }
                 var user = _userManager.GetUserAsync(User).Result;
-                // Lấy giỏ hàng của người dùng từ CSDL
                 var customer = _context.Customers.FirstOrDefault(c => c.AccountId == user.Id);
 
                 var cart = _context.Carts
@@ -45,8 +44,8 @@ namespace RuychWeb.Controllers
                     .Include(cd => cd.ProductDetail)
                     .Include(cd => cd.ProductDetail.Color)
                     .Include(cd => cd.ProductDetail.Color.Product)
-                    .ThenInclude(p => p.SaleDetails) // Ensure SaleDetails is included
-                    .ThenInclude(sd => sd.Sale) // Include Sale to access Discount
+                    .ThenInclude(p => p.SaleDetails)
+                    .ThenInclude(sd => sd.Sale)
                     .ToList();
 
                 return View(cartDetails);
@@ -61,14 +60,8 @@ namespace RuychWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId, string size, int quantity, string color)
         {
-            // Lấy thông tin người dùng hiện tại
             var user = await _userManager.GetUserAsync(User);
-            // Lấy thông tin khách hàng
             var customer = _context.Customers.FirstOrDefault(c => c.AccountId == user.Id);
-            if (customer == null)
-            {
-                return BadRequest("Không tìm thấy thông tin khách hàng.");
-            }
 
             // Tìm hoặc tạo giỏ hàng
             var cart = _context.Carts.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
@@ -124,7 +117,6 @@ namespace RuychWeb.Controllers
         public async Task<IActionResult> RemoveFromCart(int productId, int colorId, string size)
         {
             var user = await _userManager.GetUserAsync(User);
-            // Lấy thông tin khách hàng
             var customer = _context.Customers.FirstOrDefault(c => c.AccountId == user.Id);
             if (customer == null)
             {
@@ -151,6 +143,7 @@ namespace RuychWeb.Controllers
 
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> ClearCart()
         {
@@ -182,7 +175,10 @@ namespace RuychWeb.Controllers
             }
 
             var cartItem = _context.CartDetails
-                .FirstOrDefault(c => c.ProductDetailId == request.ProductId && c.ProductDetail.Size == request.Size);
+                .Include(cd => cd.ProductDetail)
+                .ThenInclude(pd => pd.Color)
+                .FirstOrDefault(c => c.ProductDetail.ProductDetailId == request.ProductId
+                                     && c.ProductDetail.Size == request.Size);
 
             if (cartItem == null)
             {
@@ -192,7 +188,7 @@ namespace RuychWeb.Controllers
             cartItem.Quantity = request.Quantity;
             _context.SaveChanges();
 
-            return Ok();
+            return Ok(new { message = "Quantity updated successfully" });
         }
 
         public class UpdateQuantityRequest

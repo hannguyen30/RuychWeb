@@ -4,6 +4,7 @@
 @{
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
+    ViewData["Title"] = "Đặt hàng";
 }
 <style>
 
@@ -29,7 +30,27 @@
         </div>
     </div>
 }
-
+@if (TempData["OrderSuccess"] != null)
+{
+    <div class="modal fade show" id="orderSuccessModal" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-success shadow">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Đặt hàng thành công</h5>
+                    <button type="button" class="btn-close" onclick="closeModal()" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["OrderSuccess"]</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/Orders/History" class="btn btn-success">Xem đơn hàng</a>
+                    <a href="/" class="btn btn-outline-success">Về trang chủ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+}
 <div class="order-checkout-page">
     <div class="container">
         <form method="post" asp-controller="UserOrder" asp-action="PlaceOrder">
@@ -37,38 +58,45 @@
                 <!-- LEFT: Shipping Info -->
                 <div class="col-md-8">
                     <h4>THÔNG TIN GIAO HÀNG</h4>
-
                     <div class="form-group">
                         <label for="Name">Họ Tên</label>
-                        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="Phone">Số điện thoại</label>
-                        <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.Phone" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="Address">Địa chỉ</label>
-                        <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" required />
+                        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" />
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                     </div>
 
+                    <div class="form-group">
+                        <label for="Phone">Số điện thoại</label>
+                        <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.Phone" />
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" />
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+
+                    </div>
 
                     <div class="form-group">
                         <label for="City">Tỉnh/Thành Phố</label>
                         <select class="form-control" id="tinh" name="Tinh" required>
                             <option value="0">Chọn Tỉnh/Thành Phố</option>
                         </select>
+                        @Html.ValidationMessageFor(m => m.Tinh, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="District">Quận/Huyện</label>
                         <select class="form-control" id="quan" name="Quan" required>
                             <option value="0">Chọn Quận/Huyện</option>
                         </select>
+                        @Html.ValidationMessageFor(m => m.Quan, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="Ward">Phường/Xã</label>
                         <select class="form-control" id="phuong" name="Phuong" required>
                             <option value="0">Chọn Phường/Xã</option>
                         </select>
+                        @Html.ValidationMessageFor(m => m.Phuong, "", new { @class = "text-danger" })
                     </div>
 
                     <h4>PHƯƠNG THỨC THANH TOÁN</h4>
@@ -281,7 +309,13 @@
             });
 
         });
+        function closeModal() {
+            document.getElementById("orderSuccessModal").style.display = "none";
+            document.querySelector(".modal-backdrop").remove();
+        }
 
+
+        setTimeout(closeModal, 5000); // tự động đóng sau 5s
             setTimeout(() => {
                 // Làm mờ và ẩn modal
                 const overlay = document.querySelector('.payment-success-overlay');

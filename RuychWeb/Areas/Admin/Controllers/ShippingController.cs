@@ -40,6 +40,7 @@ namespace RuychWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("StoreShipping")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> StoreShipping(Shipping shippingModel, string phuong, string quan, string tinh, decimal price)
         {
 
@@ -68,6 +69,7 @@ namespace RuychWeb.Areas.Admin.Controllers
                 return StatusCode(500, "An error occurred while adding shipping.");
             }
         }
+
         [HttpPost]
         public IActionResult GetShippingFee(string city, string district, string ward)
         {

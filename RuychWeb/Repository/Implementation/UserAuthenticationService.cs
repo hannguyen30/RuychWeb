@@ -31,7 +31,7 @@ namespace RuychWeb.Repository.Implementation
             if (userExists != null)
             {
                 status.StatusCode = 0;
-                status.Message = "User already exists";
+                status.Message = "Email này đã được sử dụng, vui lòng chọn email khác";
                 return status;
             }
             Account user = new Account()
@@ -44,14 +44,14 @@ namespace RuychWeb.Repository.Implementation
             if (!result.Succeeded)
             {
                 status.StatusCode = 0;
-                status.Message = "User creation failed";
+                status.Message = "Tạo tài khoản không thành công";
                 return status;
             }
             var roleResult = await userManager.AddToRoleAsync(user, "Customer");
             if (!roleResult.Succeeded)
             {
                 status.StatusCode = 0;
-                status.Message = "Failed to assign role";
+                status.Message = "Cấp quyền thất bại";
                 return status;
             }
 
@@ -72,7 +72,7 @@ namespace RuychWeb.Repository.Implementation
             await emailService.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>.");
 
             status.StatusCode = 1;
-            status.Message = "You have registered successfully. Please check your email to confirm your account.";
+            status.Message = "Tài khoản đã được tạo, vui lòng xác thực.";
             return status;
         }
 
@@ -83,7 +83,7 @@ namespace RuychWeb.Repository.Implementation
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid user ID";
+                status.Message = "Tài khoản không tồn tại";
                 return status;
             }
 
@@ -91,12 +91,12 @@ namespace RuychWeb.Repository.Implementation
             if (result.Succeeded)
             {
                 status.StatusCode = 1;
-                status.Message = "Email confirmed successfully";
+                status.Message = "Xác thực thành công";
             }
             else
             {
                 status.StatusCode = 0;
-                status.Message = "Error confirming email";
+                status.Message = "Lỗi xác thực tài khoản";
                 foreach (var error in result.Errors)
                 {
                     status.Message += $" {error.Description}";
@@ -113,19 +113,19 @@ namespace RuychWeb.Repository.Implementation
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid email";
+                status.Message = "Email không tồn tại";
                 return status;
             }
             var result = await signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
             if (!result.Succeeded)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid Password";
+                status.Message = "Mật khẩu sai";
                 return status;
             }
             await userManager.UpdateAsync(user);
             status.StatusCode = 1;
-            status.Message = "Login successful";
+            status.Message = "Đăng nhập thành công";
             return status;
         }
 
@@ -136,7 +136,7 @@ namespace RuychWeb.Repository.Implementation
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid email address";
+                status.Message = "Tài khoản không tồn tại";
                 return status;
             }
 
@@ -144,12 +144,12 @@ namespace RuychWeb.Repository.Implementation
             if (result.Succeeded)
             {
                 status.StatusCode = 1;
-                status.Message = "Password changed successfully";
+                status.Message = "Đổi mật khẩu thành công";
             }
             else
             {
                 status.StatusCode = 0;
-                status.Message = "Error changing password";
+                status.Message = "Đổi mật khẩu thất bại";
                 foreach (var error in result.Errors)
                 {
                     status.Message += $" {error.Description}";
@@ -171,7 +171,7 @@ namespace RuychWeb.Repository.Implementation
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid email address";
+                status.Message = "Email không tồn tại";
                 return status;
             }
 
@@ -184,7 +184,7 @@ namespace RuychWeb.Repository.Implementation
             if (!resetResult.Succeeded)
             {
                 status.StatusCode = 0;
-                status.Message = "Error resetting password";
+                status.Message = "Lỗi không thể cấp mật khẩu";
                 foreach (var error in resetResult.Errors)
                 {
                     status.Message += $" {error.Description}";
@@ -197,14 +197,14 @@ namespace RuychWeb.Repository.Implementation
             if (request == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid request context";
+                status.Message = "Lỗi không gửi được mail";
                 return status;
             }
 
             await emailService.SendEmailAsync(user.Email ?? string.Empty, "Password Reset", $"Your new password is: {newPassword}");
 
             status.StatusCode = 1;
-            status.Message = "Password reset successfully. Please check your email for the new password.";
+            status.Message = "Mật khẩu mới đã được gửi vào email, vui lòng kiểm tra.";
             return status;
         }
 
@@ -222,7 +222,7 @@ namespace RuychWeb.Repository.Implementation
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid email address";
+                status.Message = "Email không tồn tại";
                 return status;
             }
 
@@ -230,12 +230,12 @@ namespace RuychWeb.Repository.Implementation
             if (result.Succeeded)
             {
                 status.StatusCode = 1;
-                status.Message = "Password reset successfully";
+                status.Message = "Đổi mật khẩu thành công";
             }
             else
             {
                 status.StatusCode = 0;
-                status.Message = "Error resetting password";
+                status.Message = "Lỗi không thể đổi mật khẩu";
                 foreach (var error in result.Errors)
                 {
                     status.Message += $" {error.Description}";

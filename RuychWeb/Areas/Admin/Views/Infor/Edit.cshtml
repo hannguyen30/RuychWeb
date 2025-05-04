@@ -1,37 +1,80 @@
 ﻿@model RuychWeb.Areas.Admin.Models.AccountViewModel
 
-@{
-    ViewData["Title"] = "Edit Account";
+<h3 class="text-primary">Chỉnh sửa tài khoản</h3>
+
+<form asp-action="Edit" method="post" id="editForm" novalidate>
+    <div class="form-group">
+        <label for="Name">Tên:</label>
+        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" />
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" disabled />
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Phone">Số điện thoại:</label>
+        <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.Phone" />
+        <span class="text-danger" asp-validation-for="Phone"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Role">Quyền:</label>
+        <input type="text" class="form-control" id="Role" name="Role" value="@Model.Role" disabled />
+        <span class="text-danger" asp-validation-for="Role"></span>
+    </div>
+
+    @if (Model.Role == "Customer")
+    {
+        <div class="form-group">
+            <label for="Address">Địa chỉ:</label>
+            <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" />
+            <span class="text-danger" asp-validation-for="Address"></span>
+        </div>
+    }
+    else if (Model.Role == "Staff")
+    {
+        <div class="form-group">
+            <label for="Birthday">Ngày sinh:</label>
+            <input type="date" class="form-control" id="Birthday" name="Birthday" value="@Model.Birthday?.ToString("yyyy-MM-dd")" />
+            <span class="text-danger" asp-validation-for="Birthday"></span>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>
+<a href="@Url.Action("Index", "Infor", new { area = "Admin" })">Quay về danh sách</a>
+@section Scripts {
+    <script>
+        // JavaScript để ngăn submit nếu tuổi < 18 hoặc ngày sinh lớn hơn ngày hiện tại
+        document.getElementById("editForm").onsubmit = function(event) {
+            var birthdayInput = document.getElementById("Birthday");
+            if (birthdayInput) {
+                var birthday = new Date(birthdayInput.value);
+
+                // Kiểm tra nếu ngày sinh lớn hơn ngày hiện tại
+                var currentDate = new Date();
+                if (birthday > currentDate) {
+                    event.preventDefault(); // Ngừng submit form
+                    alert("Ngày sinh không thể lớn hơn ngày hiện tại.");
+                } else {
+                    // Kiểm tra tuổi nếu ngày sinh hợp lệ
+                    var age = currentDate.getFullYear() - birthday.getFullYear();
+                    var m = currentDate.getMonth() - birthday.getMonth();
+                    if (m < 0 || (m === 0 && currentDate.getDate() < birthday.getDate())) {
+                        age--;
+                    }
+
+                    if (age < 18) {
+                        event.preventDefault(); // Ngừng submit form
+                        alert("Ngày sinh phải lớn hơn 18 tuổi.");
+                    }
+                }
+            }
+        };
+    </script>
 }
 
-<h3 class="text-primary">Edit Account</h3>
-
-<div class="card shadow mb-4">
-    <div class="card-body">
-        <form method="post" asp-action="Edit">
-            <div class="form-group">
-                <label for="Name">Name</label>
-                <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" />
-            </div>
-
-            <div class="form-group">
-                <label for="Email">Email</label>
-                <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email" />
-            </div>
-
-            <div class="form-group">
-                <label for="Phone">Phone</label>
-                <input type="text" id="Phone" name="Phone" class="form-control" value="@Model.Phone" />
-            </div>
-
-            <div class="form-group">
-                <label for="Role">Role</label>
-                <input type="text" id="Role" name="Role" class="form-control" value="@Model.Role" readonly />
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-        </form>
-    </div>
-</div>

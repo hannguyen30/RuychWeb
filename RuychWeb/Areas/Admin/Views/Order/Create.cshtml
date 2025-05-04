@@ -1,0 +1,278 @@
+﻿@model RuychWeb.Areas.Admin.Models.OrderCreateViewModel
+@{
+    ViewData["Title"] = "Tạo đơn hàng ";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form id="orderForm" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label>Người mua:</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Số điện thoại:</label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Địa chỉ:</label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Nhân viên tạo đơn:</label>
+        <input asp-for="EmployeeName" class="form-control" readonly />
+    </div>
+    <input type="hidden" asp-for="EmployeeId" />
+    <div class="mb-3">
+        <label>Chọn sản phẩm:</label>
+        <select id="productSelect" class="form-select">
+            <option value="">-- Chọn sản phẩm --</option>
+            @foreach (var p in ViewBag.Products as SelectList)
+            {
+                <option value="@p.Value">@p.Text</option>
+            }
+        </select>
+    </div>
+
+    <input type="hidden" asp-for="EmployeeId" value="@ViewBag.EmployeeId" />
+
+    <div id="productDetailsContainer" class="mt-4"></div>
+
+    <div class="mb-3">
+        <label>Tổng tiền:</label>
+        <input type="hidden" asp-for="TotalAmount" id="totalAmount" value="0" />
+        <p id="totalAmountDisplay" class="text-danger fw-bold">0 đ</p>
+    </div>
+
+    <div id="orderItemsContainer"></div>
+
+    <button type="button" class="btn btn-primary mt-3" onclick="submitOrderForm()">Tạo đơn</button>
+    <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="btn btn-secondary mt-3 ms-2">Quay về</a>
+</form>
+
+@section Scripts {
+    <script>
+        let selectedProducts = [];
+
+        document.getElementById("productSelect").addEventListener("change", function () {
+            const productId = this.value;
+            if (!productId) return;
+
+            const existingProduct = selectedProducts.find(p => p.productId === productId);
+            if (existingProduct) {
+                alert("Sản phẩm đã được chọn.");
+                return;
+            }
+
+            fetch(`/Admin/Order/GetProductDetails?productId=${productId}`)
+                .then(res => res.json())
+                .then(data => {
+                    const discountedPrice = data.discount > 0 ? Math.round(data.price * (1 - data.discount / 100)) : data.price;
+
+                    selectedProducts.push({
+                        productId: productId,
+                        name: data.name,
+                        price: discountedPrice,
+                        discount: data.discount,
+                        details: data.details
+                    });
+
+                    updateProductList();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Không lấy được thông tin sản phẩm.");
+                });
+        });
+
+        function updateProductList() {
+            const container = document.getElementById("productDetailsContainer");
+            container.innerHTML = "";
+
+            selectedProducts.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("mb-4");
+                productDiv.innerHTML = `
+                                    <div class="d-flex align-items-center">
+                            <h5 class="mb-0">${product.name}</h5>
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-danger"
+                                style="margin-left: 30px; padding: 4px 10px; font-size: 14px;"
+                                onclick="removeProduct('${product.productId}')">
+                                Xóa
+                            </button>
+                        </div>
+                    <p>Giá: ${product.price.toLocaleString()} đ</p>
+                    ${product.discount > 0 ? `<p class="text-success">Giảm giá: ${product.discount}%</p>` : ""}
+                    ${product.details.map(color => {
+                        return color.sizes.map(size => `
+                            <div class="row align-items-center mb-2">
+                                <div class="col-md-2">Màu: ${color.colorName}</div>
+                                <div class="col-md-2">Size: ${size.size}</div>
+                                <div class="col-md-2">Tồn: ${size.quantity}</div>
+                                <div class="col-md-2">Giá: ${product.price.toLocaleString()} đ</div>
+                                <div class="col-md-3">
+                                    <input type="number" class="form-control quantity-input"
+                                        placeholder="Số lượng" min="0"
+                                        data-productdetailid="${size.productDetailId}"
+                                        data-productname="${product.name}"
+                                        data-price="${product.price}"
+                                        data-discount="${product.discount}"
+                                        data-color="${color.colorName}"
+                                        data-size="${size.size}"
+                                        data-maxquantity="${size.quantity}" />
+                                </div>
+                            </div>
+                        `).join('');
+                    }).join('')}
+                `;
+                container.appendChild(productDiv);
+            });
+        }
+
+        // Xóa sản phẩm ra khỏi selectedProducts
+        function removeProduct(productId) {
+            selectedProducts = selectedProducts.filter(p => p.productId !== productId);
+            updateProductList();
+            updateTotalAmount();
+        }
+
+        // Khi nhập số lượng, kiểm tra tồn kho và cập nhật tổng tiền
+               document.addEventListener('input', function (e) {
+            if (e.target.classList.contains('quantity-input')) {
+                const maxQty = parseInt(e.target.getAttribute('data-maxquantity'));
+                let qty = parseInt(e.target.value) || 0;
+
+                // Xóa thông báo lỗi cũ nếu có
+                let errorMessage = e.target.parentElement.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+
+                if (qty > maxQty) {
+                    e.target.value = maxQty;
+                    qty = maxQty;
+
+                    // Tạo thẻ thông báo lỗi
+                    const error = document.createElement('div');
+                    error.className = 'error-message text-danger mt-1';
+                    error.style.fontSize = '13px';
+                    error.textContent = `Số lượng vượt quá tồn kho. Tồn kho tối đa: ${maxQty}`;
+
+                    // Thêm lỗi ngay dưới input
+                    e.target.parentElement.appendChild(error);
+                }
+
+                updateTotalAmount();
+            }
+        });
+
+        function updateTotalAmount() {
+            let total = 0;
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                const quantity = parseInt(input.value) || 0;
+                const price = parseFloat(input.dataset.price) || 0;
+                if (quantity > 0) {
+                    total += quantity * price;
+                }
+            });
+
+            document.getElementById("totalAmount").value = total.toFixed(2);
+            document.getElementById("totalAmountDisplay").innerText = total.toLocaleString() + " đ";
+        }
+
+        function prepareOrderItems() {
+            const container = document.getElementById("orderItemsContainer");
+            container.innerHTML = "";
+
+            const inputs = document.querySelectorAll('.quantity-input');
+            let index = 0;
+
+            inputs.forEach(input => {
+                const quantity = parseInt(input.value);
+                if (quantity > 0) {
+                    const productDetailId = input.dataset.productdetailid;
+                    const productName = input.dataset.productname;
+                    const price = input.dataset.price;
+                    const discount = input.dataset.discount;
+                    const color = input.dataset.color;
+                    const size = input.dataset.size;
+
+                    container.innerHTML += `
+                        <input type="hidden" name="OrderItems[${index}].ProductDetailId" value="${productDetailId}" />
+                        <input type="hidden" name="OrderItems[${index}].ProductName" value="${productName}" />
+                        <input type="hidden" name="OrderItems[${index}].Price" value="${price}" />
+                        <input type="hidden" name="OrderItems[${index}].Discount" value="${discount}" />
+                        <input type="hidden" name="OrderItems[${index}].Quantity" value="${quantity}" />
+                        <input type="hidden" name="OrderItems[${index}].Color" value="${color}" />
+                        <input type="hidden" name="OrderItems[${index}].Size" value="${size}" />
+                    `;
+                    index++;
+                }
+            });
+
+            return index > 0;
+        }
+
+                function submitOrderForm() {
+            let isValid = true;
+
+            // Xóa hết lỗi cũ
+            document.querySelectorAll(".input-error").forEach(el => el.remove());
+
+            // Kiểm tra từng field
+            const nameInput = document.querySelector('input[name="Name"]');
+            const phoneInput = document.querySelector('input[name="Phone"]');
+            const addressInput = document.querySelector('input[name="Address"]');
+
+            if (!nameInput.value.trim()) {
+                showError(nameInput, "Vui lòng nhập tên người mua.");
+                isValid = false;
+            }
+            if (!phoneInput.value.trim()) {
+                showError(phoneInput, "Vui lòng nhập số điện thoại.");
+                isValid = false;
+            }
+            if (!addressInput.value.trim()) {
+                showError(addressInput, "Vui lòng nhập địa chỉ.");
+                isValid = false;
+            }
+
+            // Kiểm tra sản phẩm đã nhập số lượng chưa
+            if (!prepareOrderItems()) {
+                showFormError("Vui lòng nhập số lượng cho ít nhất 1 sản phẩm.");
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            document.getElementById("orderForm").submit();
+        }
+
+        function showError(inputElement, message) {
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "text-danger mt-1 input-error";
+            errorDiv.style.fontSize = "14px";
+            errorDiv.textContent = message;
+            inputElement.parentNode.appendChild(errorDiv);
+        }
+
+        function showFormError(message) {
+            // Xóa lỗi cũ nếu có
+            const existingError = document.getElementById("formError");
+            if (existingError) existingError.remove();
+
+            const errorDiv = document.createElement('div');
+            errorDiv.id = "formError";
+            errorDiv.className = "text-danger mb-3 input-error";
+            errorDiv.style.fontSize = "14px";
+            errorDiv.textContent = message;
+
+            const form = document.getElementById("orderForm");
+            form.insertBefore(errorDiv, form.firstChild); // Thêm lỗi ngay đầu form
+        }
+
+
+    </script>
+}

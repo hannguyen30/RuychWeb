@@ -10,6 +10,6 @@ namespace RuychWeb.Models.DTO
         public decimal Discount { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ICollection<SaleDetail> SaleDetails { get; set; }
+        public ICollection<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();
     }
 }

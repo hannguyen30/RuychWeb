@@ -1,0 +1,173 @@
+﻿@model IEnumerable<RuychWeb.Models.DTO.Supplier>
+@{
+    ViewData["Title"] = "Danh sách nhà cung cấp";
+}
+
+<h3 class="text-primary">Danh sách nhà cung cấp</h3>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between">
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" id="searchForm">
+            <div class="input-group">
+                <input type="text" name="searchTerm" id="searchTerm" value="@ViewBag.SearchTerm" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="searchButton">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <a asp-action="Create" class="btn btn-success btn-sm">Thêm nhà cung cấp</a>
+    </div>
+
+    <div class="card-body">
+        <div id="supplierTableContainer" class="table-responsive">
+            <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên</th>
+                        <th>SĐT</th>
+                        <th>Địa chỉ</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var supplier in Model)
+                    {
+                        <tr>
+                            <td>@supplier.Name</td>
+                            <td>@supplier.Phone</td>
+                            <td>@supplier.Address</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@supplier.SupplierId" class="btn btn-warning btn-sm">Sửa</a>
+                                <form asp-action="Delete" asp-route-id="@supplier.SupplierId" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhà cung cấp này không?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+                <span>Trang @ViewBag.PageNumber / @ViewBag.TotalPages</span>
+            </div>
+            <div class="d-flex flex-wrap gap-1">
+                <!-- Nút Trước -->
+                <a href="javascript:void(0);"
+                   class="btn btn-info btn-sm page-link-nav"
+                   data-page="@(@ViewBag.PageNumber - 1)"
+                @(ViewBag.PageNumber == 1 ? "disabled" : "")>
+                    Trước
+                </a>
+
+                <!-- Các số trang -->
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <a href="javascript:void(0);"
+                       class="btn btn-secondary btn-sm page-link"
+                       data-page="@i"
+                    @(i == ViewBag.PageNumber ? "style='background-color: #007bff; color: white;'" : "")>
+                        @i
+                    </a>
+                }
+
+                <!-- Nút Sau -->
+                <a href="javascript:void(0);"
+                   class="btn btn-info btn-sm page-link-nav"
+                   data-page="@(@ViewBag.PageNumber + 1)"
+                @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")>
+                    Sau
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Tìm kiếm khi nhập
+            $('#searchTerm').on('input', function () {
+                fetchSuppliers();
+            });
+
+            // Sự kiện phân trang
+            $('#previousPage, #nextPage').click(function () {
+                var pageNumber = $(this).data('page');
+                fetchSuppliers(pageNumber);
+            });
+
+            $('.page-link').click(function () {
+                var pageNumber = $(this).data('page');
+                fetchSuppliers(pageNumber);
+            });
+
+            function fetchSuppliers(pageNumber = 1) {
+                var searchTerm = $('#searchTerm').val();
+                $.ajax({
+                    url: '@Url.Action("Index")',
+                    data: { searchTerm: searchTerm, pageNumber: pageNumber, pageSize: 4 },
+                    type: 'GET',
+                    success: function (response) {
+                        // Cập nhật danh sách nhà cung cấp
+                        var tableBody = '';
+                        $.each(response.suppliers, function (index, supplier) {
+                            tableBody += '<tr>';
+                            tableBody += '<td>' + supplier.name + '</td>';
+                            tableBody += '<td>' + supplier.phone + '</td>';
+                            tableBody += '<td>' + supplier.address + '</td>';
+                            tableBody += '<td><a href="/Admin/Supplier/Edit/' + supplier.supplierId + '" class="btn btn-warning btn-sm">Sửa</a>' +
+                                '<form method="post" action="/Admin/Supplier/Delete/' + supplier.supplierId + '" style="display:inline;" onsubmit="return confirm(\'Bạn có chắc chắn muốn xóa nhà cung cấp này không?\');">' +
+                                '<button type="submit" class="btn btn-danger btn-sm">Xóa</button>' +
+                                '</form>' +
+                                '</td>';
+                            tableBody += '</tr>';
+                        });
+
+                        $('#supplierTableContainer tbody').html(tableBody);
+
+                        // Cập nhật phân trang
+                        $('#previousPage').prop('disabled', response.pageNumber == 1);
+                        $('#nextPage').prop('disabled', response.pageNumber == response.totalPages);
+                    }
+                });
+            }
+
+            // Gọi khi bắt đầu
+            fetchSuppliers();
+        });
+
+         document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            var failed = '@TempData["Failed"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+            if (failed && failed !== '') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: failed,
+                showConfirmButton: false,
+                timer: 4000,
+                customClass: {
+                    popup: 'custom-toast-popup-error'
+                }
+            });
+        }
+        });
+    </script>
+}

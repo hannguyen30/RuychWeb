@@ -31,10 +31,17 @@ namespace RuychWeb.Controllers
                 var status = await _authService.RegisterAsync(model, _httpContextAccessor);
                 if (status.StatusCode == 1)
                 {
-                    TempData["msg"] = "Registration successful! Please check your email to confirm your account.";
+                    TempData["msg"] = "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.";
                     return RedirectToAction("AccountNotVerified");
                 }
-                ModelState.AddModelError(string.Empty, status.Message);
+                if (status.Message.Contains("Email này đã được sử dụng"))
+                {
+                    ModelState.AddModelError("Email", status.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, status.Message);
+                }
             }
             return View(model);
         }
@@ -61,10 +68,6 @@ namespace RuychWeb.Controllers
                     ViewBag.UserName = user.UserName;
                     return RedirectToAction("Index", "Home");
                 }
-                else if (status.StatusCode == 0 && status.Message == "Email not confirmed")
-                {
-                    return RedirectToAction("AccountNotVerified");
-                }
                 ModelState.AddModelError(string.Empty, status.Message);
             }
             return View(model);
@@ -90,7 +93,8 @@ namespace RuychWeb.Controllers
                 }
                 ModelState.AddModelError(string.Empty, status.Message);
             }
-            return View(model);
+            TempData["PasswordChanged"] = "Mật khẩu đã được thay đổi thành công!";
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]

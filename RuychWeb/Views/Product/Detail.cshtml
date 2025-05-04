@@ -1,12 +1,10 @@
 ﻿@using RuychWeb.Areas.Admin.Models
 @using Newtonsoft.Json
 @model ProductViewModel
-@* @{ *@
-@*     var colorSizesDict = Model.Colors?.ToDictionary( *@
-@*         c => c.ColorName, *@
-@*         c => c.Sizes?.Select(s => s.Size).ToList() ?? new List<string>() *@
-@*     ) ?? new Dictionary<string, List<string>>(); *@
-@* } *@
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+
+}
 <style>
     .custom-dropdown {
         position: relative;
@@ -140,14 +138,16 @@
         <strong>@Model.Name</strong>
     </nav>
 
-    <form method="post" asp-controller="Cart" asp-action="AddToCart">
+    <form id="addToCartForm" method="post" asp-controller="Cart" asp-action="AddToCart">
         <input type="hidden" name="ProductId" value="@Model.ProductId" />
         <input type="hidden" name="ProductName" value="@Model.Name" />
         <input type="hidden" name="Image" value="@Model.Thumbnail" />
         <input type="hidden" name="Price" value="@Model.Price" />
         <input type="hidden" name="MaxQuantity" id="MaxQuantity" />
         @{
-            var discount = Model.Sales?.FirstOrDefault()?.Discount ?? 0;
+            var today = DateTime.Now;
+            var activeSale = Model.Sales?.FirstOrDefault(s => s.StartDate <= today && s.EndDate >= today);
+            var discount = activeSale?.Discount ?? 0;
         }
         <input type="hidden" name="Discount" id="Discount" value="@discount" />
         <input type="hidden" name="DiscountedPrice" id="DiscountedPrice" value="@Model.DiscountedPrice" />
@@ -201,22 +201,25 @@
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold d-block mb-2">SỐ LƯỢNG</label>
-                        <div class="quantity-dropdown-grid">
-                            <div class="quantity-display" id="quantityDisplay">0</div>
-                            <div class="quantity-grid" id="quantityGrid" style="display: none;">
+                        <div class="quantity-dropdown-grid position-relative">
+                            <input type="text" id="quantityInput" class="form-control" style="width: 200px;" value="0" />
+
+                            <div class="quantity-grid" id="quantityGrid" style="display: none; position: absolute; background: #fff; border: 1px solid #ccc; width: 200px; margin-top: 5px;">
                                 @for (int i = 1; i <= 12; i++)
                                 {
-                                    <div class="quantity-cell" data-value="@i">@i</div>
+                                    <div class="quantity-cell p-2 border-bottom text-center" style="cursor: pointer;" data-value="@i">@i</div>
                                 }
                             </div>
-                            <input type="hidden" name="Quantity" id="selectedQuantity" value="1" />
+
+                            <input type="hidden" name="Quantity" id="selectedQuantity" value="0" />
+                            <div id="quantityError" class="text-danger mt-1" style="font-size: 14px;"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Nút hành động -->
                 <div class="d-flex gap-2 mb-3">
-                    <button type="submit" class="btn btn-primary detailcart">THÊM VÀO GIỎ HÀNG</button>
+                    <button id="submitBtn" type="submit" class="btn btn-primary detailcart">THÊM VÀO GIỎ HÀNG</button>
                 </div>
 
                 <!-- Mô tả -->
@@ -240,17 +243,22 @@
 @section Scripts {
     <script>
         const fullColorData = @Html.Raw(JsonConvert.SerializeObject(Model.Colors));
+        const isLoggedIn = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true'; // << THÊM CHỖ NÀY
+
+        const quantityInput = document.getElementById('quantityInput');
         const sizeGrid = document.getElementById('sizeGrid');
         const sizeDisplay = document.getElementById('sizeDisplay');
         const selectedSize = document.getElementById('selectedSize');
-        const quantityDisplay = document.getElementById('quantityDisplay');
         const quantityGrid = document.getElementById('quantityGrid');
         const selectedQuantity = document.getElementById('selectedQuantity');
         const maxQuantityInput = document.getElementById('MaxQuantity');
-        const fixedSizes = ["M", "L", "XL", "XXL"];
+        const quantityError = document.getElementById('quantityError');
+        const fixedSizes = ["S", "M", "L", "XL", "XXL"];
         let isSizeSelected = false;
+        const minQuantity = 1;
+        quantityInput.disabled = true;
 
-        // Hiển thị grid size dựa trên color được chọn
+        // Hiển thị size
         function renderSizes(sizes) {
             sizeGrid.innerHTML = "";
             const sizeMap = {};
@@ -271,7 +279,6 @@
                 sizeGrid.appendChild(div);
             });
 
-            // Gán sự kiện click cho từng size hợp lệ
             document.querySelectorAll('.size-cell').forEach(cell => {
                 const qty = parseInt(cell.dataset.qty);
                 if (qty <= 0) return;
@@ -280,25 +287,28 @@
                     selectedSize.value = this.dataset.size;
                     sizeDisplay.textContent = this.dataset.size;
                     updateMaxQuantity(qty);
-                    quantityDisplay.textContent = "Chọn số lượng";
-                    selectedQuantity.value = "";
-                    quantityGrid.style.display = 'grid';
+                    quantityInput.value = "1";
+                    quantityInput.disabled = false;
+                    selectedQuantity.value = "1";
+                    quantityGrid.style.display = 'none';
                     sizeGrid.style.display = 'none';
                     isSizeSelected = true;
+                    quantityError.textContent = '';
                 });
             });
 
-            // Reset sau mỗi lần chọn màu mới
             selectedSize.value = "";
             sizeDisplay.textContent = "Chọn size";
             selectedQuantity.value = "";
-            quantityDisplay.textContent = "Chọn số lượng";
+            quantityInput.value = "";
             isSizeSelected = false;
+            quantityError.textContent = '';
         }
 
-        // Cập nhật số lượng tối đa dựa trên size được chọn
+        // Update max quantity
         function updateMaxQuantity(maxQty) {
             maxQuantityInput.value = maxQty;
+
             document.querySelectorAll('.quantity-cell').forEach(cell => {
                 const val = parseInt(cell.dataset.value);
                 if (val > maxQty) {
@@ -313,35 +323,65 @@
             const curVal = parseInt(selectedQuantity.value);
             if (curVal > maxQty || isNaN(curVal)) {
                 selectedQuantity.value = "";
-                quantityDisplay.textContent = "Chọn số lượng";
+                quantityInput.value = "";
+                quantityError.textContent = '';
             }
         }
 
-        // Xử lý chọn số lượng
+        // Chọn số từ grid
         document.querySelectorAll('.quantity-cell').forEach(cell => {
             cell.addEventListener('click', function () {
                 if (!isSizeSelected || this.classList.contains('disabled')) return;
-                selectedQuantity.value = this.dataset.value;
-                quantityDisplay.textContent = this.dataset.value;
+                const val = this.dataset.value;
+                quantityInput.value = val;
+                selectedQuantity.value = val;
                 quantityGrid.style.display = 'none';
+                quantityError.textContent = '';
             });
         });
 
-        // Hiển thị/ẩn size grid
+        // Input tay số lượng
+        quantityInput.addEventListener('input', function () {
+            let value = this.value.replace(/\D/g, '');
+            const maxQty = parseInt(maxQuantityInput.value) || 0;
+
+            if (value === '' || parseInt(value) < minQuantity) {
+                quantityError.textContent = `Số lượng phải từ ${minQuantity} trở lên`;
+                selectedQuantity.value = "";
+            }
+            else if (parseInt(value) > maxQty) {
+                quantityError.textContent = `Chỉ còn ${maxQty} sản phẩm`;
+                selectedQuantity.value = parseInt(value);
+                quantityInput.value = parseInt(value);
+            }
+            else {
+                quantityError.textContent = '';
+                selectedQuantity.value = value;
+            }
+            quantityInput.value = value;
+        });
+
         sizeDisplay.addEventListener('click', () => {
             sizeGrid.style.display = sizeGrid.style.display === 'none' ? 'grid' : 'none';
         });
 
-        // Hiển thị/ẩn quantity grid
-        quantityDisplay.addEventListener('click', () => {
+        quantityInput.addEventListener('focus', () => {
             if (!isSizeSelected) return;
-            quantityGrid.style.display = quantityGrid.style.display === 'none' ? 'grid' : 'none';
+            quantityGrid.style.display = 'grid';
         });
 
-        // Xử lý chọn màu
+        document.addEventListener('click', function (e) {
+            if (!quantityInput.contains(e.target) && !quantityGrid.contains(e.target)) {
+                quantityGrid.style.display = 'none';
+            }
+            if (!sizeDisplay.contains(e.target) && !sizeGrid.contains(e.target)) {
+                sizeGrid.style.display = 'none';
+            }
+        });
+
+        // Chọn màu
         document.querySelectorAll(".color-label").forEach((label, index) => {
             label.addEventListener("click", function () {
-                // Reset kích thước các màu khác
                 document.querySelectorAll('.color-circle').forEach(c => {
                     c.style.width = '25px';
                     c.style.height = '25px';
@@ -360,73 +400,79 @@
                 }
             });
 
-            // Chọn màu đầu tiên khi load trang
             if (index === 0) {
                 label.click();
             }
         });
 
+        // Size Guide toggle
         document.getElementById("toggleSizeGuideBtn").addEventListener("click", function () {
             const img = document.getElementById("sizeGuideImage");
             img.style.display = (img.style.display === "none") ? "block" : "none";
         });
 
-        // localStorage
-        window.addEventListener("DOMContentLoaded", function () {
-            const addToCartButton = document.querySelector(".detailcart");
+        // Sự kiện Thêm vào giỏ (submit form)
+        document.getElementById('addToCartForm').addEventListener('submit', function (event) {
+            var quantity = parseInt(quantityInput.value);
+            var maxQuantity = parseInt(maxQuantityInput.value);
+            var errorMessage = '';
 
-            addToCartButton.addEventListener("click", function (e) {
-                e.preventDefault();
+            if (isNaN(quantity) || quantity <= 0) {
+                errorMessage = 'Số lượng phải lớn hơn 0!';
+            }
+            if (quantity > maxQuantity) {
+                errorMessage = `Số lượng vượt quá ${maxQuantity} sản phẩm!`;
+            }
 
-                const isLoggedIn = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true';
+            if (errorMessage) {
+                event.preventDefault();
+                quantityError.innerText = errorMessage;
+                return;
+            }
 
-                if (isLoggedIn) {
-                    // Gửi form đến server
-                    document.querySelector("form").submit();
-                } else {
-                    // Lưu vào localStorage nếu chưa đăng nhập
-                    const product = {
-                        productId: document.querySelector('input[name="ProductId"]').value,
-                        productName: document.querySelector('input[name="ProductName"]').value,
-                        image: document.querySelector('input[name="Image"]').value,
-                        price: parseFloat(document.querySelector('input[name="Price"]').value), // Giá gốc
-                        discountedPrice: parseFloat(document.querySelector('input[name="DiscountedPrice"]').value) || null, // Giá giảm
-                        discount: parseFloat(document.querySelector('input[name="Discount"]').value) || null, // Giá giảm
-                        color: document.querySelector('input[name="Color"]:checked')?.value,
-                        size: document.querySelector('input[name="Size"]').value,
-                        quantity: parseInt(document.querySelector('input[name="Quantity"]').value),
-                        maxQuantity: parseInt(document.getElementById('MaxQuantity').value), // Số lượng tối đa
-                    };
+            // Nếu chưa đăng nhập thì lưu localStorage thay vì submit form
+            if (!isLoggedIn) {
+                event.preventDefault();
 
-                    if (!product.color || !product.size || !product.quantity) {
-                        alert("Vui lòng chọn đầy đủ thông tin sản phẩm!");
+                const product = {
+                    productId: document.querySelector('input[name="ProductId"]').value,
+                    productName: document.querySelector('input[name="ProductName"]').value,
+                    image: document.querySelector('input[name="Image"]').value,
+                    price: parseFloat(document.querySelector('input[name="Price"]').value),
+                    discountedPrice: parseFloat(document.querySelector('input[name="DiscountedPrice"]').value) || null,
+                    discount: parseFloat(document.querySelector('input[name="Discount"]').value) || null,
+                    color: document.querySelector('input[name="Color"]:checked')?.value,
+                    size: selectedSize.value,
+                    quantity: quantity,
+                    maxQuantity: maxQuantity
+                };
+
+                if (!product.color || !product.size || !product.quantity) {
+                    alert("Vui lòng chọn đầy đủ thông tin sản phẩm!");
+                    return;
+                }
+
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const existingProduct = cart.find(
+                    (item) =>
+                        item.productId === product.productId &&
+                        item.color === product.color &&
+                        item.size === product.size
+                );
+
+                if (existingProduct) {
+                    if (existingProduct.quantity + product.quantity > product.maxQuantity) {
+                        alert(`Số lượng tối đa cho sản phẩm này là ${product.maxQuantity}.`);
                         return;
                     }
-
-                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                    const existingProduct = cart.find(
-                        (item) =>
-                            item.productId === product.productId &&
-                            item.color === product.color &&
-                            item.size === product.size
-                    );
-
-                    if (existingProduct) {
-                        // Kiểm tra nếu số lượng mới vượt quá MaxQuantity
-                        if (existingProduct.quantity + product.quantity > product.maxQuantity) {
-                            alert(`Số lượng tối đa cho sản phẩm này là ${product.maxQuantity}.`);
-                            return;
-                        }
-                        existingProduct.quantity += product.quantity;
-                    } else {
-                        cart.push(product);
-                    }
-
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    alert("Sản phẩm đã được thêm vào giỏ hàng!");
-                    window.location.href = '/Cart';
+                    existingProduct.quantity += product.quantity;
+                } else {
+                    cart.push(product);
                 }
-            });
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                window.location.href = '/Cart';
+            }
         });
     </script>
 

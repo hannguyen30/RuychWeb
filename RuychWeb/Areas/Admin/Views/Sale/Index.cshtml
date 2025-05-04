@@ -1,0 +1,127 @@
+﻿@model IEnumerable<RuychWeb.Models.DTO.Sale>
+
+@{
+    ViewData["Title"] = "Danh sách chương trình giảm giá";
+}
+
+<h3 class="text-primary">Danh sách chương trình giảm giá</h3>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between">
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" id="searchForm" method="get">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm..." id="searchKeyword" name="keyword" value="@ViewBag.Keyword" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <a asp-action="Create" class="btn btn-success btn-sm">Thêm chương trình giảm giá</a>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên chương trình</th>
+                        <th>Mức giảm giá</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sale in Model)
+                    {
+                        <tr>
+                            <td>@sale.Name</td>
+                            <td>@sale.Discount</td>
+                            <td>@sale.StartDate.ToString("dd/MM/yyyy")</td>
+                            <td>@sale.EndDate.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@sale.SaleId" class="btn btn-warning btn-sm">Sửa</a>
+                                <form asp-action="Delete" asp-route-id="@sale.SaleId" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa chương trình giảm giá này không?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-between">
+            <div>
+                <span>Trang @ViewBag.PageNumber / @ViewBag.TotalPages</span>
+            </div>
+            <div>
+                <a href="@Url.Action("Index", new { keyword = ViewBag.Keyword, pageNumber = ViewBag.PageNumber - 1, pageSize = 4 })"
+                   class="btn btn-info btn-sm"
+                @(ViewBag.PageNumber == 1 ? "disabled" : "")>
+                    Trước
+                </a>
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <a href="@Url.Action("Index", new { keyword = ViewBag.Keyword, pageNumber = i, pageSize = 4 })"
+                       class="btn btn-secondary btn-sm"
+                       style="@(i == ViewBag.PageNumber ? "background-color: #007bff; color: white;" : "")">
+                        @i
+                    </a>
+                }
+
+                <a href="@Url.Action("Index", new { keyword = ViewBag.Keyword, pageNumber = ViewBag.PageNumber + 1, pageSize = 4 })"
+                   class="btn btn-info btn-sm"
+                @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")>
+                    Sau
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var typingTimer;
+
+        $('#searchKeyword').on('keyup', function () {
+            clearTimeout(typingTimer);
+
+            typingTimer = setTimeout(function () {
+                $('#searchForm').submit();
+            }, 1000);
+        });
+
+         document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            var failed = '@TempData["Failed"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+            if (failed && failed !== '') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: failed,
+                showConfirmButton: false,
+                timer: 4000,
+                customClass: {
+                    popup: 'custom-toast-popup-error'
+                }
+            });
+        }
+        });
+    </script>
+}

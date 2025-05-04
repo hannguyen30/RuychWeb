@@ -1,4 +1,8 @@
-﻿<style>
+﻿@{
+    ViewData["Title"] = "Thông tin khách hàng";
+}
+
+<style>
     #slider {
         display: none;
     }
@@ -48,3 +52,20 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var infoChanged = '@TempData["InfoChanged"]';
+            if (infoChanged && infoChanged !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: infoChanged,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+    </script>
+}
