@@ -60,10 +60,6 @@ namespace RuychWeb.Controllers
 
             var cart = await _context.Carts
                 .FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
-
-            var shippingList = await _context.Shippings.ToListAsync();
-            ViewBag.Shippings = shippingList;
-
             var cartDetails = await _context.CartDetails
                 .Where(cd => cd.CartId == cart.CartId)
                 .Include(cd => cd.ProductDetail)
@@ -90,6 +86,20 @@ namespace RuychWeb.Controllers
                         Select(sd => (sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now) ? sd.Sale.Discount : 0).FirstOrDefault()
                 }).ToList()
             };
+
+            if (TempData["PaymentFailed"] != null)
+            {
+                ViewBag.PaymentFailed = TempData["PaymentFailed"];
+                ViewBag.AllowRetry = true;
+
+                // Khôi phục lại dữ liệu đơn hàng nếu có
+                if (TempData["OrderViewModel"] != null)
+                {
+                    var orderViewModelJson = TempData["OrderViewModel"].ToString();
+                    var orderVM = JsonConvert.DeserializeObject<OrderViewModel>(orderViewModelJson);
+                    return View(orderVM);
+                }
+            }
 
             return View(orderViewModel);
         }
@@ -173,7 +183,7 @@ namespace RuychWeb.Controllers
                 CancelReason = "",
                 CarrierName = "Giao hàng tiết kiệm",
                 PaymentStatus = "Chưa thanh toán",
-                OrderStatus = model.PaymentMethod == "Online" ? "Chờ xác nhận" : "Chờ xác nhận",
+                OrderStatus = "Chờ xác nhận",
                 TotalFee = Total,
                 CustomerId = customer.CustomerId,
                 EmployeeId = 1
@@ -181,29 +191,28 @@ namespace RuychWeb.Controllers
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
-            // Tạo OrderDetail và trừ kho sản phẩm ngay khi tạo đơn hàng
-            foreach (var cartDetail in cartDetails)
+            if (model.PaymentMethod == "COD")
             {
-                var orderDetail = new OrderDetail
+                foreach (var cartDetail in cartDetails)
                 {
-                    Quantity = cartDetail.Quantity,
-                    Price = (decimal)cartDetail.ProductDetail.Color.Product.Price,
-                    OrderId = order.OrderId,
-                    ProductDetailId = cartDetail.ProductDetailId
-                };
+                    var orderDetail = new OrderDetail
+                    {
+                        Quantity = cartDetail.Quantity,
+                        Price = (decimal)cartDetail.ProductDetail.Color.Product.Price,
+                        OrderId = order.OrderId,
+                        ProductDetailId = cartDetail.ProductDetailId
+                    };
 
-                _context.OrderDetails.Add(orderDetail);
+                    _context.OrderDetails.Add(orderDetail);
 
-                // Trừ số lượng trong kho sản phẩm
-                cartDetail.ProductDetail.Quantity -= cartDetail.Quantity;
-                _logger.LogInformation("Trừ kho sản phẩm ID: {ProductDetailId}, SL: {Quantity}", cartDetail.ProductDetailId, cartDetail.Quantity);
+                    // Trừ số lượng trong kho sản phẩm
+                    cartDetail.ProductDetail.Quantity -= cartDetail.Quantity;
+                }
+
+                // Xóa CartDetails sau khi tạo đơn hàng
+                _context.CartDetails.RemoveRange(cartDetails);
+                await _context.SaveChangesAsync();
             }
-
-            // Xóa CartDetails sau khi tạo đơn hàng
-            _context.CartDetails.RemoveRange(cartDetails);
-            await _context.SaveChangesAsync();
-
             // Tiến hành thanh toán cho đơn hàng nếu là thanh toán online
             if (model.PaymentMethod == "Online")
             {
@@ -221,7 +230,7 @@ namespace RuychWeb.Controllers
             }
             TempData["OrderId"] = order.OrderId;
             TempData["SuccessMessage"] = "Đặt hàng thành công!";
-            return RedirectToAction("Index", "Home", new { success = "true" });
+            return RedirectToAction("Checkout");
         }
 
         // Trang dành cho khách hàng chưa đăng nhập
@@ -236,9 +245,9 @@ namespace RuychWeb.Controllers
                 // Các thông tin khác như tên, địa chỉ, phương thức thanh toán sẽ được lấy từ form
                 OrderDetails = cartItems.Select(item => new OrderDetailViewModel
                 {
-                    ProductDetailId = item.ProductId, // Giả sử bạn lấy ProductId từ GuestCartViewModel
+                    ProductDetailId = item.ProductId,
                     Quantity = item.Quantity,
-                    Price = item.Price, // Hoặc bạn có thể lấy Price nếu không có DiscountedPrice
+                    Price = item.Price,
                     ProductName = item.ProductName,
                     ColorName = item.Color,
                     Size = item.Size,
@@ -252,11 +261,6 @@ namespace RuychWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(OrderViewModel model, decimal Total)
         {
-            foreach (var item in model.OrderDetails)
-            {
-                _logger.LogInformation($"OrderDetailViewModel => ProductDetailId: {item.ProductDetailId}, Quantity: {item.Quantity}, Price: {item.Price}");
-            }
-
             if (model == null || model.Tinh == "0" || model.Quan == "0" || model.Phuong == "0")
             {
                 if (model.Phuong == "0")
@@ -296,6 +300,7 @@ namespace RuychWeb.Controllers
             await _context.SaveChangesAsync();
 
             // Thêm OrderDetail
+
             foreach (var item in model.OrderDetails)
             {
                 var orderDetail = new OrderDetail
@@ -307,18 +312,13 @@ namespace RuychWeb.Controllers
                 };
 
                 _context.OrderDetails.Add(orderDetail);
-                await _context.SaveChangesAsync();
             }
-
-            _logger.LogInformation("Đã lưu OrderDetails vào database.");
+            await _context.SaveChangesAsync();
 
             // Lấy lại OrderDetail
             var orderDetails = await _context.OrderDetails
                 .Where(od => od.OrderId == order.OrderId)
                 .ToListAsync();
-
-            _logger.LogInformation($"Tìm thấy {orderDetails.Count} OrderDetail cho OrderId={order.OrderId}");
-
             // Trừ kho
             foreach (var od in orderDetails)
             {
@@ -329,19 +329,9 @@ namespace RuychWeb.Controllers
                     productDetail.Quantity -= od.Quantity;
                     if (productDetail.Quantity < 0)
                         productDetail.Quantity = 0;
-
-                    _logger.LogInformation($"Trừ kho: ProductDetailId={od.ProductDetailId}, Số lượng cũ={oldQuantity}, Trừ={od.Quantity}, Mới={productDetail.Quantity}");
-                }
-                else
-                {
-                    _logger.LogWarning($"Không tìm thấy ProductDetail với ID: {od.ProductDetailId}");
                 }
             }
             await _context.SaveChangesAsync();
-            _logger.LogInformation("Đã cập nhật số lượng kho.");
-
-            // Xóa cart localStorage thông qua script trong View
-            TempData["ClearCart"] = true;
 
             if (model.PaymentMethod == "Online")
             {
@@ -358,8 +348,8 @@ namespace RuychWeb.Controllers
                 return Redirect(paymentUrl);
             }
             TempData["OrderId"] = order.OrderId;
-            TempData["SuccessMessage"] = "Đặt hàng thành công!";
-            return RedirectToAction("Index", "Home", new { success = "true" });
+            TempData["ClearCart"] = true;
+            return View("LocalCheckout", model);
         }
 
         // Trả về dữ liệu sau khi thanh toán xong
@@ -367,44 +357,81 @@ namespace RuychWeb.Controllers
         public async Task<IActionResult> PaymentCallbackVnpay()
         {
             var response = _vnPayService.PaymentExecute(Request.Query);
+            var user = await _userManager.GetUserAsync(User);
 
-            _logger.LogInformation("VNPay callback received. Response: {@response}", response);
-
-            if (response.Success)
+            if (user == null)
             {
+                return RedirectToAction("Index", "Cart");
+            }
+
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == user.Id);
+            if (customer == null)
+            {
+                return RedirectToAction("Index", "Cart");
+            }
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
+            var cartDetails = await _context.CartDetails
+               .Where(cd => cd.CartId == cart.CartId)
+               .Include(cd => cd.ProductDetail)
+               .ThenInclude(pd => pd.Color)
+               .ThenInclude(c => c.Product)
+               .ToListAsync();
+            if (response.VnPayResponseCode == "00" && response.Success)
+            {
+                // Thanh toán thành công
                 var orderId = response.OrderId;
                 var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
 
                 if (order != null && order.PaymentStatus == "Chưa thanh toán")
                 {
                     _logger.LogInformation("Cập nhật trạng thái đơn hàng ID {OrderId}", orderId);
-
                     order.PaymentStatus = "Đã thanh toán";
                     order.PaymentDate = DateTime.Now;
+                    foreach (var cartDetail in cartDetails)
+                    {
+                        var orderDetail = new OrderDetail
+                        {
+                            Quantity = cartDetail.Quantity,
+                            Price = (decimal)cartDetail.ProductDetail.Color.Product.Price,
+                            OrderId = order.OrderId,
+                            ProductDetailId = cartDetail.ProductDetailId
+                        };
 
+                        _context.OrderDetails.Add(orderDetail);
+
+                        // Trừ số lượng trong kho sản phẩm
+                        cartDetail.ProductDetail.Quantity -= cartDetail.Quantity;
+                    }
+
+                    // Xóa CartDetails sau khi tạo đơn hàng
+                    _context.CartDetails.RemoveRange(cartDetails);
                     await _context.SaveChangesAsync();
+
+                    // Hiển thị thông báo thành công
                     TempData["PaymentSuccess"] = true;
                 }
                 else
                 {
-                    _logger.LogWarning("Không tìm thấy đơn hàng hoặc đã thanh toán. OrderId: {OrderId}", orderId);
+                    TempData["PaymentFailed"] = "Đơn hàng không tồn tại hoặc đã thanh toán trước đó.";
                 }
             }
+            else if (response.VnPayResponseCode == "97") // Mã hủy thanh toán
+            {
+                TempData["PaymentFailed"] = "Thanh toán bị hủy.";
+            }
             else
             {
-                _logger.LogWarning("Thanh toán thất bại hoặc bị hủy từ VNPay");
+                // Thanh toán thất bại
+                TempData["PaymentFailed"] = "Thanh toán thất bại, đã có lỗi xảy ra trong quá trình giao dịch";
             }
-
             TempData["PaymentResponse"] = JsonConvert.SerializeObject(response);
-
-            // Kiểm tra người dùng đăng nhập hay chưa để điều hướng đúng trang
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Checkout", "UserOrder");
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("LocalCheckout", "UserOrder");
             }
         }
 

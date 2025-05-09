@@ -4,44 +4,9 @@
 @model IEnumerable<Product>
 
 @{
-    ViewData["Title"] = "Trang chủ";
-    var json = TempData["PaymentResponse"] as string;
-    var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
-    var successMessage = TempData["OrderSuccess"] as string;
-}
-@if (!string.IsNullOrEmpty(successMessage))
-{
-    var orderId = TempData["OrderId"].ToString();
-    <div class="success-overlay">
-        <div class="success-modal">
-            <div class="success-icon">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <h2>🎉 Đặt hàng thành công!</h2>
-            <p>@successMessage</p>
-            <p><strong>Mã đơn hàng:</strong> @orderId</p> <!-- Hiển thị mã đơn hàng -->
-            <a href="/UserOrder/LookupOrder" class="btn-go-home">Tra cứu đơn hàng</a> <!-- Nút về trang Lookup -->
-        </div>
-    </div>
+    ViewData["Title"] = "Trang chủ";
 }
 
-@if (paymentResponse != null)
-{
-    <div class="payment-success-overlay">
-        <div class="payment-success-modal">
-            <div class="payment-icon">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <h2>Thanh toán thành công!</h2>
-            <p><strong>Mã đơn hàng:</strong> @paymentResponse.OrderId</p>
-            <p><strong>Thông tin:</strong> @paymentResponse.OrderDescription</p>
-            <p><strong>Phương thức:</strong> @paymentResponse.PaymentMethod</p>
-            <p><strong>Mã giao dịch:</strong> @paymentResponse.TransactionId</p>
-            <p><strong>Mã thanh toán:</strong> @paymentResponse.PaymentId</p>
-            <a asp-controller="UserOrder" asp-action="LookupOrder" class="btn-go-history">Xem đơn hàng</a>
-        </div>
-    </div>
-}
 <div class="col-sm-3">
     @Html.Partial("_SideBar")
 </div>
@@ -109,79 +74,6 @@
         <ul class="pagination">
         </ul>
     </div>
-    @*  <div class="recommended_items">
-        <!--recommended_items-->
-        <h2 class="title text-center">BẠN CÓ CẦN THÊM ?</h2>
-
-        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/recommend1.jpg" alt="" />
-                                    <h2>500.000 VNĐ</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="item">
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/recommend1.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/recommend2.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="images/home/recommend3.jpg" alt="" />
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-                <i class="fa fa-angle-left"></i>
-            </a>
-            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        </div>
-    </div><!--/recommended_items--> *@
-
 </div>
 @section Scripts {
     <style>
@@ -209,7 +101,8 @@
         $(document).ready(function () {
             loadProducts(1);
         });
-               function loadProducts(page) {
+
+        function loadProducts(page) {
             $.ajax({
                 url: "/Home/GetList",
                 type: "GET",
@@ -219,10 +112,8 @@
                     featuresItems.empty();
 
                     result.data.forEach(function (item) {
-                        // Determine out-of-stock status
-                        let isOutOfStock = true; // Default to out of stock
+                        let isOutOfStock = true;
                         let totalQuantity = 0;
-
                         if (item.colors && item.colors.length > 0) {
                             item.colors.forEach(color => {
                                 if (color.sizes && color.sizes.length > 0) {
@@ -233,12 +124,10 @@
                             });
                         }
 
-                        // If total quantity is greater than 0, the product is in stock
                         if (totalQuantity > 0) {
                             isOutOfStock = false;
                         }
 
-                        // Calculate sale price if applicable
                         const discount = item.saleDetails && item.saleDetails.length > 0 ? item.saleDetails[0].discount : 0;
                         let salePrice = 0;
                         if (discount > 0) {
@@ -249,7 +138,7 @@
                             }
                         }
 
-                        // Generate product HTML
+                        // Tao san pham HTML
                         const productHTML = `
                             <div class="col-sm-4">
                                 <div class="product-image-wrapper">
@@ -321,50 +210,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-                    var shouldClearCart = '@TempData["ClearCart"]' === 'True';
-
-                    if (shouldClearCart) {
-                        localStorage.removeItem("cart"); // hoặc key khác nếu bạn dùng key khác
-                        console.log("Đã xóa giỏ hàng trong localStorage");
-
-                        // Hiển thị thông báo (nếu cần)
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Đặt hàng thành công!',
-                            text: 'Giỏ hàng của bạn đã được xóa.',
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
-                    }
-                });
-
-                    setTimeout(() => {
-                // Làm mờ và ẩn modal
-                const overlay = document.querySelector('.payment-success-overlay');
-                if (overlay) {
-                    overlay.style.transition = 'opacity 0.5s ease';
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        // Redirect sau khi ẩn hoàn toàn
-                        window.location.href = '/UserOrder/LookupOrder';
-                    }, 500); // chờ thêm chút để hiệu ứng fade-out chạy xong
-                }
-            }, 6000);
-
-        document.addEventListener("DOMContentLoaded", function () {
-            var successMessage = '@TempData["SuccessMessage"]';  // Lấy thông báo từ TempData
-
-            if (successMessage) {
-                var overlay = document.querySelector('.success-overlay');
-                overlay.classList.add('active');
-
-                setTimeout(function () {
-                    overlay.classList.remove('active');
-                }, 5000);  // Ẩn thông báo sau 5 giây
-            }
-        });
-
-            document.addEventListener("DOMContentLoaded", function () {
             var passwordChanged = '@TempData["PasswordChanged"]';
             if (passwordChanged && passwordChanged !== '') {
                 Swal.fire({

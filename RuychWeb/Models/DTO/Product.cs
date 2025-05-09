@@ -12,7 +12,7 @@ namespace RuychWeb.Models.DTO
         public string? Description { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public bool OnSale { get; set; }
+        public bool Status { get; set; }
         public ICollection<Color> Colors { get; set; }
         public ICollection<SaleDetail> SaleDetails { get; set; }
     }

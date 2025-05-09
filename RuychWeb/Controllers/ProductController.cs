@@ -16,14 +16,15 @@ namespace RuychWeb.Controllers
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
         }
-        public IActionResult Index(string searchText)
+        public IActionResult Index(string searchText, int totalProducts)
         {
             ViewBag.SearchText = searchText;
+            ViewBag.TotalProducts = totalProducts;
             return View();
         }
         public IActionResult GetList(int page = 1, int pageSize = 9, string searchText = "", string sort_by = "", decimal minPrice = 0, decimal maxPrice = decimal.MaxValue)
         {
-            var query = _dataContext.Products.Where(p => p.OnSale)
+            var query = _dataContext.Products.Where(p => p.Status)
                 .Include(p => p.SaleDetails).ThenInclude(sd => sd.Sale)
                 .Include(p => p.Colors).ThenInclude(c => c.ProductDetails)
                 .Include(p => p.Category)
@@ -59,6 +60,7 @@ namespace RuychWeb.Controllers
             var totalProducts = query.Count();
             var totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
+            //Skip (so san pham) va lay so san pham
             var products = query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -80,8 +82,16 @@ namespace RuychWeb.Controllers
                     })
                 }).ToList();
 
-            return Json(new { data = products, totalPages, currentPage = page });
+            return Json(new
+            {
+                data = products,
+                totalProducts,
+                totalPages,
+                currentPage = page,
+                searchText
+            });
         }
+
 
 
         [HttpGet]
@@ -125,7 +135,7 @@ namespace RuychWeb.Controllers
                     StartDate = sd.Sale.StartDate,
                     EndDate = sd.Sale.EndDate
                 }).ToList() ?? new List<SaleViewModel>(),
-                SaleIds = product.SaleDetails?.Select(sd => sd.SaleId).ToList() ?? new List<int>()
+
             };
 
             return View(productViewModel);

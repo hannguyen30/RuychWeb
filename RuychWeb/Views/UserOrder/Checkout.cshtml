@@ -2,9 +2,11 @@
 @using RuychWeb.Models.Vnpay
 @model RuychWeb.Models.ViewModels.OrderViewModel
 @{
+    ViewData["Title"] = "Đặt hàng";
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
-    ViewData["Title"] = "Đặt hàng";
+    var successMessage = TempData["OrderSuccess"] as string;
+    var paymentFailedMessage = TempData["PaymentFailed"] as string;
 }
 <style>
 
@@ -13,44 +15,8 @@
     }
 
 </style>
-@if (paymentResponse != null)
-{
-    <div class="payment-success-overlay">
-        <div class="payment-success-modal">
-            <div class="payment-icon">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <h2>Thanh toán thành công!</h2>
-            <p><strong>OrderId:</strong> @paymentResponse.OrderId</p>
-            <p><strong>Thông tin:</strong> @paymentResponse.OrderDescription</p>
-            <p><strong>Phương thức:</strong> @paymentResponse.PaymentMethod</p>
-            <p><strong>Mã giao dịch:</strong> @paymentResponse.TransactionId</p>
-            <p><strong>Mã thanh toán:</strong> @paymentResponse.PaymentId</p>
-            <a asp-controller="Account" asp-action="History" class="btn-go-history">Xem đơn hàng</a>
-        </div>
-    </div>
-}
-@if (TempData["OrderSuccess"] != null)
-{
-    <div class="modal fade show" id="orderSuccessModal" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-success shadow">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title">Đặt hàng thành công</h5>
-                    <button type="button" class="btn-close" onclick="closeModal()" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <p>@TempData["OrderSuccess"]</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="/Orders/History" class="btn btn-success">Xem đơn hàng</a>
-                    <a href="/" class="btn btn-outline-success">Về trang chủ</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-backdrop fade show"></div>
-}
+
+
 <div class="order-checkout-page">
     <div class="container">
         <form method="post" asp-controller="UserOrder" asp-action="PlaceOrder">
@@ -114,7 +80,7 @@
                         {
                             <input type="hidden" name="OrderDetails[@item.ProductDetailId].ProductDetailId" value="@item.ProductDetailId" />
                             <input type="hidden" name="OrderDetails[@item.ProductDetailId].Quantity" value="@item.Quantity" />
-                            <input type="hidden" name="OrderDetails[@item.ProductDetailId].Price" value="@item.Price" />
+
                             <li class="list-group-item">
                                 <div>
                                     <strong>@item.ProductName - @item.ColorName</strong><br />
@@ -145,6 +111,7 @@
                                         {
                                             <span>@price.ToString("N0") VND</span>
                                         }
+                                        <input type="hidden" name="OrderDetails[@item.ProductDetailId].Price" value="@price" />
                                     }
                                 </div>
                             </li>
@@ -188,7 +155,7 @@
                         <p><span>Đơn hàng:</span><span id="subtotal" data-value="@subtotal">@subtotal.ToString("N0") VND</span></p>
                         <p><span>Giảm:</span><span>-@discount.ToString("N0") VND</span></p>
                         <p><span>Phí vận chuyển:</span><span id="shippingFee">0 VND</span></p>
-
+                        <input type="hidden" name="ShippingFee" />
                         <h5><span>TỔNG CỘNG:</span><span id="total"> VND</span></h5>
                         <input type="hidden" name="Total" id="totalInput" />
                     </div>
@@ -314,20 +281,59 @@
             document.querySelector(".modal-backdrop").remove();
         }
 
+        $(document).ready(function () {
+        @if (TempData["SuccessMessage"] != null && TempData["OrderId"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đặt hàng thành công!',
+                    text: 'Mã đơn hàng: @TempData["OrderId"]',
+                    confirmButtonText: 'Xem đơn hàng',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/UserOrder/LookupOrder';
+                    }
+                });
+            </text>
+        }
+        });
+        @if (paymentResponse != null && paymentResponse.Success)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thanh toán thành công!',
+                    html: `<strong>Mã đơn hàng:</strong> @paymentResponse.OrderId<br>
+                            <strong>Thông tin:</strong> @paymentResponse.OrderDescription<br>
+                            <strong>Phương thức:</strong> @paymentResponse.PaymentMethod<br>
+                            <strong>Mã giao dịch:</strong> @paymentResponse.TransactionId<br>
+                            <strong>Mã thanh toán:</strong> @paymentResponse.PaymentId`,
+                    confirmButtonText: 'Xem đơn hàng'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/UserOrder/LookupOrder';
+                    }
+                });
+            </text>
+        }
+        else if (paymentResponse != null && !paymentResponse.Success)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thanh toán thất bại!',
+                    text: '@Html.Raw(paymentFailedMessage)',
+                    confirmButtonText: 'Quay lại'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/UserOrder/Checkout';
+                    }
+                });
+            </text>
+        }
 
-        setTimeout(closeModal, 5000); // tự động đóng sau 5s
-            setTimeout(() => {
-                // Làm mờ và ẩn modal
-                const overlay = document.querySelector('.payment-success-overlay');
-                if (overlay) {
-                    overlay.style.transition = 'opacity 0.5s ease';
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        // Redirect sau khi ẩn hoàn toàn
-                        window.location.href = '/Account/History';
-                    }, 500); // chờ thêm chút để hiệu ứng fade-out chạy xong
-                }
-            }, 6000);
+
 
     </script>
 }

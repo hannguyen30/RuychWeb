@@ -29,9 +29,9 @@ public class HomeController : Controller
     public IActionResult GetList(int page = 1, int pageSize = 6)
     {
 
-        var totalProducts = _dataContext.Products.Where(p => p.OnSale).Count();
+        var totalProducts = _dataContext.Products.Where(p => p.Status).Count();
         var totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
-        var products = _dataContext.Products.Where(p => p.OnSale)
+        var products = _dataContext.Products.Where(p => p.Status)
             .Include(p => p.SaleDetails)
                 .ThenInclude(sd => sd.Sale)
             .Include(p => p.Colors)

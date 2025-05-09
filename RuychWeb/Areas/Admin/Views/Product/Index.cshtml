@@ -10,6 +10,10 @@
         width: 150px; /* Kích thước cố định cho cột Sale */
         max-width: 150px; /* Cố định chiều rộng cột */
     }
+
+    p {
+        text-wrap: auto;
+    }
 </style>
 <h3 class="text-primary">Quản lý sản phẩm</h3>
 
@@ -113,7 +117,7 @@
                                         }
                                         else
                                         {
-                                            <span class="badge bg-warning">Không bán</span>
+                                            <span class="badge bg-warning">Chưa bán</span>
                                         }
                                     </td>
                                     <td>
@@ -159,7 +163,7 @@
                                     }
                                     else
                                     {
-                                        <span class="badge bg-warning">Không bán</span>
+                                        <span class="badge bg-warning">Chưa bán</span>
                                     }
                                 </td>
                                 <td>
@@ -242,7 +246,7 @@
                             <td><span class="text-muted">--</span></td>
                             <td><span class="text-muted">--</span></td>
                             <td>${product.sales.length ? product.sales.map(s => `<span class="badge bg-warning text-wrap d-block">${s.name}: ${s.discount}% Off</span>`).join('') : '<span class="text-muted">No sale</span>'}</td>
-                            <td>${product.onSale ? '<span class="badge bg-success">Đang bán</span>' : '<span class="badge bg-warning">Không bán</span>'}</td>
+                            <td>${product.onSale ? '<span class="badge bg-success">Đang bán</span>' : '<span class="badge bg-warning">Chưa bán</span>'}</td>
                             <td>
                                 <a href="/Admin/Product/Edit/${product.productId}" class="btn btn-warning btn-sm">Edit</a>
                                 <form action="/Admin/Product/Delete/${product.productId}" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá sản phẩm này?');">
@@ -265,7 +269,7 @@
                             <td>${color.sizes.map(s => `<span class="badge bg-info">${s.size}</span><br/>`).join('')}</td>
                             <td>${color.sizes.map(s => `<span class="badge bg-success">${s.quantity}</span><br/>`).join('')}</td>
                             <td>${index === 0 && product.sales.length ? product.sales.map(s => `<span class="badge bg-warning text-wrap d-block">${s.name}: ${s.discount}% Off</span>`).join('') : (index === 0 ? '<span class="text-muted">No sale</span>' : '')}</td>
-                            <td>${index === 0 ? (product.onSale ? '<span class="badge bg-success">Đang bán</span>' : '<span class="badge bg-warning">Không bán</span>') : ''}</td>
+                            <td>${index === 0 ? (product.onSale ? '<span class="badge bg-success">Đang bán</span>' : '<span class="badge bg-warning">Chưa bán</span>') : ''}</td>
                             <td>
                                 ${index === 0 ? `
                                     <a href="/Admin/Product/Edit/${product.productId}" class="btn btn-warning btn-sm">Edit</a>
@@ -280,12 +284,7 @@
                 });
             });
         });
-        @if (TempData["AlertMessage"] != null)
-        {
-            <text>
-                                                                  alert("@Html.Raw(TempData["AlertMessage"])");
-            </text>
-        }
+
         document.addEventListener("DOMContentLoaded", function () {
             var success = '@TempData["Success"]';
             var failed = '@TempData["Failed"]';
@@ -307,9 +306,7 @@
                 title: failed,
                 showConfirmButton: false,
                 timer: 4000,
-                customClass: {
-                    popup: 'custom-toast-popup-error'
-                }
+
             });
         }
         });

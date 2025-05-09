@@ -69,10 +69,16 @@
                             <td>@(string.IsNullOrEmpty(order.CancelReason) ? "—" : order.CancelReason)</td>
                             <td>
                                 <a href="@Url.Action("Details", "Order", new { orderId = order.OrderId })" class="btn btn-sm btn-info">Chi tiết</a>
-                                <a href="/Admin/Order/Edit/@order.OrderId" class="btn btn-sm btn-warning">Sửa</a>
-                                <form asp-action="Delete" asp-route-id="@order.OrderId" method="post" style="display:inline;" onsubmit="return confirm('Xác nhận xoá đơn hàng này?');">
-                                    <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
-                                </form>
+                                @if (!(order.PaymentStatus == "Đã thanh toán" && order.OrderStatus == "Đã hoàn thành"))
+                                {
+                                    <a href="/Admin/Order/Edit/@order.OrderId" class="btn btn-sm btn-warning">Sửa</a>
+                                }
+                                @if (!order.OrderDetails.Any() || order.OrderStatus == "Đã hủy")
+                                {
+                                    <form asp-action="Delete" asp-route-id="@order.OrderId" method="post" style="display:inline;" onsubmit="return confirm('Xác nhận xoá đơn hàng này?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
+                                    </form>
+                                }
                             </td>
                         </tr>
                     }

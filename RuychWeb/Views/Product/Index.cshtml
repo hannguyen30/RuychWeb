@@ -86,7 +86,7 @@
 <div class="col-sm-9 padding-right">
     @if (!string.IsNullOrEmpty(ViewBag.SearchText))
     {
-        <h2 class="title text-center search-title">Kết quả tìm kiếm cho: "@ViewBag.SearchText"</h2>
+        <h2 class="title text-center search-title"></h2>
     }
     else
     {
@@ -188,6 +188,15 @@
 
                 const response = await fetch(`/Product/GetList?page=${page}&searchText=${encodeURIComponent(searchQuery)}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort_by=${sortBy}`);
                 const result = await response.json();
+                if (searchQuery && result.totalProducts !== undefined) {
+                    document.querySelector('.search-title')?.remove(); // Xoá tiêu đề cũ nếu có
+                    const titleElement = document.createElement('h2');
+                    titleElement.className = 'title text-center search-title';
+                    titleElement.textContent = `Có ${result.totalProducts} kết quả tìm kiếm cho: "${decodeURIComponent(searchQuery)}"`;
+
+                    const container = document.querySelector('.filter-group');
+                    container.parentElement.insertBefore(titleElement, container); // Chèn lại tiêu đề vào trước danh sách sản phẩm
+                }
                 const featuresItems = $('.features_items');
                 featuresItems.empty();
                 if (result.data.length === 0) {
@@ -288,5 +297,32 @@
 
             $('#pagination').html(paginationHtml);
         }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var success = '@TempData["Success"]';
+            if (success && success !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+            var message = localStorage.getItem("SuccessMessage");
+            if (message) {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                localStorage.removeItem("SuccessMessage"); // Xoá sau khi hiển thị
+            }
+        });
     </script>
 }

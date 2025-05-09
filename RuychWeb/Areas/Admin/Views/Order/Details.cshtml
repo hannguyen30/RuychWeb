@@ -68,9 +68,17 @@
                 {
                     <strong class="text-danger">Lý do hủy:</strong> @Model.CancelReason
                 }
-                <div class="mt-4">
-                    <a href="@Url.Action("ExportToPdf", "Order", new { orderId = Model.OrderId })" class="btn btn-primary">Xuất PDF</a>
-                </div>
+                @if (
+                (Model.PaymentStatus == "Chưa thanh toán" && Model.OrderStatus == "Đã xác nhận") ||
+                (Model.PaymentStatus == "Đã thanh toán" && Model.OrderStatus == "Đã xác nhận") ||
+                (Model.PaymentStatus == "Đã thanh toán" && Model.OrderStatus == "Đã hoàn thành")
+                )
+                {
+                    <div class="mt-4">
+                        <a href="#" id="btnExportPdf" class="btn btn-primary" data-discount="@(Model.Discount?.ToString("0.##") ?? "0")">Xuất PDF</a>
+
+                    </div>
+                }
             </div>
         </div>
 
@@ -97,11 +105,25 @@
                     var index = 1;
                     @foreach (var item in Model.OrderDetails)
                     {
-                        var price = item.Price; // Đây là giá đã giảm rồi
-                        var discount = Model.Discount ?? 0; // Lấy mức giảm giá từ đơn hàng, không tính lại ở đây
-                        decimal discountedPrice = price; // Đã có giá giảm rồi, không cần tính lại
+                        var price = item.Price;
+                        var discount = Model.Discount ?? 0m;
 
-                        // Đảm bảo không áp dụng giảm giá lần nữa
+                        decimal discountedPrice;
+
+                        if (discount < 100)
+                        {
+                            // Giảm theo phần trăm
+                            discountedPrice = price * (1 - (discount / 100));
+                        }
+                        else
+                        {
+                            // Giảm theo số tiền trực tiếp
+                            discountedPrice = price - discount;
+                        }
+
+                        // Đảm bảo không âm
+                        if (discountedPrice < 0) discountedPrice = 0;
+
                         decimal totalPrice = discountedPrice * item.Quantity;
 
                         <tr>
@@ -235,5 +257,19 @@
                 });
             }
         });
+                document.getElementById("btnExportPdf").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const orderId = parseInt('@Model.OrderId');
+            const discount = parseFloat(this.getAttribute("data-discount"));
+            const shippingFeeText = document.getElementById("shippingFee-" + orderId).textContent;
+            const shippingFee = parseFloat(shippingFeeText.replace(/[^\d]/g, ''));
+
+            const url = `/Admin/Order/ExportToPdf?orderId=${orderId}&discount=${discount}&shippingFee=${shippingFee}`;
+            window.location.href = url;
+        });
+
+
+
     </script>
 }

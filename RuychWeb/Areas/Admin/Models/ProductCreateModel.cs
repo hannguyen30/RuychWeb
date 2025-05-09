@@ -14,7 +14,7 @@ namespace RuychWeb.Areas.Admin.Models
         public string? Size { get; set; }
         public int? Quantity { get; set; }
         public int? SaleId { get; set; }
-        public bool OnSale { get; set; } = false;
+        public bool Status { get; set; } = false;
         [NotMapped]
         [FileExtension]
         public IFormFile? ThumbnailFile { get; set; } // Thay đổi kiểu dữ liệu thành IFormFile

@@ -132,14 +132,28 @@ namespace RuychWeb.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            if (category == null)
             {
-                _context.Categories.Remove(category);
-                await _context.SaveChangesAsync();
+                TempData["Error"] = "Danh mục không tồn tại.";
+                return RedirectToAction(nameof(Index));
             }
+
+            // Kiểm tra xem có sản phẩm nào đang sử dụng danh mục này không
+            var isCategoryInUse = await _context.Products.AnyAsync(p => p.CategoryId == id);
+            if (isCategoryInUse)
+            {
+                // Nếu có sản phẩm sử dụng, không cho phép xóa và thông báo lỗi
+                TempData["Error"] = "Không thể xóa danh mục vì nó đang được áp dụng trong sản phẩm.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Nếu không có sản phẩm nào sử dụng, thực hiện xóa danh mục
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
             TempData["Success"] = "Xóa thành công!";
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Search(string keyword)

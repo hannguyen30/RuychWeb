@@ -243,7 +243,7 @@
 @section Scripts {
     <script>
         const fullColorData = @Html.Raw(JsonConvert.SerializeObject(Model.Colors));
-        const isLoggedIn = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true'; // << THÊM CHỖ NÀY
+        const isLoggedIn = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true';
 
         const quantityInput = document.getElementById('quantityInput');
         const sizeGrid = document.getElementById('sizeGrid');
@@ -471,7 +471,8 @@
                 }
 
                 localStorage.setItem("cart", JSON.stringify(cart));
-                window.location.href = '/Cart';
+                localStorage.setItem("SuccessMessage", "Đã thêm sản phẩm vào giỏ hàng!");
+               window.location.href = '/Product/Index?success=Đã thêm vào giỏ hàng';
             }
         });
     </script>

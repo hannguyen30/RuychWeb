@@ -9,6 +9,7 @@
         public string EmployeeName { get; set; }  // Thêm thông tin người bán
         public DateTime? CreatedDate { get; set; }  // Ngày tạo
         public List<OrderDetailPdfViewModel> OrderDetails { get; set; }
+        public decimal ShippingFee { get; set; }
         public decimal TotalAmount { get; set; }
     }
 
