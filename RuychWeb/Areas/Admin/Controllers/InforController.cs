@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 namespace RuychWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class InforController : Controller
     {
         private readonly UserManager<Account> _userManager;

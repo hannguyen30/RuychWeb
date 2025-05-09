@@ -10,7 +10,6 @@
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public bool OnSale { get; set; }
-        public List<int> SaleIds { get; set; }
         public List<SaleViewModel> Sales { get; set; }
         public List<ColorViewModel> Colors { get; set; } // Màu sắc và các chi tiết size, quantity
 
@@ -41,7 +40,6 @@
         public ProductViewModel()
         {
             Colors = new List<ColorViewModel>();
-            SaleIds = new List<int>();
             Sales = new List<SaleViewModel>();
         }
     }

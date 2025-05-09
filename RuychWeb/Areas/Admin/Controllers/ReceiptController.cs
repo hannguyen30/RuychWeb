@@ -164,7 +164,10 @@ namespace RuychWeb.Areas.Admin.Controllers
                 var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == item.ProductId);
                 if (product != null)
                 {
-                    product.Price = item.Price;
+                    if (product.Price == null || product.Price == 0 || product.Price < item.Price)
+                    {
+                        product.Price = item.Price;
+                    }
                 }
                 var color = await _context.Colors
                     .FirstOrDefaultAsync(c => c.Name == item.Color && c.ProductId == item.ProductId);
@@ -266,7 +269,12 @@ namespace RuychWeb.Areas.Admin.Controllers
 
             if (receipt == null)
                 return NotFound();
-
+            var endOfDay = receipt.CreatedDate.Date.AddDays(1); // Thời điểm 00:00 của ngày hôm sau
+            if (DateTime.Now >= endOfDay)
+            {
+                TempData["Failed"] = "Chỉ có thể sửa đơn hàng trong ngày.";
+                return RedirectToAction("Index");
+            }
             // Cập nhật thông tin Receipt
             receipt.SupplierId = model.SupplierId;
             receipt.EmployeeId = model.EmployeeId;
@@ -288,6 +296,14 @@ namespace RuychWeb.Areas.Admin.Controllers
             // Thêm lại chi tiết mới
             foreach (var item in model.ReceiptItems)
             {
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == item.ProductId);
+                if (product != null)
+                {
+                    if (product.Price == null || product.Price == 0 || product.Price < item.Price)
+                    {
+                        product.Price = item.Price;
+                    }
+                }
                 var color = await _context.Colors
                     .FirstOrDefaultAsync(c => c.Name == item.Color && c.ProductId == item.ProductId);
                 if (color == null)

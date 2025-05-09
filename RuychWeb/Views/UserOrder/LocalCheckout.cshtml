@@ -13,6 +13,8 @@
     ViewData["Title"] = "Đặt hàng";
     var json = TempData["PaymentResponse"] as string;
     var paymentResponse = string.IsNullOrEmpty(json) ? null : JsonConvert.DeserializeObject<PaymentResponseModel>(json);
+    var successMessage = TempData["OrderSuccess"] as string;
+    var paymentFailedMessage = TempData["PaymentFailed"] as string;
     decimal subtotal = 0;
     decimal discountTotal = 0;
     decimal shippingFee = 0; // Tùy vào logic tính phí ship
@@ -275,22 +277,28 @@
             });
         });
         document.addEventListener("DOMContentLoaded", function () {
-                    var shouldClearCart = '@TempData["ClearCart"]' === 'True';
+            var orderId = '@TempData["OrderId"]';
 
-                    if (shouldClearCart) {
-                        localStorage.removeItem("cart"); // hoặc key khác nếu bạn dùng key khác
-                        console.log("Đã xóa giỏ hàng trong localStorage");
-
-                        // Hiển thị thông báo (nếu cần)
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Đặt hàng thành công!',
-                            text: 'Giỏ hàng của bạn đã được xóa.',
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
+            if (orderId) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đặt hàng thành công!',
+                    html: `<strong>Mã đơn hàng: ${orderId}</strong>`,
+                    confirmButtonText: 'Xem đơn hàng',
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/UserOrder/LookupOrder';
                     }
                 });
+            }
+
+            var shouldClearCart = '@TempData["ClearCart"]' === 'True';
+            if (shouldClearCart) {
+                localStorage.removeItem("cart");
+            }
+        });
+
 
     </script>
     }

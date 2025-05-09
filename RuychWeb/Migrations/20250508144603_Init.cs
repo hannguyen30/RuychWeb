@@ -7,7 +7,7 @@
 namespace RuychWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,22 +78,6 @@ namespace RuychWeb.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sales", x => x.SaleId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Shippings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Ward = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Shippings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -290,7 +274,8 @@ namespace RuychWeb.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -718,9 +703,6 @@ namespace RuychWeb.Migrations
 
             migrationBuilder.DropTable(
                 name: "SaleDetails");
-
-            migrationBuilder.DropTable(
-                name: "Shippings");
 
             migrationBuilder.DropTable(
                 name: "Carts");

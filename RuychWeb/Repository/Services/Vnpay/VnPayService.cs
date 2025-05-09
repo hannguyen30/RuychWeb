@@ -43,7 +43,11 @@ namespace RuychWeb.Repository.Services.Vnpay
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
 
+            // Kiểm tra mã phản hồi thành công từ VNPay
+            response.Success = response.VnPayResponseCode == "00";
+
             return response;
         }
+
     }
 }

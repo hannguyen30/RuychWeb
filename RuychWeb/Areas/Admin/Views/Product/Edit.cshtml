@@ -13,12 +13,10 @@
                 <div class="form-group col-md-6">
                     <label asp-for="Name" class="control-label">Tên sản phẩm</label>
                     <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="Price" class="control-label">Giá</label>
                     <input asp-for="Price" class="form-control" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
             </div>
             @if (!string.IsNullOrEmpty(Model.Thumbnail))
@@ -39,14 +37,12 @@
                 <div class="form-group">
                     <label asp-for="ThumbnailFile" class="control-label">Tạo ảnh mới</label>
                     <input asp-for="ThumbnailFile" class="form-control" type="file" />
-                    <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
                 </div>
             }
 
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Mổ tả</label>
                 <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
             <div class="row">
@@ -58,7 +54,7 @@
                 <div class="form-group col-md-3">
                     <label for="Color" class="control-label">Màu sắc</label>
                     <select asp-for="Color" class="form-control">
-                        @foreach (var color in ViewBag.Colors as List<string>)
+                        @foreach (var color in ViewBag.Colors as List<string> ?? new List<string>())
                         {
                             <option value="@color">@color</option>
                         }
@@ -68,7 +64,7 @@
                 <div class="form-group col-md-3">
                     <label for="Size" class="control-label">Size</label>
                     <select asp-for="Size" class="form-control">
-                        @foreach (var size in ViewBag.Sizes as List<string>)
+                        @foreach (var size in ViewBag.Sizes as List<string> ?? new List<string>())
                         {
                             <option value="@size">@size</option>
                         }
@@ -86,14 +82,13 @@
                 <select asp-for="SaleId" class="form-select" asp-items="ViewBag.Sales">
                     <option value="">None</option>
                 </select>
-                <span asp-validation-for="SaleId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Hiển thị sản phẩm</label>
                 <div class="form-check">
                     <!-- Chỉ cần sử dụng asp-for, checkbox sẽ tự động bind với giá trị model -->
-                    <input asp-for="OnSale" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label" for="OnSale">
+                    <input asp-for="Status" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label" for="Status">
                         Đang bán
                     </label>
                 </div>

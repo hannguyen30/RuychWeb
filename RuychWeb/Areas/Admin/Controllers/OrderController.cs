@@ -223,11 +223,11 @@ namespace RuychWeb.Areas.Admin.Controllers
                 CustomerId = order.CustomerId,
                 EmployeeId = order.EmployeeId,
                 Discount = order.OrderDetails
-        .SelectMany(od => od.ProductDetail.Color.Product.SaleDetails)
-        .Where(sd => sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now)  // Kiểm tra thời gian hợp lệ của chương trình khuyến mãi
-        .Select(sd => sd.Sale.Discount)  // Lấy mức giảm giá của các chương trình hợp lệ
-        .DefaultIfEmpty(0)  // Nếu không có chương trình khuyến mãi hợp lệ, mặc định là 0
-        .Max(),
+                .SelectMany(od => od.ProductDetail.Color.Product.SaleDetails)
+                .Where(sd => sd.Sale.StartDate <= DateTime.Now && sd.Sale.EndDate >= DateTime.Now)  // Kiểm tra thời gian hợp lệ của chương trình khuyến mãi
+                .Select(sd => sd.Sale.Discount)  // Lấy mức giảm giá của các chương trình hợp lệ
+                .DefaultIfEmpty(0)  // Nếu không có chương trình khuyến mãi hợp lệ, mặc định là 0
+                .Max(),
                 OrderDetails = order.OrderDetails.ToList(),
             };
 
@@ -337,7 +337,7 @@ namespace RuychWeb.Areas.Admin.Controllers
 
             await _context.SaveChangesAsync();
             TempData["Success"] = "Thay đổi trạng thái đơn hàng thành công";
-            return RedirectToAction("Details", new { orderId = order.OrderId });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -388,7 +388,7 @@ namespace RuychWeb.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExportToPdf(int orderId)
+        public async Task<IActionResult> ExportToPdf(int orderId, decimal discount, decimal shippingFee)
         {
             // Lấy thông tin đơn hàng từ database
             var order = await _context.Orders
@@ -441,17 +441,37 @@ namespace RuychWeb.Areas.Admin.Controllers
                 CustomerName = order.Name,
                 Phone = order.Phone,
                 Address = order.Address, // Đặt lại địa chỉ từ API vào đây
-                OrderDetails = order.OrderDetails.Select((od, index) => new OrderDetailPdfViewModel
+                OrderDetails = order.OrderDetails.Select((od, index) =>
                 {
-                    Index = index + 1,  // Số TT
-                    ProductCode = od.ProductDetail.Color.Product.ProductId,
-                    ProductName = od.ProductDetail.Color.Product.Name,
-                    Color = od.ProductDetail.Color.Name,
-                    Size = od.ProductDetail.Size,
-                    Quantity = od.Quantity,
-                    UnitPrice = od.Price,
-                    TotalPrice = od.Price * od.Quantity
+                    decimal discountedUnitPrice;
+
+                    if (discount >= 1000)
+                    {
+                        // Giảm trực tiếp theo số tiền
+                        var totalItemDiscount = discount / order.OrderDetails.Sum(d => d.Quantity); // chia đều giảm cho từng sản phẩm
+                        discountedUnitPrice = od.Price - totalItemDiscount;
+                    }
+                    else
+                    {
+                        // Giảm theo phần trăm
+                        discountedUnitPrice = od.Price * (1 - discount / 100);
+                    }
+
+                    var totalPrice = discountedUnitPrice * od.Quantity;
+
+                    return new OrderDetailPdfViewModel
+                    {
+                        Index = index + 1,
+                        ProductCode = od.ProductDetail.Color.Product.ProductId,
+                        ProductName = od.ProductDetail.Color.Product.Name,
+                        Color = od.ProductDetail.Color.Name,
+                        Size = od.ProductDetail.Size,
+                        Quantity = od.Quantity,
+                        UnitPrice = discountedUnitPrice,
+                        TotalPrice = totalPrice
+                    };
                 }).ToList(),
+                ShippingFee = shippingFee,
                 TotalAmount = order.TotalFee,
                 EmployeeName = _context.Employees
                     .Where(e => e.EmployeeId == order.EmployeeId)
@@ -547,6 +567,10 @@ namespace RuychWeb.Areas.Admin.Controllers
                     table.AddCell(new Cell().Add(new Paragraph($"{detail.UnitPrice:N0} VND").SetTextAlignment(TextAlignment.CENTER)));
                     table.AddCell(new Cell().Add(new Paragraph($"{detail.TotalPrice:N0} VND").SetTextAlignment(TextAlignment.CENTER)));
                 }
+
+                table.AddCell(new Cell(1, 2).Add(new Paragraph("Phí ship").SetFont(fontBold).SetTextAlignment(TextAlignment.CENTER)));
+                table.AddCell(new Cell(1, 5).Add(new Paragraph("").SetTextAlignment(TextAlignment.CENTER)));  // Các cột còn lại không có nội dung
+                table.AddCell(new Cell().Add(new Paragraph($"{orderViewModel.ShippingFee:N0} VND").SetFont(fontBold).SetTextAlignment(TextAlignment.CENTER)));
 
                 table.AddCell(new Cell(1, 2).Add(new Paragraph("CỘNG").SetFont(fontBold).SetTextAlignment(TextAlignment.CENTER)));
                 table.AddCell(new Cell(1, 5).Add(new Paragraph("").SetTextAlignment(TextAlignment.CENTER)));  // Các cột còn lại không có nội dung

@@ -21,5 +21,6 @@ namespace RuychWeb.Models.ViewModels
         public string PaymentMethod { get; set; }
         public decimal TotalFee { get; set; }
         public List<OrderDetailViewModel> OrderDetails { get; set; }
+        public int? OrderId { get; set; }
     }
 }

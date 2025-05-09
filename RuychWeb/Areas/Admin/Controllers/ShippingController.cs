@@ -1,96 +1,46 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RuychWeb.Models.DTO;
-using RuychWeb.Repository;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace RuychWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class ShippingController : Controller
     {
-        private readonly DataContext _dataContext;
-        public ShippingController(DataContext context)
-        {
-            this._dataContext = context;
-        }
-        [Authorize(Roles = "Admin,Staff")]
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10)
-        {
-            // Lấy tổng số bản ghi trong cơ sở dữ liệu
-            var totalShippings = await _dataContext.Shippings.CountAsync();
+        private readonly string _shippingFilePath = "wwwroot/js/shipping.json"; // Đường dẫn tới file shipping.json
 
-            // Lấy danh sách shipping theo trang
-            var shippings = await _dataContext.Shippings
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            // Tính tổng số trang
-            var totalPages = (int)Math.Ceiling(totalShippings / (double)pageSize);
-
-            // Lưu thông tin phân trang vào ViewBag
-            ViewBag.PageNumber = pageNumber;
-            ViewBag.TotalPages = totalPages;
-            ViewBag.PageSize = pageSize;
-
-            ViewBag.Shippings = shippings;
-            return View();
-        }
-
+        // Phương thức này sẽ đọc file JSON và trả về phí vận chuyển
         [HttpPost]
-        [Route("StoreShipping")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> StoreShipping(Shipping shippingModel, string phuong, string quan, string tinh, decimal price)
+        public async Task<IActionResult> GetShippingFee(string city, string district, string ward)
         {
+            // Đọc dữ liệu từ file shipping.json
+            var json = await System.IO.File.ReadAllTextAsync(_shippingFilePath);
+            var shippingList = JsonSerializer.Deserialize<List<Shipping>>(json);
 
-            shippingModel.City = tinh;
-            shippingModel.District = quan;
-            shippingModel.Ward = phuong;
-            shippingModel.Price = price;
-
-            try
+            if (shippingList != null)
             {
+                // Tìm phí vận chuyển dựa trên city, district, ward
+                var shipping = shippingList.FirstOrDefault(s => s.City == city && s.District == district && s.Ward == ward);
 
-                var existingShipping = await _dataContext.Shippings
-                    .AnyAsync(x => x.City == tinh && x.District == quan && x.Ward == phuong);
-
-                if (existingShipping)
+                if (shipping != null)
                 {
-                    return Ok(new { duplicate = true, message = "Dữ liệu trùng lặp." });
+                    return Json(new { success = true, shippingFee = shipping.Price });
                 }
-                _dataContext.Shippings.Add(shippingModel);
-                await _dataContext.SaveChangesAsync();
-                return Ok(new { success = true, message = "Thêm shipping thành công" });
-            }
-            catch (Exception)
-            {
-
-                return StatusCode(500, "An error occurred while adding shipping.");
-            }
-        }
-
-        [HttpPost]
-        public IActionResult GetShippingFee(string city, string district, string ward)
-        {
-            var shipping = _dataContext.Shippings
-                .FirstOrDefault(s => s.City == city && s.District == district && s.Ward == ward);
-
-            if (shipping != null)
-            {
-                return Json(new { success = true, shippingFee = shipping.Price });
+                else
+                {
+                    // Nếu không tìm thấy địa điểm, trả về phí vận chuyển mặc định là 40
+                    return Json(new { success = true, shippingFee = 40000 });
+                }
             }
 
-            return Json(new { success = false, message = "Không tìm thấy phí vận chuyển cho địa điểm này." });
+            // Nếu không thể đọc file hoặc không tìm thấy dữ liệu, trả về phí vận chuyển mặc định là 40
+            return Json(new { success = false, message = "Không tìm thấy dữ liệu phí vận chuyển." });
         }
-        public async Task<IActionResult> Delete(int Id)
-        {
-            Shipping shipping = await _dataContext.Shippings.FindAsync(Id);
-
-            _dataContext.Shippings.Remove(shipping);
-            await _dataContext.SaveChangesAsync();
-            TempData["success"] = "Shipping đã được xóa thành công";
-            return RedirectToAction("Index");
-        }
+    }
+    public class Shipping
+    {
+        public string City { get; set; }
+        public string District { get; set; }
+        public string Ward { get; set; }
+        public decimal Price { get; set; }
     }
 }

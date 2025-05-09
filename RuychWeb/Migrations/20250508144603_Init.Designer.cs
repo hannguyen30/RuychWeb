@@ -12,8 +12,8 @@ using RuychWeb.Repository;
 namespace RuychWeb.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250501151101_Initial")]
-    partial class Initial
+    [Migration("20250508144603_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -357,6 +357,9 @@ namespace RuychWeb.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Thumbnail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -494,34 +497,6 @@ namespace RuychWeb.Migrations
                     b.HasIndex("SaleId");
 
                     b.ToTable("SaleDetails");
-                });
-
-            modelBuilder.Entity("RuychWeb.Models.DTO.Shipping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("District")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Ward")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Shippings");
                 });
 
             modelBuilder.Entity("RuychWeb.Models.DTO.Supplier", b =>

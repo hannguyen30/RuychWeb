@@ -10,6 +10,6 @@
         public decimal? Discount { get; set; } // Assuming this is the discount percentage
         public string? Size { get; set; }
         public decimal? DiscountedPrice { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

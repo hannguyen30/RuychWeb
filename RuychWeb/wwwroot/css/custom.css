@@ -7,6 +7,9 @@
     animation: fadeInUp 400ms;
 }
 
+.col-sm-4 .product-image-wrapper {
+    height: 457.36px;
+}
 /* Sub-menu style */
 ul.sub-menu {
     position: absolute;
@@ -344,6 +347,74 @@ button#checkout-btn {
     margin: 5px 0;
     font-size: 16px;
     color: #333;
+}
+
+.error-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.error-modal {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: scaleIn 0.4s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.error-icon {
+    font-size: 70px;
+    color: #f44336; /* Màu đỏ cho lỗi */
+    margin-bottom: 20px;
+    animation: pop 0.6s ease-out;
+}
+
+.error-modal h2 {
+    font-size: 24px;
+    color: #f44336; /* Màu đỏ cho tiêu đề lỗi */
+    margin-bottom: 20px;
+}
+
+.error-modal p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Hiệu ứng Scale khi hiển thị modal */
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Hiệu ứng Pop cho icon khi xuất hiện */
+@keyframes pop {
+    0% {
+        transform: scale(0.8);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .btn-go-history {

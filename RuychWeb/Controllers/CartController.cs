@@ -110,11 +110,12 @@ namespace RuychWeb.Controllers
             // Lưu thay đổi vào cơ sở dữ liệu
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            TempData["Success"] = "Đã thêm sản phẩm vào giỏ hàng!";
+            return RedirectToAction("Index", "Product");
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveFromCart(int productId, int colorId, string size)
+        public async Task<IActionResult> RemoveFromCart(int cartDetailId)
         {
             var user = await _userManager.GetUserAsync(User);
             var customer = _context.Customers.FirstOrDefault(c => c.AccountId == user.Id);
@@ -123,22 +124,20 @@ namespace RuychWeb.Controllers
                 return BadRequest("Không tìm thấy thông tin khách hàng.");
             }
 
-            // Tìm giỏ hàng
             var cart = _context.Carts.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
             if (cart == null)
             {
                 return RedirectToAction("Index");
             }
 
-            // Tìm cart detail cần xóa
             var cartDetail = _context.CartDetails.FirstOrDefault(cd =>
-                cd.CartId == cart.CartId
+                cd.CartDetailId == cartDetailId && cd.CartId == cart.CartId
             );
 
             if (cartDetail != null)
             {
                 _context.CartDetails.Remove(cartDetail);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");

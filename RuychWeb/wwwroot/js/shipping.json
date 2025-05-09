@@ -1,0 +1,4062 @@
+[
+  {
+    "ShippingId": 1,
+    "Price": 25000.00,
+    "Ward": "Phường Phúc Xá",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 2,
+    "Price": 25000.00,
+    "Ward": "Phường Trúc Bạch",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 3,
+    "Price": 25000.00,
+    "Ward": "Phường Vĩnh Phúc",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 4,
+    "Price": 25000.00,
+    "Ward": "Phường Cống Vị",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 5,
+    "Price": 25000.00,
+    "Ward": "Phường Liễu Giai",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 6,
+    "Price": 25000.00,
+    "Ward": "Phường Nguyễn Trung Trực",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 7,
+    "Price": 25000.00,
+    "Ward": "Phường Quán Thánh",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 8,
+    "Price": 25000.00,
+    "Ward": "Phường Ngọc Hà",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 9,
+    "Price": 25000.00,
+    "Ward": "Phường Điện Biên",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 10,
+    "Price": 25000.00,
+    "Ward": "Phường Đội Cấn",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 11,
+    "Price": 25000.00,
+    "Ward": "Phường Ngọc Khánh",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 12,
+    "Price": 25000.00,
+    "Ward": "Phường Kim Mã",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 13,
+    "Price": 25000.00,
+    "Ward": "Phường Giảng Võ",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 14,
+    "Price": 25000.00,
+    "Ward": "Phường Thành Công",
+    "District": "Quận Ba Đình",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 15,
+    "Price": 25000.00,
+    "Ward": "Phường Phúc Tân",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 16,
+    "Price": 25000.00,
+    "Ward": "Phường Đồng Xuân",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 17,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Mã",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 18,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Buồm",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 19,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Đào",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 20,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Bồ",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 21,
+    "Price": 25000.00,
+    "Ward": "Phường Cửa Đông",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 22,
+    "Price": 25000.00,
+    "Ward": "Phường Lý Thái Tổ",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 23,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Bạc",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 24,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Gai",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 25,
+    "Price": 25000.00,
+    "Ward": "Phường Chương Dương",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 26,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Trống",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 27,
+    "Price": 25000.00,
+    "Ward": "Phường Cửa Nam",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 28,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Bông",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 29,
+    "Price": 25000.00,
+    "Ward": "Phường Tràng Tiền",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 30,
+    "Price": 25000.00,
+    "Ward": "Phường Trần Hưng Đạo",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 31,
+    "Price": 25000.00,
+    "Ward": "Phường Phan Chu Trinh",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 32,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Bài",
+    "District": "Quận Hoàn Kiếm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 33,
+    "Price": 25000.00,
+    "Ward": "Phường Phú Thượng",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 34,
+    "Price": 25000.00,
+    "Ward": "Phường Nhật Tân",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 35,
+    "Price": 25000.00,
+    "Ward": "Phường Tứ Liên",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 36,
+    "Price": 25000.00,
+    "Ward": "Phường Quảng An",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 37,
+    "Price": 25000.00,
+    "Ward": "Phường Xuân La",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 38,
+    "Price": 25000.00,
+    "Ward": "Phường Yên Phụ",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 39,
+    "Price": 25000.00,
+    "Ward": "Phường Bưởi",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 40,
+    "Price": 25000.00,
+    "Ward": "Phường Thụy Khuê",
+    "District": "Quận Tây Hồ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 41,
+    "Price": 25000.00,
+    "Ward": "Phường Thượng Thanh",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 42,
+    "Price": 25000.00,
+    "Ward": "Phường Ngọc Thụy",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 43,
+    "Price": 25000.00,
+    "Ward": "Phường Giang Biên",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 44,
+    "Price": 25000.00,
+    "Ward": "Phường Đức Giang",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 45,
+    "Price": 25000.00,
+    "Ward": "Phường Việt Hưng",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 46,
+    "Price": 25000.00,
+    "Ward": "Phường Gia Thụy",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 47,
+    "Price": 25000.00,
+    "Ward": "Phường Ngọc Lâm",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 48,
+    "Price": 25000.00,
+    "Ward": "Phường Phúc Lợi",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 49,
+    "Price": 25000.00,
+    "Ward": "Phường Bồ Đề",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 50,
+    "Price": 25000.00,
+    "Ward": "Phường Sài Đồng",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 51,
+    "Price": 25000.00,
+    "Ward": "Phường Long Biên",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 52,
+    "Price": 25000.00,
+    "Ward": "Phường Thạch Bàn",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 53,
+    "Price": 25000.00,
+    "Ward": "Phường Phúc Đồng",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 54,
+    "Price": 25000.00,
+    "Ward": "Phường Cự Khối",
+    "District": "Quận Long Biên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 55,
+    "Price": 25000.00,
+    "Ward": "Phường Nghĩa Đô",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 56,
+    "Price": 25000.00,
+    "Ward": "Phường Nghĩa Tân",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 57,
+    "Price": 25000.00,
+    "Ward": "Phường Mai Dịch",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 58,
+    "Price": 25000.00,
+    "Ward": "Phường Dịch Vọng",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 59,
+    "Price": 25000.00,
+    "Ward": "Phường Dịch Vọng Hậu",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 60,
+    "Price": 25000.00,
+    "Ward": "Phường Quan Hoa",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 61,
+    "Price": 25000.00,
+    "Ward": "Phường Yên Hoà",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 62,
+    "Price": 25000.00,
+    "Ward": "Phường Trung Hoà",
+    "District": "Quận Cầu Giấy",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 63,
+    "Price": 25000.00,
+    "Ward": "Phường Cát Linh",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 64,
+    "Price": 25000.00,
+    "Ward": "Phường Văn Miếu",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 65,
+    "Price": 25000.00,
+    "Ward": "Phường Quốc Tử Giám",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 66,
+    "Price": 25000.00,
+    "Ward": "Phường Láng Thượng",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 67,
+    "Price": 25000.00,
+    "Ward": "Phường Ô Chợ Dừa",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 68,
+    "Price": 25000.00,
+    "Ward": "Phường Văn Chương",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 69,
+    "Price": 25000.00,
+    "Ward": "Phường Hàng Bột",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 70,
+    "Price": 25000.00,
+    "Ward": "Phường Láng Hạ",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 71,
+    "Price": 25000.00,
+    "Ward": "Phường Khâm Thiên",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 72,
+    "Price": 25000.00,
+    "Ward": "Phường Thổ Quan",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 73,
+    "Price": 25000.00,
+    "Ward": "Phường Nam Đồng",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 74,
+    "Price": 25000.00,
+    "Ward": "Phường Trung Phụng",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 75,
+    "Price": 25000.00,
+    "Ward": "Phường Quang Trung",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 76,
+    "Price": 25000.00,
+    "Ward": "Phường Trung Liệt",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 77,
+    "Price": 25000.00,
+    "Ward": "Phường Phương Liên",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 78,
+    "Price": 25000.00,
+    "Ward": "Phường Thịnh Quang",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 79,
+    "Price": 25000.00,
+    "Ward": "Phường Trung Tự",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 80,
+    "Price": 25000.00,
+    "Ward": "Phường Kim Liên",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 81,
+    "Price": 25000.00,
+    "Ward": "Phường Phương Mai",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 82,
+    "Price": 25000.00,
+    "Ward": "Phường Ngã Tư Sở",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 83,
+    "Price": 25000.00,
+    "Ward": "Phường Khương Thượng",
+    "District": "Quận Đống Đa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 84,
+    "Price": 25000.00,
+    "Ward": "Phường Nguyễn Du",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 85,
+    "Price": 25000.00,
+    "Ward": "Phường Bạch Đằng",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 86,
+    "Price": 25000.00,
+    "Ward": "Phường Phạm Đình Hổ",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 87,
+    "Price": 25000.00,
+    "Ward": "Phường Lê Đại Hành",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 88,
+    "Price": 25000.00,
+    "Ward": "Phường Đồng Nhân",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 89,
+    "Price": 25000.00,
+    "Ward": "Phường Phố Huế",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 90,
+    "Price": 25000.00,
+    "Ward": "Phường Đống Mác",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 91,
+    "Price": 25000.00,
+    "Ward": "Phường Thanh Lương",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 92,
+    "Price": 25000.00,
+    "Ward": "Phường Thanh Nhàn",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 93,
+    "Price": 25000.00,
+    "Ward": "Phường Cầu Dền",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 94,
+    "Price": 25000.00,
+    "Ward": "Phường Bách Khoa",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 95,
+    "Price": 25000.00,
+    "Ward": "Phường Đồng Tâm",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 96,
+    "Price": 25000.00,
+    "Ward": "Phường Vĩnh Tuy",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 97,
+    "Price": 25000.00,
+    "Ward": "Phường Bạch Mai",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 98,
+    "Price": 25000.00,
+    "Ward": "Phường Quỳnh Mai",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 99,
+    "Price": 25000.00,
+    "Ward": "Phường Quỳnh Lôi",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 100,
+    "Price": 25000.00,
+    "Ward": "Phường Minh Khai",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 101,
+    "Price": 25000.00,
+    "Ward": "Phường Trương Định",
+    "District": "Quận Hai Bà Trưng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 102,
+    "Price": 25000.00,
+    "Ward": "Phường Thanh Trì",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 103,
+    "Price": 25000.00,
+    "Ward": "Phường Vĩnh Hưng",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 104,
+    "Price": 25000.00,
+    "Ward": "Phường Định Công",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 105,
+    "Price": 25000.00,
+    "Ward": "Phường Mai Động",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 106,
+    "Price": 25000.00,
+    "Ward": "Phường Tương Mai",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 107,
+    "Price": 25000.00,
+    "Ward": "Phường Đại Kim",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 108,
+    "Price": 25000.00,
+    "Ward": "Phường Tân Mai",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 109,
+    "Price": 25000.00,
+    "Ward": "Phường Hoàng Văn Thụ",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 110,
+    "Price": 25000.00,
+    "Ward": "Phường Giáp Bát",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 111,
+    "Price": 25000.00,
+    "Ward": "Phường Lĩnh Nam",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 112,
+    "Price": 25000.00,
+    "Ward": "Phường Thịnh Liệt",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 113,
+    "Price": 25000.00,
+    "Ward": "Phường Trần Phú",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 114,
+    "Price": 25000.00,
+    "Ward": "Phường Hoàng Liệt",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 115,
+    "Price": 25000.00,
+    "Ward": "Phường Yên Sở",
+    "District": "Quận Hoàng Mai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 116,
+    "Price": 25000.00,
+    "Ward": "Phường Nhân Chính",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 117,
+    "Price": 25000.00,
+    "Ward": "Phường Thượng Đình",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 118,
+    "Price": 25000.00,
+    "Ward": "Phường Khương Trung",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 119,
+    "Price": 25000.00,
+    "Ward": "Phường Khương Mai",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 120,
+    "Price": 25000.00,
+    "Ward": "Phường Thanh Xuân Trung",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 121,
+    "Price": 25000.00,
+    "Ward": "Phường Phương Liệt",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 122,
+    "Price": 25000.00,
+    "Ward": "Phường Hạ Đình",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 123,
+    "Price": 25000.00,
+    "Ward": "Phường Khương Đình",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 124,
+    "Price": 25000.00,
+    "Ward": "Phường Thanh Xuân Bắc",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 125,
+    "Price": 25000.00,
+    "Ward": "Phường Thanh Xuân Nam",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 126,
+    "Price": 25000.00,
+    "Ward": "Phường Kim Giang",
+    "District": "Quận Thanh Xuân",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 127,
+    "Price": 35000.00,
+    "Ward": "Thị trấn Sóc Sơn",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 128,
+    "Price": 35000.00,
+    "Ward": "Xã Bắc Sơn",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 129,
+    "Price": 35000.00,
+    "Ward": "Xã Minh Trí",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 130,
+    "Price": 35000.00,
+    "Ward": "Xã Hồng Kỳ",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 131,
+    "Price": 35000.00,
+    "Ward": "Xã Nam Sơn",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 132,
+    "Price": 35000.00,
+    "Ward": "Xã Trung Giã",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 133,
+    "Price": 35000.00,
+    "Ward": "Xã Tân Hưng",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 134,
+    "Price": 35000.00,
+    "Ward": "Xã Minh Phú",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 135,
+    "Price": 35000.00,
+    "Ward": "Xã Phù Linh",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 136,
+    "Price": 35000.00,
+    "Ward": "Xã Bắc Phú",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 136,
+    "Price": 35000.00,
+    "Ward": "Xã Bắc Phú",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 137,
+    "Price": 35000.00,
+    "Ward": "Xã Tân Minh",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 138,
+    "Price": 35000.00,
+    "Ward": "Xã Quang Tiến",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 139,
+    "Price": 35000.00,
+    "Ward": "Xã Hiền Ninh",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 140,
+    "Price": 35000.00,
+    "Ward": "Xã Tân Dân",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 141,
+    "Price": 35000.00,
+    "Ward": "Xã Tiên Dược",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 142,
+    "Price": 35000.00,
+    "Ward": "Xã Việt Long",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 143,
+    "Price": 35000.00,
+    "Ward": "Xã Xuân Giang",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 144,
+    "Price": 35000.00,
+    "Ward": "Xã Mai Đình",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 145,
+    "Price": 35000.00,
+    "Ward": "Xã Đức Hoà",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 146,
+    "Price": 35000.00,
+    "Ward": "Xã Thanh Xuân",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 147,
+    "Price": 35000.00,
+    "Ward": "Xã Đông Xuân",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 148,
+    "Price": 35000.00,
+    "Ward": "Xã Kim Lũ",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 149,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Cường",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 150,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Minh",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 151,
+    "Price": 35000.00,
+    "Ward": "Xã Phù Lỗ",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 152,
+    "Price": 35000.00,
+    "Ward": "Xã Xuân Thu",
+    "District": "Huyện Sóc Sơn",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 153,
+    "Price": 30000.00,
+    "Ward": "Thị trấn Đông Anh",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 154,
+    "Price": 30000.00,
+    "Ward": "Xã Xuân Nộn",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 155,
+    "Price": 30000.00,
+    "Ward": "Xã Thuỵ Lâm",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 156,
+    "Price": 30000.00,
+    "Ward": "Xã Bắc Hồng",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 157,
+    "Price": 30000.00,
+    "Ward": "Xã Nguyên Khê",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 158,
+    "Price": 30000.00,
+    "Ward": "Xã Nam Hồng",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 159,
+    "Price": 30000.00,
+    "Ward": "Xã Tiên Dương",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 160,
+    "Price": 30000.00,
+    "Ward": "Xã Vân Hà",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 161,
+    "Price": 30000.00,
+    "Ward": "Xã Uy Nỗ",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 162,
+    "Price": 30000.00,
+    "Ward": "Xã Vân Nội",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 163,
+    "Price": 30000.00,
+    "Ward": "Xã Liên Hà",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 164,
+    "Price": 30000.00,
+    "Ward": "Xã Việt Hùng",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 165,
+    "Price": 30000.00,
+    "Ward": "Xã Kim Nỗ",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 166,
+    "Price": 30000.00,
+    "Ward": "Xã Kim Chung",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 167,
+    "Price": 30000.00,
+    "Ward": "Xã Dục Tú",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 168,
+    "Price": 30000.00,
+    "Ward": "Xã Đại Mạch",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 169,
+    "Price": 30000.00,
+    "Ward": "Xã Vĩnh Ngọc",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 170,
+    "Price": 30000.00,
+    "Ward": "Xã Cổ Loa",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 171,
+    "Price": 30000.00,
+    "Ward": "Xã Hải Bối",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 172,
+    "Price": 30000.00,
+    "Ward": "Xã Xuân Canh",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 173,
+    "Price": 30000.00,
+    "Ward": "Xã Võng La",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 174,
+    "Price": 30000.00,
+    "Ward": "Xã Tàm Xá",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 175,
+    "Price": 30000.00,
+    "Ward": "Xã Mai Lâm",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 176,
+    "Price": 30000.00,
+    "Ward": "Xã Đông Hội",
+    "District": "Huyện Đông Anh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 177,
+    "Price": 30000.00,
+    "Ward": "Thị trấn Yên Viên",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 178,
+    "Price": 30000.00,
+    "Ward": "Xã Yên Thường",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 179,
+    "Price": 30000.00,
+    "Ward": "Xã Yên Viên",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 180,
+    "Price": 30000.00,
+    "Ward": "Xã Ninh Hiệp",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 181,
+    "Price": 30000.00,
+    "Ward": "Xã Đình Xuyên",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 182,
+    "Price": 30000.00,
+    "Ward": "Xã Dương Hà",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 183,
+    "Price": 30000.00,
+    "Ward": "Xã Phù Đổng",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 184,
+    "Price": 30000.00,
+    "Ward": "Xã Trung Mầu",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 185,
+    "Price": 30000.00,
+    "Ward": "Xã Lệ Chi",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 186,
+    "Price": 30000.00,
+    "Ward": "Xã Cổ Bi",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 187,
+    "Price": 30000.00,
+    "Ward": "Xã Đặng Xá",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 188,
+    "Price": 30000.00,
+    "Ward": "Xã Phú Thị",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 189,
+    "Price": 30000.00,
+    "Ward": "Xã Kim Sơn",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 190,
+    "Price": 30000.00,
+    "Ward": "Thị trấn Trâu Quỳ",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 191,
+    "Price": 30000.00,
+    "Ward": "Xã Dương Quang",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 192,
+    "Price": 30000.00,
+    "Ward": "Xã Dương Xá",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 193,
+    "Price": 30000.00,
+    "Ward": "Xã Đông Dư",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 194,
+    "Price": 30000.00,
+    "Ward": "Xã Đa Tốn",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 195,
+    "Price": 30000.00,
+    "Ward": "Xã Kiêu Kỵ",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 196,
+    "Price": 30000.00,
+    "Ward": "Xã Bát Tràng",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 197,
+    "Price": 30000.00,
+    "Ward": "Xã Kim Lan",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 198,
+    "Price": 30000.00,
+    "Ward": "Xã Văn Đức",
+    "District": "Huyện Gia Lâm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 199,
+    "Price": 25000.00,
+    "Ward": "Phường Cầu Diễn",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 200,
+    "Price": 25000.00,
+    "Ward": "Phường Xuân Phương",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 201,
+    "Price": 25000.00,
+    "Ward": "Phường Phương Canh",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 202,
+    "Price": 25000.00,
+    "Ward": "Phường Mỹ Đình 1",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 203,
+    "Price": 25000.00,
+    "Ward": "Phường Mỹ Đình 2",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 204,
+    "Price": 25000.00,
+    "Ward": "Phường Tây Mỗ",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 205,
+    "Price": 25000.00,
+    "Ward": "Phường Mễ Trì",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 206,
+    "Price": 25000.00,
+    "Ward": "Phường Phú Đô",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 207,
+    "Price": 25000.00,
+    "Ward": "Phường Đại Mỗ",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 208,
+    "Price": 25000.00,
+    "Ward": "Phường Trung Văn",
+    "District": "Quận Nam Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 209,
+    "Price": 30000.00,
+    "Ward": "Thị trấn Văn Điển",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 210,
+    "Price": 30000.00,
+    "Ward": "Xã Tân Triều",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 211,
+    "Price": 30000.00,
+    "Ward": "Xã Thanh Liệt",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 212,
+    "Price": 30000.00,
+    "Ward": "Xã Tả Thanh Oai",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 213,
+    "Price": 30000.00,
+    "Ward": "Xã Hữu Hoà",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 214,
+    "Price": 30000.00,
+    "Ward": "Xã Tam Hiệp",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 215,
+    "Price": 30000.00,
+    "Ward": "Xã Tứ Hiệp",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 216,
+    "Price": 30000.00,
+    "Ward": "Xã Yên Mỹ",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 217,
+    "Price": 30000.00,
+    "Ward": "Xã Vĩnh Quỳnh",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 218,
+    "Price": 30000.00,
+    "Ward": "Xã Ngũ Hiệp",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 219,
+    "Price": 30000.00,
+    "Ward": "Xã Duyên Hà",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 220,
+    "Price": 30000.00,
+    "Ward": "Xã Ngọc Hồi",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 221,
+    "Price": 30000.00,
+    "Ward": "Xã Vạn Phúc",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 222,
+    "Price": 30000.00,
+    "Ward": "Xã Đại áng",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 223,
+    "Price": 30000.00,
+    "Ward": "Xã Liên Ninh",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 224,
+    "Price": 30000.00,
+    "Ward": "Xã Đông Mỹ",
+    "District": "Huyện Thanh Trì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 225,
+    "Price": 25000.00,
+    "Ward": "Phường Thượng Cát",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 226,
+    "Price": 25000.00,
+    "Ward": "Phường Liên Mạc",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 227,
+    "Price": 25000.00,
+    "Ward": "Phường Đông Ngạc",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 228,
+    "Price": 25000.00,
+    "Ward": "Phường Đức Thắng",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 229,
+    "Price": 25000.00,
+    "Ward": "Phường Thụy Phương",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 230,
+    "Price": 25000.00,
+    "Ward": "Phường Tây Tựu",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 231,
+    "Price": 25000.00,
+    "Ward": "Phường Xuân Đỉnh",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 232,
+    "Price": 25000.00,
+    "Ward": "Phường Xuân Tảo",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 233,
+    "Price": 25000.00,
+    "Ward": "Phường Minh Khai",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 234,
+    "Price": 25000.00,
+    "Ward": "Phường Cổ Nhuế 1",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 235,
+    "Price": 25000.00,
+    "Ward": "Phường Cổ Nhuế 2",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 236,
+    "Price": 25000.00,
+    "Ward": "Phường Phú Diễn",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 237,
+    "Price": 25000.00,
+    "Ward": "Phường Phúc Diễn",
+    "District": "Quận Bắc Từ Liêm",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 238,
+    "Price": 30000.00,
+    "Ward": "Thị trấn Chi Đông",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 239,
+    "Price": 30000.00,
+    "Ward": "Xã Đại Thịnh",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 240,
+    "Price": 30000.00,
+    "Ward": "Xã Kim Hoa",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 241,
+    "Price": 30000.00,
+    "Ward": "Xã Thạch Đà",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 242,
+    "Price": 30000.00,
+    "Ward": "Xã Tiến Thắng",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 243,
+    "Price": 30000.00,
+    "Ward": "Xã Tự Lập",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 244,
+    "Price": 30000.00,
+    "Ward": "Thị trấn Quang Minh",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 245,
+    "Price": 30000.00,
+    "Ward": "Xã Thanh Lâm",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 246,
+    "Price": 30000.00,
+    "Ward": "Xã Tam Đồng",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 247,
+    "Price": 30000.00,
+    "Ward": "Xã Liên Mạc",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 248,
+    "Price": 30000.00,
+    "Ward": "Xã Vạn Yên",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 249,
+    "Price": 30000.00,
+    "Ward": "Xã Chu Phan",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 250,
+    "Price": 30000.00,
+    "Ward": "Xã Tiến Thịnh",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 251,
+    "Price": 30000.00,
+    "Ward": "Xã Mê Linh",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 252,
+    "Price": 30000.00,
+    "Ward": "Xã Văn Khê",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 253,
+    "Price": 30000.00,
+    "Ward": "Xã Hoàng Kim",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 254,
+    "Price": 30000.00,
+    "Ward": "Xã Tiền Phong",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 255,
+    "Price": 30000.00,
+    "Ward": "Xã Tráng Việt",
+    "District": "Huyện Mê Linh",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 256,
+    "Price": 25000.00,
+    "Ward": "Phường Nguyễn Trãi",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 257,
+    "Price": 25000.00,
+    "Ward": "Phường Mộ Lao",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 258,
+    "Price": 25000.00,
+    "Ward": "Phường Văn Quán",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 259,
+    "Price": 25000.00,
+    "Ward": "Phường Vạn Phúc",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 260,
+    "Price": 25000.00,
+    "Ward": "Phường Yết Kiêu",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 261,
+    "Price": 25000.00,
+    "Ward": "Phường Quang Trung",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 262,
+    "Price": 25000.00,
+    "Ward": "Phường La Khê",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 263,
+    "Price": 25000.00,
+    "Ward": "Phường Phú La",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 264,
+    "Price": 25000.00,
+    "Ward": "Phường Phúc La",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 265,
+    "Price": 25000.00,
+    "Ward": "Phường Hà Cầu",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 266,
+    "Price": 25000.00,
+    "Ward": "Phường Yên Nghĩa",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 267,
+    "Price": 25000.00,
+    "Ward": "Phường Kiến Hưng",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 268,
+    "Price": 25000.00,
+    "Ward": "Phường Phú Lãm",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 269,
+    "Price": 25000.00,
+    "Ward": "Phường Phú Lương",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 270,
+    "Price": 25000.00,
+    "Ward": "Phường Dương Nội",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 271,
+    "Price": 25000.00,
+    "Ward": "Phường Đồng Mai",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 272,
+    "Price": 25000.00,
+    "Ward": "Phường Biên Giang",
+    "District": "Quận Hà Đông",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 273,
+    "Price": 35000.00,
+    "Ward": "Phường Lê Lợi",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 274,
+    "Price": 35000.00,
+    "Ward": "Phường Phú Thịnh",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 275,
+    "Price": 35000.00,
+    "Ward": "Phường Ngô Quyền",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 276,
+    "Price": 35000.00,
+    "Ward": "Phường Quang Trung",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 277,
+    "Price": 35000.00,
+    "Ward": "Phường Sơn Lộc",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 278,
+    "Price": 35000.00,
+    "Ward": "Phường Xuân Khanh",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 279,
+    "Price": 35000.00,
+    "Ward": "Xã Đường Lâm",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 280,
+    "Price": 35000.00,
+    "Ward": "Phường Viên Sơn",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 281,
+    "Price": 35000.00,
+    "Ward": "Xã Xuân Sơn",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 282,
+    "Price": 35000.00,
+    "Ward": "Phường Trung Hưng",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 283,
+    "Price": 35000.00,
+    "Ward": "Xã Thanh Mỹ",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 284,
+    "Price": 35000.00,
+    "Ward": "Phường Trung Sơn Trầm",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 285,
+    "Price": 35000.00,
+    "Ward": "Xã Kim Sơn",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 286,
+    "Price": 35000.00,
+    "Ward": "Xã Sơn Đông",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 287,
+    "Price": 35000.00,
+    "Ward": "Xã Cổ Đông",
+    "District": "Thị xã Sơn Tây",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 288,
+    "Price": 35000.00,
+    "Ward": "Thị trấn Tây Đằng",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 289,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Cường",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 290,
+    "Price": 35000.00,
+    "Ward": "Xã Cổ Đô",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 291,
+    "Price": 35000.00,
+    "Ward": "Xã Tản Hồng",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 292,
+    "Price": 35000.00,
+    "Ward": "Xã Vạn Thắng",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 293,
+    "Price": 35000.00,
+    "Ward": "Xã Châu Sơn",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 294,
+    "Price": 35000.00,
+    "Ward": "Xã Phong Vân",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 295,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Đông",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 296,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Phương",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 297,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Châu",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 298,
+    "Price": 35000.00,
+    "Ward": "Xã Thái Hòa",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 299,
+    "Price": 35000.00,
+    "Ward": "Xã Đồng Thái",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 300,
+    "Price": 35000.00,
+    "Ward": "Xã Phú Sơn",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 301,
+    "Price": 35000.00,
+    "Ward": "Xã Minh Châu",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 302,
+    "Price": 35000.00,
+    "Ward": "Xã Vật Lại",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 303,
+    "Price": 35000.00,
+    "Ward": "Xã Chu Minh",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 304,
+    "Price": 35000.00,
+    "Ward": "Xã Tòng Bạt",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 305,
+    "Price": 35000.00,
+    "Ward": "Xã Cẩm Lĩnh",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 306,
+    "Price": 35000.00,
+    "Ward": "Xã Sơn Đà",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 307,
+    "Price": 35000.00,
+    "Ward": "Xã Đông Quang",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 308,
+    "Price": 35000.00,
+    "Ward": "Xã Tiên Phong",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 309,
+    "Price": 35000.00,
+    "Ward": "Xã Thụy An",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 310,
+    "Price": 35000.00,
+    "Ward": "Xã Cam Thượng",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 311,
+    "Price": 35000.00,
+    "Ward": "Xã Thuần Mỹ",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 312,
+    "Price": 35000.00,
+    "Ward": "Xã Tản Lĩnh",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 313,
+    "Price": 35000.00,
+    "Ward": "Xã Ba Trại",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 314,
+    "Price": 35000.00,
+    "Ward": "Xã Minh Quang",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 315,
+    "Price": 35000.00,
+    "Ward": "Xã Ba Vì",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 316,
+    "Price": 35000.00,
+    "Ward": "Xã Vân Hòa",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 317,
+    "Price": 35000.00,
+    "Ward": "Xã Yên Bài",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 318,
+    "Price": 35000.00,
+    "Ward": "Xã Khánh Thượng",
+    "District": "Huyện Ba Vì",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 319,
+    "Price": 35000.00,
+    "Ward": "Thị trấn Phúc Thọ",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 320,
+    "Price": 35000.00,
+    "Ward": "Xã Vân Hà",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 321,
+    "Price": 35000.00,
+    "Ward": "Xã Vân Phúc",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 322,
+    "Price": 35000.00,
+    "Ward": "Xã Vân Nam",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 323,
+    "Price": 35000.00,
+    "Ward": "Xã Xuân Đình",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 324,
+    "Price": 35000.00,
+    "Ward": "Xã Sen Phương",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 325,
+    "Price": 35000.00,
+    "Ward": "Xã Võng Xuyên",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 326,
+    "Price": 35000.00,
+    "Ward": "Xã Thọ Lộc",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 327,
+    "Price": 35000.00,
+    "Ward": "Xã Long Xuyên",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 328,
+    "Price": 35000.00,
+    "Ward": "Xã Thượng Cốc",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 329,
+    "Price": 35000.00,
+    "Ward": "Xã Hát Môn",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 330,
+    "Price": 35000.00,
+    "Ward": "Xã Tích Giang",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 331,
+    "Price": 35000,
+    "Ward": "Xã Thanh Đa",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 332,
+    "Price": 35000,
+    "Ward": "Xã Trạch Mỹ Lộc",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 333,
+    "Price": 35000,
+    "Ward": "Xã Phúc Hòa",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 334,
+    "Price": 35000,
+    "Ward": "Xã Ngọc Tảo",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 335,
+    "Price": 35000,
+    "Ward": "Xã Phụng Thượng",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 336,
+    "Price": 35000,
+    "Ward": "Xã Tam Thuấn",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 337,
+    "Price": 35000,
+    "Ward": "Xã Tam Hiệp",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 338,
+    "Price": 35000,
+    "Ward": "Xã Hiệp Thuận",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 339,
+    "Price": 35000,
+    "Ward": "Xã Liên Hiệp",
+    "District": "Huyện Phúc Thọ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 340,
+    "Price": 30000,
+    "Ward": "Thị trấn Phùng",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 341,
+    "Price": 30000,
+    "Ward": "Xã Trung Châu",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 342,
+    "Price": 30000,
+    "Ward": "Xã Thọ An",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 343,
+    "Price": 30000,
+    "Ward": "Xã Thọ Xuân",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 344,
+    "Price": 30000,
+    "Ward": "Xã Hồng Hà",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 345,
+    "Price": 30000,
+    "Ward": "Xã Liên Hồng",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 346,
+    "Price": 30000,
+    "Ward": "Xã Liên Hà",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 347,
+    "Price": 30000,
+    "Ward": "Xã Hạ Mỗ",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 348,
+    "Price": 30000,
+    "Ward": "Xã Liên Trung",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 349,
+    "Price": 30000,
+    "Ward": "Xã Phương Đình",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 350,
+    "Price": 30000,
+    "Ward": "Xã Thượng Mỗ",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 351,
+    "Price": 30000,
+    "Ward": "Xã Tân Hội",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 352,
+    "Price": 30000,
+    "Ward": "Xã Tân Lập",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 353,
+    "Price": 30000,
+    "Ward": "Xã Đan Phượng",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 354,
+    "Price": 30000,
+    "Ward": "Xã Đồng Tháp",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 355,
+    "Price": 30000,
+    "Ward": "Xã Song Phượng",
+    "District": "Huyện Đan Phượng",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 356,
+    "Price": 30000,
+    "Ward": "Thị trấn Trạm Trôi",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 357,
+    "Price": 30000,
+    "Ward": "Xã Đức Thượng",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 358,
+    "Price": 30000,
+    "Ward": "Xã Minh Khai",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 359,
+    "Price": 30000,
+    "Ward": "Xã Dương Liễu",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 360,
+    "Price": 30000,
+    "Ward": "Xã Di Trạch",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 361,
+    "Price": 30000,
+    "Ward": "Xã Đức Giang",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 362,
+    "Price": 30000,
+    "Ward": "Xã Cát Quế",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 363,
+    "Price": 30000,
+    "Ward": "Xã Kim Chung",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 364,
+    "Price": 30000,
+    "Ward": "Xã Yên Sở",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 365,
+    "Price": 30000,
+    "Ward": "Xã Sơn Đồng",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 366,
+    "Price": 30000,
+    "Ward": "Xã Vân Canh",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 367,
+    "Price": 30000,
+    "Ward": "Xã Đắc Sở",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 368,
+    "Price": 30000,
+    "Ward": "Xã Lại Yên",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 369,
+    "Price": 30000,
+    "Ward": "Xã Tiền Yên",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 370,
+    "Price": 30000,
+    "Ward": "Xã Song Phương",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 371,
+    "Price": 30000,
+    "Ward": "Xã An Khánh",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 372,
+    "Price": 30000,
+    "Ward": "Xã An Thượng",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 373,
+    "Price": 30000,
+    "Ward": "Xã Vân Côn",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 374,
+    "Price": 30000,
+    "Ward": "Xã La Phù",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 375,
+    "Price": 30000,
+    "Ward": "Xã Đông La",
+    "District": "Huyện Hoài Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 376,
+    "Price": 35000,
+    "Ward": "Xã Đông Xuân",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 377,
+    "Price": 35000,
+    "Ward": "Thị trấn Quốc Oai",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 378,
+    "Price": 35000,
+    "Ward": "Xã Sài Sơn",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 379,
+    "Price": 35000,
+    "Ward": "Xã Phượng Cách",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 380,
+    "Price": 35000,
+    "Ward": "Xã Yên Sơn",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 381,
+    "Price": 35000,
+    "Ward": "Xã Ngọc Liệp",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 382,
+    "Price": 35000,
+    "Ward": "Xã Ngọc Mỹ",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 383,
+    "Price": 35000,
+    "Ward": "Xã Liệp Tuyết",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 384,
+    "Price": 35000,
+    "Ward": "Xã Thạch Thán",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 385,
+    "Price": 35000,
+    "Ward": "Xã Đồng Quang",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 386,
+    "Price": 35000,
+    "Ward": "Xã Phú Cát",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 387,
+    "Price": 35000,
+    "Ward": "Xã Tuyết Nghĩa",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 388,
+    "Price": 35000,
+    "Ward": "Xã Nghĩa Hương",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 389,
+    "Price": 35000,
+    "Ward": "Xã Cộng Hòa",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 390,
+    "Price": 35000,
+    "Ward": "Xã Tân Phú",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 391,
+    "Price": 35000,
+    "Ward": "Xã Đại Thành",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 392,
+    "Price": 35000,
+    "Ward": "Xã Phú Mãn",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 393,
+    "Price": 35000,
+    "Ward": "Xã Cấn Hữu",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 394,
+    "Price": 35000,
+    "Ward": "Xã Tân Hòa",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 395,
+    "Price": 35000,
+    "Ward": "Xã Hòa Thạch",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 396,
+    "Price": 35000,
+    "Ward": "Xã Đông Yên",
+    "District": "Huyện Quốc Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 397,
+    "Price": 35000,
+    "Ward": "Xã Yên Trung",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 398,
+    "Price": 35000,
+    "Ward": "Xã Yên Bình",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 399,
+    "Price": 35000,
+    "Ward": "Xã Tiến Xuân",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 400,
+    "Price": 35000,
+    "Ward": "Thị trấn Liên Quan",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 401,
+    "Price": 35000,
+    "Ward": "Xã Đại Đồng",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 402,
+    "Price": 35000,
+    "Ward": "Xã Cẩm Yên",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 403,
+    "Price": 35000,
+    "Ward": "Xã Lại Thượng",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 404,
+    "Price": 35000,
+    "Ward": "Xã Phú Kim",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 405,
+    "Price": 35000,
+    "Ward": "Xã Hương Ngải",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 406,
+    "Price": 35000,
+    "Ward": "Xã Canh Nậu",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 407,
+    "Price": 35000,
+    "Ward": "Xã Kim Quan",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 408,
+    "Price": 35000,
+    "Ward": "Xã Dị Nậu",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 409,
+    "Price": 35000,
+    "Ward": "Xã Bình Yên",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 410,
+    "Price": 35000,
+    "Ward": "Xã Chàng Sơn",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 411,
+    "Price": 35000,
+    "Ward": "Xã Thạch Hoà",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 412,
+    "Price": 35000,
+    "Ward": "Xã Cần Kiệm",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 413,
+    "Price": 35000,
+    "Ward": "Xã Hữu Bằng",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 414,
+    "Price": 35000,
+    "Ward": "Xã Phùng Xá",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 415,
+    "Price": 35000,
+    "Ward": "Xã Tân Xã",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 416,
+    "Price": 35000,
+    "Ward": "Xã Thạch Xá",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 417,
+    "Price": 35000,
+    "Ward": "Xã Bình Phú",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 418,
+    "Price": 35000,
+    "Ward": "Xã Hạ Bằng",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 419,
+    "Price": 35000,
+    "Ward": "Xã Đồng Trúc",
+    "District": "Huyện Thạch Thất",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 420,
+    "Price": 35000,
+    "Ward": "Thị trấn Chúc Sơn",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 421,
+    "Price": 35000,
+    "Ward": "Thị trấn Xuân Mai",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 422,
+    "Price": 35000,
+    "Ward": "Xã Phụng Châu",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 423,
+    "Price": 35000,
+    "Ward": "Xã Tiên Phương",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 424,
+    "Price": 35000,
+    "Ward": "Xã Đông Sơn",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 425,
+    "Price": 35000,
+    "Ward": "Xã Đông Phương Yên",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 426,
+    "Price": 35000,
+    "Ward": "Xã Phú Nghĩa",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 427,
+    "Price": 35000,
+    "Ward": "Xã Trường Yên",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 428,
+    "Price": 35000,
+    "Ward": "Xã Ngọc Hòa",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 429,
+    "Price": 35000,
+    "Ward": "Xã Thủy Xuân Tiên",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 430,
+    "Price": 35000,
+    "Ward": "Xã Thanh Bình",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 431,
+    "Price": 35000,
+    "Ward": "Xã Trung Hòa",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 432,
+    "Price": 35000,
+    "Ward": "Xã Đại Yên",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 433,
+    "Price": 35000,
+    "Ward": "Xã Thụy Hương",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 434,
+    "Price": 35000,
+    "Ward": "Xã Tốt Động",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 435,
+    "Price": 35000,
+    "Ward": "Xã Lam Điền",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 436,
+    "Price": 35000,
+    "Ward": "Xã Tân Tiến",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 437,
+    "Price": 35000,
+    "Ward": "Xã Nam Phương Tiến",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 438,
+    "Price": 35000,
+    "Ward": "Xã Hợp Đồng",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 439,
+    "Price": 35000,
+    "Ward": "Xã Hoàng Văn Thụ",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 440,
+    "Price": 35000,
+    "Ward": "Xã Hoàng Diệu",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 441,
+    "Price": 35000,
+    "Ward": "Xã Hữu Văn",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 442,
+    "Price": 35000,
+    "Ward": "Xã Quảng Bị",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 443,
+    "Price": 35000,
+    "Ward": "Xã Mỹ Lương",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 444,
+    "Price": 35000,
+    "Ward": "Xã Thượng Vực",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 445,
+    "Price": 35000,
+    "Ward": "Xã Hồng Phong",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 446,
+    "Price": 35000,
+    "Ward": "Xã Đồng Phú",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 447,
+    "Price": 35000,
+    "Ward": "Xã Trần Phú",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 448,
+    "Price": 35000,
+    "Ward": "Xã Văn Võ",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 449,
+    "Price": 35000,
+    "Ward": "Xã Đồng Lạc",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 450,
+    "Price": 35000,
+    "Ward": "Xã Hòa Chính",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 451,
+    "Price": 35000,
+    "Ward": "Xã Phú Nam An",
+    "District": "Huyện Chương Mỹ",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 452,
+    "Price": 35000,
+    "Ward": "Thị trấn Kim Bài",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 453,
+    "Price": 35000,
+    "Ward": "Xã Cự Khê",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 454,
+    "Price": 35000,
+    "Ward": "Xã Bích Hòa",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 455,
+    "Price": 35000,
+    "Ward": "Xã Mỹ Hưng",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 456,
+    "Price": 35000,
+    "Ward": "Xã Cao Viên",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 457,
+    "Price": 35000,
+    "Ward": "Xã Bình Minh",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 458,
+    "Price": 35000,
+    "Ward": "Xã Tam Hưng",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 459,
+    "Price": 35000,
+    "Ward": "Xã Thanh Cao",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 460,
+    "Price": 35000,
+    "Ward": "Xã Thanh Thùy",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 461,
+    "Price": 35000,
+    "Ward": "Xã Thanh Mai",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 462,
+    "Price": 35000,
+    "Ward": "Xã Thanh Văn",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 463,
+    "Price": 35000,
+    "Ward": "Xã Đỗ Động",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 464,
+    "Price": 35000,
+    "Ward": "Xã Kim An",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 465,
+    "Price": 35000,
+    "Ward": "Xã Kim Thư",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 466,
+    "Price": 35000,
+    "Ward": "Xã Phương Trung",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 467,
+    "Price": 35000,
+    "Ward": "Xã Tân Ước",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 468,
+    "Price": 35000,
+    "Ward": "Xã Dân Hòa",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 469,
+    "Price": 35000,
+    "Ward": "Xã Liên Châu",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 470,
+    "Price": 35000,
+    "Ward": "Xã Cao Dương",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 471,
+    "Price": 35000,
+    "Ward": "Xã Xuân Dương",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 472,
+    "Price": 35000,
+    "Ward": "Xã Hồng Dương",
+    "District": "Huyện Thanh Oai",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 473,
+    "Price": 35000,
+    "Ward": "Thị trấn Thường Tín",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 474,
+    "Price": 35000,
+    "Ward": "Xã Ninh Sở",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 475,
+    "Price": 35000,
+    "Ward": "Xã Nhị Khê",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 476,
+    "Price": 35000,
+    "Ward": "Xã Duyên Thái",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 477,
+    "Price": 35000,
+    "Ward": "Xã Khánh Hà",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 478,
+    "Price": 35000,
+    "Ward": "Xã Hòa Bình",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 479,
+    "Price": 35000,
+    "Ward": "Xã Văn Bình",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 480,
+    "Price": 35000,
+    "Ward": "Xã Hiền Giang",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 481,
+    "Price": 35000,
+    "Ward": "Xã Hồng Vân",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 482,
+    "Price": 35000,
+    "Ward": "Xã Vân Tảo",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 483,
+    "Price": 35000,
+    "Ward": "Xã Liên Phương",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 484,
+    "Price": 35000,
+    "Ward": "Xã Văn Phú",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 485,
+    "Price": 35000,
+    "Ward": "Xã Tự Nhiên",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 486,
+    "Price": 35000,
+    "Ward": "Xã Tiền Phong",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 487,
+    "Price": 35000,
+    "Ward": "Xã Hà Hồi",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 488,
+    "Price": 35000,
+    "Ward": "Xã Thư Phú",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 489,
+    "Price": 35000,
+    "Ward": "Xã Nguyễn Trãi",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 490,
+    "Price": 35000,
+    "Ward": "Xã Quất Động",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 491,
+    "Price": 35000,
+    "Ward": "Xã Chương Dương",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 492,
+    "Price": 35000,
+    "Ward": "Xã Tân Minh",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 493,
+    "Price": 35000,
+    "Ward": "Xã Lê Lợi",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 494,
+    "Price": 35000,
+    "Ward": "Xã Thắng Lợi",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 495,
+    "Price": 35000,
+    "Ward": "Xã Dũng Tiến",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 496,
+    "Price": 35000,
+    "Ward": "Xã Thống Nhất",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 497,
+    "Price": 35000,
+    "Ward": "Xã Nghiêm Xuyên",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 498,
+    "Price": 35000,
+    "Ward": "Xã Tô Hiệu",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 499,
+    "Price": 35000,
+    "Ward": "Xã Văn Tự",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 500,
+    "Price": 35000,
+    "Ward": "Xã Vạn Điểm",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 501,
+    "Price": 35000,
+    "Ward": "Xã Minh Cường",
+    "District": "Huyện Thường Tín",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 502,
+    "Price": 35000,
+    "Ward": "Thị trấn Phú Minh",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 503,
+    "Price": 35000,
+    "Ward": "Thị trấn Phú Xuyên",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 504,
+    "Price": 35000,
+    "Ward": "Xã Hồng Minh",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 505,
+    "Price": 35000,
+    "Ward": "Xã Phượng Dực",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 506,
+    "Price": 35000,
+    "Ward": "Xã Nam Tiến",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 507,
+    "Price": 35000,
+    "Ward": "Xã Tri Trung",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 508,
+    "Price": 35000,
+    "Ward": "Xã Đại Thắng",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 509,
+    "Price": 35000,
+    "Ward": "Xã Phú Túc",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 510,
+    "Price": 35000,
+    "Ward": "Xã Văn Hoàng",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 511,
+    "Price": 35000,
+    "Ward": "Xã Hồng Thái",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 512,
+    "Price": 35000,
+    "Ward": "Xã Hoàng Long",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 513,
+    "Price": 35000,
+    "Ward": "Xã Quang Trung",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 514,
+    "Price": 35000,
+    "Ward": "Xã Nam Phong",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 515,
+    "Price": 35000,
+    "Ward": "Xã Nam Triều",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 516,
+    "Price": 35000,
+    "Ward": "Xã Tân Dân",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 517,
+    "Price": 35000,
+    "Ward": "Xã Sơn Hà",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 518,
+    "Price": 35000,
+    "Ward": "Xã Chuyên Mỹ",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 519,
+    "Price": 35000,
+    "Ward": "Xã Khai Thái",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 520,
+    "Price": 35000,
+    "Ward": "Xã Phúc Tiến",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 521,
+    "Price": 35000,
+    "Ward": "Xã Vân Từ",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 522,
+    "Price": 35000,
+    "Ward": "Xã Tri Thủy",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 523,
+    "Price": 35000,
+    "Ward": "Xã Đại Xuyên",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 524,
+    "Price": 35000,
+    "Ward": "Xã Phú Yên",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 525,
+    "Price": 35000,
+    "Ward": "Xã Bạch Hạ",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 526,
+    "Price": 35000,
+    "Ward": "Xã Quang Lãng",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 527,
+    "Price": 35000,
+    "Ward": "Xã Châu Can",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 528,
+    "Price": 35000,
+    "Ward": "Xã Minh Tân",
+    "District": "Huyện Phú Xuyên",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 529,
+    "Price": 35000,
+    "Ward": "Thị trấn Vân Đình",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 530,
+    "Price": 35000,
+    "Ward": "Xã Viên An",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 531,
+    "Price": 35000,
+    "Ward": "Xã Viên Nội",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 532,
+    "Price": 35000,
+    "Ward": "Xã Hoa Sơn",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 533,
+    "Price": 35000,
+    "Ward": "Xã Quảng Phú Cầu",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 534,
+    "Price": 35000,
+    "Ward": "Xã Trường Thịnh",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 535,
+    "Price": 35000,
+    "Ward": "Xã Cao Thành",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 536,
+    "Price": 35000,
+    "Ward": "Xã Liên Bạt",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 537,
+    "Price": 35000,
+    "Ward": "Xã Sơn Công",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 538,
+    "Price": 35000,
+    "Ward": "Xã Đồng Tiến",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 539,
+    "Price": 35000,
+    "Ward": "Xã Phương Tú",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 540,
+    "Price": 35000,
+    "Ward": "Xã Trung Tú",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 541,
+    "Price": 35000,
+    "Ward": "Xã Đồng Tân",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 542,
+    "Price": 35000,
+    "Ward": "Xã Tảo Dương Văn",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 543,
+    "Price": 35000,
+    "Ward": "Xã Vạn Thái",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 544,
+    "Price": 35000,
+    "Ward": "Xã Minh Đức",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 545,
+    "Price": 35000,
+    "Ward": "Xã Hòa Lâm",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 546,
+    "Price": 35000,
+    "Ward": "Xã Hòa Xá",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 547,
+    "Price": 35000,
+    "Ward": "Xã Trầm Lộng",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 548,
+    "Price": 35000,
+    "Ward": "Xã Kim Đường",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 549,
+    "Price": 35000,
+    "Ward": "Xã Hòa Nam",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 550,
+    "Price": 35000,
+    "Ward": "Xã Hòa Phú",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 551,
+    "Price": 35000,
+    "Ward": "Xã Đội Bình",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 552,
+    "Price": 35000,
+    "Ward": "Xã Đại Hùng",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 553,
+    "Price": 35000,
+    "Ward": "Xã Đông Lỗ",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 554,
+    "Price": 35000,
+    "Ward": "Xã Phù Lưu",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 555,
+    "Price": 35000,
+    "Ward": "Xã Đại Cường",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 556,
+    "Price": 35000,
+    "Ward": "Xã Lưu Hoàng",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 557,
+    "Price": 35000,
+    "Ward": "Xã Hồng Quang",
+    "District": "Huyện Ứng Hòa",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 558,
+    "Price": 35000,
+    "Ward": "Thị trấn Đại Nghĩa",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 559,
+    "Price": 35000,
+    "Ward": "Xã Đồng Tâm",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 560,
+    "Price": 35000,
+    "Ward": "Xã Thượng Lâm",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 561,
+    "Price": 35000,
+    "Ward": "Xã Tuy Lai",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 562,
+    "Price": 35000,
+    "Ward": "Xã Phúc Lâm",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 563,
+    "Price": 35000,
+    "Ward": "Xã Mỹ Thành",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 564,
+    "Price": 35000,
+    "Ward": "Xã Bột Xuyên",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 565,
+    "Price": 35000,
+    "Ward": "Xã An Mỹ",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 566,
+    "Price": 35000,
+    "Ward": "Xã Hồng Sơn",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 567,
+    "Price": 35000,
+    "Ward": "Xã Lê Thanh",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 568,
+    "Price": 35000,
+    "Ward": "Xã Xuy Xá",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 569,
+    "Price": 35000,
+    "Ward": "Xã Phùng Xá",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 570,
+    "Price": 35000,
+    "Ward": "Xã Phù Lưu Tế",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 571,
+    "Price": 35000,
+    "Ward": "Xã Đại Hưng",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 572,
+    "Price": 35000,
+    "Ward": "Xã Vạn Kim",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 573,
+    "Price": 35000,
+    "Ward": "Xã Đốc Tín",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 574,
+    "Price": 35000,
+    "Ward": "Xã Hương Sơn",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 575,
+    "Price": 35000,
+    "Ward": "Xã Hùng Tiến",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 576,
+    "Price": 35000,
+    "Ward": "Xã An Tiến",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 577,
+    "Price": 35000,
+    "Ward": "Xã Hợp Tiến",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 578,
+    "Price": 35000,
+    "Ward": "Xã Hợp Thanh",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  },
+  {
+    "ShippingId": 579,
+    "Price": 35000,
+    "Ward": "Xã An Phú",
+    "District": "Huyện Mỹ Đức",
+    "City": "Thành phố Hà Nội"
+  }
+]

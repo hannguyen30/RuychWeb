@@ -12,7 +12,6 @@ namespace RuychWeb.Repository
         {
 
         }
-
         public DbSet<Role> Roles { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -30,7 +29,7 @@ namespace RuychWeb.Repository
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleDetail> SaleDetails { get; set; }
-        public DbSet<Shipping> Shippings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

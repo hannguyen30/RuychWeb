@@ -30,13 +30,13 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpS
 
 builder.Services.AddTransient<EmailService>();
 
+builder.Services.AddSignalR();
 
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAuthentication/Login");
 
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 builder.Services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
 builder.Services.AddScoped<IVnPayService, VnPayService>();
-
 
 builder.Services.AddSession(options =>
 {
@@ -76,6 +76,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 
 app.Run();

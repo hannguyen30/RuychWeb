@@ -117,18 +117,29 @@
         @if (TempData["AlertMessage"] != null)
         {
             <text>
-                                                alert("@Html.Raw(TempData["AlertMessage"])");
+                                                            alert("@Html.Raw(TempData["AlertMessage"])");
             </text>
         }
 
          document.addEventListener("DOMContentLoaded", function () {
             var success = '@TempData["Success"]';
+            var error = '@TempData["Error"]';
             if (success && success !== '') {
                 Swal.fire({
                     toast: true,
                     position: 'top-end',
                     icon: 'success',
                     title: success,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+            if (error && error !== '') {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: error,
                     showConfirmButton: false,
                     timer: 3000
                 });

@@ -126,10 +126,10 @@
         <div class="lookup-form">
             <form asp-action="LookupOrder" method="post">
                 <label for="OrderId">Mã đơn hàng:</label>
-                <input type="number" asp-for="OrderId" class="form-control" />
+                <input type="number" asp-for="OrderId" class="form-control" required />
 
                 <label for="Phone">Số điện thoại:</label>
-                <input type="text" asp-for="Phone" class="form-control" />
+                <input type="text" asp-for="Phone" class="form-control" required />
 
                 <button type="submit" class="btn btn-primary mt-2">Tra cứu</button>
             </form>

@@ -54,7 +54,7 @@ namespace RuychWeb.Areas.Admin.Controllers
                 Thumbnail = p.Thumbnail,
                 Description = p.Description,
                 CategoryName = p.Category?.Name,
-                OnSale = p.OnSale,
+                OnSale = p.Status,
                 Colors = p.Colors?.Select(c => new ColorViewModel
                 {
                     ColorName = c.Name ?? "No color",
@@ -71,7 +71,6 @@ namespace RuychWeb.Areas.Admin.Controllers
                     StartDate = sd.Sale.StartDate,
                     EndDate = sd.Sale.EndDate
                 }).ToList() ?? new List<SaleViewModel>(),
-                SaleIds = p.SaleDetails?.Select(sd => sd.SaleId).ToList() ?? new List<int>()
             }).ToList();
 
             // Truyền thông tin phân trang vào View
@@ -145,7 +144,7 @@ namespace RuychWeb.Areas.Admin.Controllers
                     Thumbnail = model.Thumbnail ?? "default.png",  // Nếu không có thumbnail thì sử dụng ảnh mặc định
                     Description = model.Description ?? "",
                     CategoryId = model.CategoryId,
-                    OnSale = model.OnSale
+                    Status = model.Status
                 };
 
                 _dataContext.Products.Add(product);
@@ -190,16 +189,24 @@ namespace RuychWeb.Areas.Admin.Controllers
                 }
 
 
-                // Nếu có thông tin về khuyến mãi
-                if (model.SaleId.HasValue)  // Kiểm tra nếu SaleId không null
+                if (model.SaleId.HasValue)
                 {
                     var saleDetail = new SaleDetail
                     {
                         SaleId = model.SaleId.Value,  // Lấy SaleId
                         ProductId = product.ProductId
                     };
+
+                    var sale = await _dataContext.Sales.FirstOrDefaultAsync(s => s.SaleId == model.SaleId);
+                    if (sale != null && sale.EndDate < DateTime.Now)
+                    {
+                        TempData["Failed"] = "Khuyến mãi đã hết hạn, giảm giá không được áp dụng!";
+                        return RedirectToAction(nameof(Index));
+                    }
+
+
                     _dataContext.SaleDetails.Add(saleDetail);
-                    await _dataContext.SaveChangesAsync();  // Lưu chi tiết khuyến mãi
+                    await _dataContext.SaveChangesAsync();
                 }
 
                 // Quay lại danh sách sản phẩm sau khi tạo thành công
@@ -239,12 +246,11 @@ namespace RuychWeb.Areas.Admin.Controllers
                 Name = product.Name,
                 Price = (decimal)product.Price,
                 Thumbnail = product.Thumbnail,
-                OnSale = product.OnSale,
+                Status = product.Status,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 // Kiểm tra xem product.Colors có tồn tại không và có ít nhất một màu không
-                Color = product.Colors?.FirstOrDefault()?.Name,  // Chọn màu đầu tiên nếu có
-                                                                 // Kiểm tra xem ProductDetails có tồn tại không trước khi lấy Size và Quantity
+                Color = product.Colors?.FirstOrDefault()?.Name,
                 Size = product.Colors?.SelectMany(c => c.ProductDetails)?.Select(pd => pd.Size).FirstOrDefault(),
                 Quantity = (int)product.Colors?.SelectMany(c => c.ProductDetails)?.Select(pd => pd.Quantity).FirstOrDefault(),
                 // Kiểm tra SaleDetails trước khi lấy SaleId
@@ -294,9 +300,9 @@ namespace RuychWeb.Areas.Admin.Controllers
                 product.Name = model.Name;
                 product.Price = model.Price;
                 product.Thumbnail = model.Thumbnail;
-                product.Description = model.Description;
+                product.Description = model.Description ?? "";
                 product.CategoryId = model.CategoryId;
-                product.OnSale = model.OnSale;
+                product.Status = model.Status;
                 _dataContext.Products.Update(product);
                 await _dataContext.SaveChangesAsync();
 
@@ -340,28 +346,39 @@ namespace RuychWeb.Areas.Admin.Controllers
 
                 // 5. Cập nhật hoặc xóa khuyến mãi
                 var existingSaleDetail = product.SaleDetails.FirstOrDefault();
+
                 if (model.SaleId.HasValue)
                 {
-                    if (existingSaleDetail == null)
+                    var newSale = await _dataContext.Sales.FirstOrDefaultAsync(s => s.SaleId == model.SaleId);
+
+                    if (newSale != null && newSale.EndDate < DateTime.Now)
                     {
-                        var newSaleDetail = new SaleDetail
-                        {
-                            SaleId = model.SaleId.Value,
-                            ProductId = product.ProductId
-                        };
-                        _dataContext.SaleDetails.Add(newSaleDetail);
+                        TempData["Failed"] = "Khuyến mãi này đã hết hiệu lực và không thể áp dụng!";
+                        return RedirectToAction(nameof(Index));
                     }
-                    else
+
+                    if (existingSaleDetail != null)
                     {
-                        existingSaleDetail.SaleId = model.SaleId.Value;
+                        _dataContext.SaleDetails.Remove(existingSaleDetail);
                     }
+
+                    var saleDetail = new SaleDetail
+                    {
+                        SaleId = model.SaleId.Value,
+                        ProductId = product.ProductId
+                    };
+
+                    _dataContext.SaleDetails.Add(saleDetail);
                 }
                 else if (existingSaleDetail != null)
                 {
+                    // Nếu không có SaleId, thì xóa khuyến mãi đã áp dụng
                     _dataContext.SaleDetails.Remove(existingSaleDetail);
                 }
 
-                await _dataContext.SaveChangesAsync(); // Lưu thông tin cập nhật vào DB
+                // Lưu lại thay đổi
+                await _dataContext.SaveChangesAsync();
+
                 TempData["Success"] = "Thay đổi thông tin sản phẩm thành công!";
                 return RedirectToAction(nameof(Index)); // Trả về danh sách sản phẩm
             }
@@ -398,7 +415,7 @@ namespace RuychWeb.Areas.Admin.Controllers
             if (hasOrders)
             {
                 // Có đơn hàng liên quan -> không cho xoá
-                TempData["AlertMessage"] = "Không thể xoá vì sản phẩm đã tồn tại trong đơn hàng.";
+                TempData["Failed"] = "Không thể xoá vì sản phẩm đã tồn tại trong đơn hàng.";
                 return RedirectToAction(nameof(Index));
             }
             else
