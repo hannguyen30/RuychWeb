@@ -312,7 +312,7 @@ namespace RuychWeb.Areas.Admin.Controllers
             {
                 foreach (var item in order.OrderDetails)
                 {
-                    order.PaymentStatus = "Đã hoàn tiền";
+                    order.PaymentStatus = "Chờ hoàn tiền";
                     item.ProductDetail.Quantity += item.Quantity;
                 }
             }

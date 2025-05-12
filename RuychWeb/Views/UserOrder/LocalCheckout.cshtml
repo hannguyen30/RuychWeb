@@ -49,24 +49,6 @@
     decimal total = subtotal + shippingFee;
 }
 
-@if (paymentResponse != null)
-{
-    <div class="payment-success-overlay">
-        <div class="payment-success-modal">
-            <div class="payment-icon">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <h2>Thanh toán thành công!</h2>
-            <p><strong>OrderId:</strong> @paymentResponse.OrderId</p>
-            <p><strong>Thông tin:</strong> @paymentResponse.OrderDescription</p>
-            <p><strong>Phương thức:</strong> @paymentResponse.PaymentMethod</p>
-            <p><strong>Mã giao dịch:</strong> @paymentResponse.TransactionId</p>
-            <p><strong>Mã thanh toán:</strong> @paymentResponse.PaymentId</p>
-            <a asp-controller="Account" asp-action="History" class="btn-go-history">Xem đơn hàng</a>
-        </div>
-    </div>
-}
-
 <div class="order-checkout-page">
     <div class="container">
         <form id="guestCheckoutForm" method="post" asp-controller="UserOrder" asp-action="CreateOrder">
@@ -298,6 +280,41 @@
                 localStorage.removeItem("cart");
             }
         });
+        @if (paymentResponse != null && paymentResponse.Success)
+        {
+            <text>
+                                                                        Swal.fire({
+                                                                            icon: 'success',
+                                                                            title: 'Thanh toán thành công!',
+                                                                            html: `<strong>Mã đơn hàng:</strong> @paymentResponse.OrderId<br>
+                                                                                    <strong>Thông tin:</strong> @paymentResponse.OrderDescription<br>
+                                                                                    <strong>Phương thức:</strong> @paymentResponse.PaymentMethod<br>
+                                                                                    <strong>Mã giao dịch:</strong> @paymentResponse.TransactionId<br>
+                                                                                    <strong>Mã thanh toán:</strong> @paymentResponse.PaymentId`,
+                                                                            confirmButtonText: 'Xem đơn hàng'
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                    localStorage.removeItem("cart");
+                                                                                window.location.href = '/UserOrder/LookupOrder';
+                                                                            }
+                                                                        });
+            </text>
+        }
+        else if (paymentResponse != null && !paymentResponse.Success)
+        {
+            <text>
+                                                                        Swal.fire({
+                                                                            icon: 'error',
+                                                                            title: 'Thanh toán thất bại!',
+                                                                            text: '@Html.Raw(paymentFailedMessage)',
+                                                                            confirmButtonText: 'Quay lại'
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                window.location.href = '/UserOrder/LocalCheckout';
+                                                                            }
+                                                                        });
+            </text>
+        }
 
 
     </script>

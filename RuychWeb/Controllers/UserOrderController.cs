@@ -352,67 +352,83 @@ namespace RuychWeb.Controllers
             return View("LocalCheckout", model);
         }
 
-        // Trả về dữ liệu sau khi thanh toán xong
         [HttpGet]
         public async Task<IActionResult> PaymentCallbackVnpay()
         {
             var response = _vnPayService.PaymentExecute(Request.Query);
-            var user = await _userManager.GetUserAsync(User);
+            List<CartDetail> cartDetails = null;
 
-            if (user == null)
+            // Kiểm tra người dùng đã đăng nhập hay chưa
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Cart");
+                var user = await _userManager.GetUserAsync(User);
+
+                // Lấy thông tin khách hàng và giỏ hàng của họ
+                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == user.Id);
+
+                var cart = await _context.Carts.FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
+
+
+                // Lấy chi tiết giỏ hàng (CartDetails) của khách hàng
+                cartDetails = await _context.CartDetails
+                    .Where(cd => cd.CartId == cart.CartId)
+                    .Include(cd => cd.ProductDetail)
+                    .ThenInclude(pd => pd.Color)
+                    .ThenInclude(c => c.Product)
+                    .ToListAsync();
             }
 
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == user.Id);
-            if (customer == null)
-            {
-                return RedirectToAction("Index", "Cart");
-            }
-            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.CustomerId == customer.CustomerId);
-            var cartDetails = await _context.CartDetails
-               .Where(cd => cd.CartId == cart.CartId)
-               .Include(cd => cd.ProductDetail)
-               .ThenInclude(pd => pd.Color)
-               .ThenInclude(c => c.Product)
-               .ToListAsync();
+            // Kiểm tra phản hồi từ VNPay
             if (response.VnPayResponseCode == "00" && response.Success)
             {
                 // Thanh toán thành công
                 var orderId = response.OrderId;
                 var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
 
-                if (order != null && order.PaymentStatus == "Chưa thanh toán")
+                if (order != null)
                 {
-                    _logger.LogInformation("Cập nhật trạng thái đơn hàng ID {OrderId}", orderId);
-                    order.PaymentStatus = "Đã thanh toán";
-                    order.PaymentDate = DateTime.Now;
-                    foreach (var cartDetail in cartDetails)
+                    _logger.LogInformation("Order found: {@Order}", order);
+
+                    if (order.PaymentStatus == "Chưa thanh toán")
                     {
-                        var orderDetail = new OrderDetail
+                        _logger.LogInformation("Cập nhật trạng thái đơn hàng ID {OrderId}", orderId);
+                        order.PaymentStatus = "Đã thanh toán";
+                        order.PaymentDate = DateTime.Now;
+
+                        if (cartDetails != null && cartDetails.Any())
                         {
-                            Quantity = cartDetail.Quantity,
-                            Price = (decimal)cartDetail.ProductDetail.Color.Product.Price,
-                            OrderId = order.OrderId,
-                            ProductDetailId = cartDetail.ProductDetailId
-                        };
+                            foreach (var cartDetail in cartDetails)
+                            {
+                                var orderDetail = new OrderDetail
+                                {
+                                    Quantity = cartDetail.Quantity,
+                                    Price = (decimal)cartDetail.ProductDetail.Color.Product.Price,
+                                    OrderId = order.OrderId,
+                                    ProductDetailId = cartDetail.ProductDetailId
+                                };
 
-                        _context.OrderDetails.Add(orderDetail);
+                                _context.OrderDetails.Add(orderDetail);
 
-                        // Trừ số lượng trong kho sản phẩm
-                        cartDetail.ProductDetail.Quantity -= cartDetail.Quantity;
+                                cartDetail.ProductDetail.Quantity -= cartDetail.Quantity;
+                            }
+
+                            _context.CartDetails.RemoveRange(cartDetails);
+
+                        }
+                        await _context.SaveChangesAsync();
+                        TempData["ClearCart"] = true;
+                        TempData["PaymentSuccess"] = true;
                     }
-
-                    // Xóa CartDetails sau khi tạo đơn hàng
-                    _context.CartDetails.RemoveRange(cartDetails);
-                    await _context.SaveChangesAsync();
-
-                    // Hiển thị thông báo thành công
-                    TempData["PaymentSuccess"] = true;
+                    else
+                    {
+                        _logger.LogWarning("Đơn hàng {OrderId} đã thanh toán hoặc không tồn tại.");
+                        TempData["PaymentFailed"] = "Đơn hàng không tồn tại hoặc đã thanh toán trước đó.";
+                    }
                 }
                 else
                 {
-                    TempData["PaymentFailed"] = "Đơn hàng không tồn tại hoặc đã thanh toán trước đó.";
+                    _logger.LogWarning("Không tìm thấy đơn hàng với ID {OrderId}.", orderId);
+                    TempData["PaymentFailed"] = "Đơn hàng không tồn tại.";
                 }
             }
             else if (response.VnPayResponseCode == "97") // Mã hủy thanh toán
@@ -424,16 +440,22 @@ namespace RuychWeb.Controllers
                 // Thanh toán thất bại
                 TempData["PaymentFailed"] = "Thanh toán thất bại, đã có lỗi xảy ra trong quá trình giao dịch";
             }
+
+            // Lưu trữ phản hồi từ VNPay để hiển thị cho người dùng
             TempData["PaymentResponse"] = JsonConvert.SerializeObject(response);
+
+            // Kiểm tra để điều hướng đúng
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Checkout", "UserOrder");
             }
             else
             {
-                return RedirectToAction("LocalCheckout", "UserOrder");
+                return RedirectToAction("Index", "Home");
             }
         }
+
+
 
         //Xem lịch sử cho khách hàng đăng nhập
         [HttpGet]
